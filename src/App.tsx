@@ -13,10 +13,13 @@ import { ColorModeSwitcher } from "./ColorModeSwitcher"
 import { Logo } from "./Logo"
 import HeaderHome from "./components/layoutHome/HeaderHome"
 import "./App.scss"
+import { Route, Routes } from "react-router-dom"
+import HomeMain from "./pages/home/homeMain/HomeMain"
+import LayoutHome from "./components/layoutHome/LayoutHome"
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <HeaderHome/>
+    {/* <HeaderHome/>
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={3}>
         <ColorModeSwitcher justifySelf="flex-end" />
@@ -36,6 +39,11 @@ export const App = () => (
           </Link>
         </VStack>
       </Grid>
-    </Box>
+    </Box> */}
+    <Routes>
+    <Route path="/" element={<LayoutHome />}>
+        <Route index element={<HomeMain />} />
+      </Route>
+    </Routes>
   </ChakraProvider>
 )
