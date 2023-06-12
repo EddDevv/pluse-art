@@ -4,7 +4,7 @@
   gap: 10px;
   height: 94px;
   background: #ffffff;
-  // box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   padding-left: 15%;
   padding-right: 15%;
   justify-content: space-between;
@@ -15,6 +15,22 @@
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+}
+.container_main{
+  box-shadow: none;
+  animation: fade_out_animation 3s;
+  @keyframes fade_out_animation {
+    0% {
+      opacity: 0;
+    }
+    90% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
 }
 .logo_container {
   display: flex;

@@ -14,8 +14,13 @@ export const menuItems = [
 ];
 
 const HeaderHome = () => {
+
   return (
-    <div className={styles.container}>
+    <div
+      className={
+        window.location.pathname === "/" ? `${styles.container} ${styles.container_main}` : styles.container
+      }
+    >
       <div className={styles.logo_container}>
         <div>PUSLE</div>
         <div>
