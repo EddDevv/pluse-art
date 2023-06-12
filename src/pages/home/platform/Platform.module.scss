@@ -1,0 +1,68 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  // overflow: hidden;
+  position: relative;
+  background-image: url("../../../assets/images/BackPlatform1.png"),
+    url("../../../assets/images/BackPlatform2.png"),
+    url("../../../assets/images/BackPlatform3.png");
+
+  background-size: cover;
+  background-position: left -100px, left 100px, left 100px;
+  background-repeat: no-repeat;
+  min-width: 330px;
+}
+.inner_container {
+  width: 100%;
+  padding: 125px 10% 30px 10%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 700px) {
+    // padding: 0 3%;
+  }
+}
+
+.title_block {
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 48px;
+  text-transform: uppercase;
+  color: #000000;
+  width: 351px;
+  margin-bottom: 46px;
+}
+.orange_text {
+  color: #ff7f50;
+}
+.white_block {
+  width: 65%;
+  min-height: 515px;
+  background: #ffffff;
+  box-shadow: 0px 10px 30px 10px rgba(1, 165, 165, 0.14);
+  align-self: end;
+}
+.desc1 {
+  padding: 50px;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 150%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+.info {  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  text-transform: uppercase;
+  color: #000000;
+  justify-self: end;
+  margin-top: 30px;
+}
