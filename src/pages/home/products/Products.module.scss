@@ -8,7 +8,7 @@
   color: #000000;
   position: relative;
   min-width: 330px;
-  background-color: aqua;
+  // background-color: aqua;
 }
 .inner_container {
   width: 100%;
@@ -18,7 +18,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ff7f50;
+  // background-color: #ff7f50;
   @media screen and (max-width: 700px) {
     padding: 20px 5%;
     width: 100%;
