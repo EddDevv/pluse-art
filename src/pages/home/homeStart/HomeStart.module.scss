@@ -81,6 +81,39 @@
       transform: translate(400px, -400px) rotate(-210deg);
     }
   }
+  @media screen and (max-width: 700px) {
+    width: 400px;
+    left: 20px;
+    transform: translate(150px, -200px) rotate(-210deg);
+    animation: word_animationM 10s;
+    @keyframes word_animationM {
+      0% {
+        opacity: 0;
+        transform: none;
+      }
+  
+      30% {
+        opacity: 0;
+        transform: none;
+      }
+      35% {
+        opacity: 1;
+        transform: none;
+      }
+      60% {
+        opacity: 1;
+        transform: none;
+      }
+      75% {
+        // transform: rotate(-30deg);
+        // transform: translate(100px 100px);
+        transform: translate(150px, -200px) rotate(-30deg);
+      }
+      100% {
+        transform: translate(150px, -200px) rotate(-210deg);
+      }
+    }
+  }
 }
 
 .init_title_container {
@@ -104,6 +137,9 @@
   align-items: center;
 
   opacity: 0;
+  @media screen and (max-width: 700px) {
+    font-size: 50px;
+  }
 
   animation: hide_visible 3s;
 
@@ -122,6 +158,11 @@
     }
   }
 }
+.init_logo {
+  @media screen and (max-width: 700px) {
+    width: 50px;
+  }
+}
 .orange_color {
   color: #ff7f50;
 }
@@ -133,6 +174,7 @@
   line-height: 24px;
   color: #000000;
   opacity: 0;
+  text-align: center;
 
   animation: hide_visible_sub 3s;
 
@@ -235,6 +277,9 @@
       transform: translate(-500px, 70px);
     }
   }
+  @media screen and (max-width: 700px) {
+    top: 450px;
+  }
 }
 .init_desc {
   position: absolute;
@@ -245,7 +290,7 @@
   align-items: center;
   justify-content: center;
   gap: 30px;
-  opacity:0;
+  opacity: 0;
   animation: down_desc_animation 4s 3s;
   @keyframes down_desc_animation {
     0% {
@@ -267,6 +312,9 @@
       // transform: translateY(-200px);
       transform: translate(-500px, 70px);
     }
+  }
+  @media screen and (max-width: 700px) {
+    top: 400px;
   }
 }
 
@@ -299,6 +347,7 @@
   @media screen and (max-width: 700px) {
     width: 100%;
     margin-top: 30px;
+    gap: 20px;
   }
 }
 .title {
@@ -309,7 +358,7 @@
   color: #000000;
   padding-right: 10%;
   @media screen and (max-width: 700px) {
-    font-size: 30px;
+    font-size: 45px;
   }
 }
 .orange_color {
@@ -333,6 +382,9 @@
   line-height: 58px;
   text-transform: uppercase;
   animation: fade_out_animation 10s;
+  @media screen and (max-width: 700px) {
+    font-size: 38px;
+  }
 }
 
 .green_block {

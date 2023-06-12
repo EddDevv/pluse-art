@@ -46,7 +46,7 @@ const HomeStart = () => {
             <div className={styles.init_title_container}>
               <div className={styles.init_title}>
                 <div>PULSE</div>
-                <div>
+                <div className={styles.init_logo}>
                   <img src={LogoBig} alt="" />
                 </div>
                 <div className={styles.orange_color}>ART</div>

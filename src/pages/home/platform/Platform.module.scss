@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 700px) {
-    // padding: 0 3%;
+    padding: 20px;
   }
 }
 
@@ -46,6 +46,9 @@
   background: #ffffff;
   box-shadow: 0px 10px 30px 10px rgba(1, 165, 165, 0.14);
   align-self: end;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 }
 .desc1 {
   padding: 50px;
@@ -56,6 +59,9 @@
   flex-direction: column;
   width: 100%;
   gap: 10px;
+  @media screen and (max-width: 700px) {
+    padding: 20px;
+  }
 }
 .info {  font-style: normal;
   font-weight: 600;
