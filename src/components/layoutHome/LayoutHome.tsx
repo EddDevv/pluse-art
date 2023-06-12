@@ -6,8 +6,10 @@ import HeaderHome from "./HeaderHome";
 const LayoutHome: FC = () => {
   return (
     <>
-      <HeaderHome />
-      <Outlet />
+      <div className={styles.layout_main}>
+        <HeaderHome />
+        <Outlet />
+      </div>
     </>
   );
 };

@@ -1,3 +1,28 @@
+export const scaleAnimation = {
+  hidden: {
+    scale: 0.2,
+  },
+  visible: {
+    scale: 1,
+    transition: {
+      delay: 0.1,
+      duration: 2,
+    },
+  },
+};
+export const fadeAnimation = {
+  hidden: {
+    opacity: 0.1,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.1,
+      duration: 2,
+    },
+  },
+};
+
 export const leftShiftAnimation = {
   hidden: {
     x: -300,
