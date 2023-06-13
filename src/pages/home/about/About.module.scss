@@ -35,7 +35,7 @@
   gap: 26px;
   // background-color: #FF7F50;
   @media screen and (max-width: 700px) {
-    padding: 20px;
+    padding: 30px 20px;
   }
 }
 
@@ -87,4 +87,7 @@
 .button_invest {
   margin-top: 46px;
   align-self: flex-end;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 }
