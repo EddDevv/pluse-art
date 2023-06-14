@@ -89,6 +89,11 @@
   background: linear-gradient(180deg, #9aa7ba 0%, #7d8194 100%);
   box-shadow: 0px 10px 30px 10px rgba(1, 165, 165, 0.14);
   @media screen and (max-width: 700px) {
+    top: 1300px;
+    width: 45%;
+    height: 200px;
+  }
+  @media screen and (max-width: 500px) {
     top: 1100px;
     width: 45%;
     height: 200px;
