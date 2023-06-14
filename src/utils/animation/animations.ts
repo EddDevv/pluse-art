@@ -12,7 +12,7 @@ export const scaleAnimation = {
 };
 export const fadeAnimation = {
   hidden: {
-    opacity: 0.1,
+    opacity: 0,
   },
   visible: {
     opacity: 1,

@@ -4,6 +4,7 @@ import HomeStart from "../homeStart/HomeStart";
 import About from "../about/About";
 import Platform from "../platform/Platform";
 import Products from "../products/Products";
+import Team from "../team/Team";
 
 const HomeMain = () => {
   return (
@@ -12,6 +13,7 @@ const HomeMain = () => {
       <About />
       <Platform />
       <Products/>
+      <Team/>
     </div>
   );
 };
