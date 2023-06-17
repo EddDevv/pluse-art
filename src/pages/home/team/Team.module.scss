@@ -120,7 +120,7 @@
 .main_block_1 {
   @extend %main_block;
   @extend %main_block_next;
-  left: 50%;
+  left: 60%;
 
   @media screen and (max-width: 700px) {
     left: 0;
