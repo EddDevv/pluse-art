@@ -50,7 +50,7 @@ const HeaderHome = () => {
           <img src={Avatar} alt="" />
         </div>
         <div>|</div>
-        <div>RU</div>
+        <div style={{ marginLeft: "-10px" }}>RU</div>
       </div>
     </div>
   );
