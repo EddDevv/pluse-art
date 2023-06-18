@@ -5,6 +5,7 @@ import About from "../about/About";
 import Platform from "../platform/Platform";
 import Products from "../products/Products";
 import Team from "../team/Team";
+import HomeBunner from "./HomeBunner";
 
 const HomeMain = () => {
   return (
@@ -12,8 +13,11 @@ const HomeMain = () => {
       <HomeStart />
       <About />
       <Platform />
-      <Products/>
-      <Team/>
+      <Products />
+      <Team />
+      <div className={styles.bunner_container}>
+        <HomeBunner />
+      </div>
     </div>
   );
 };
