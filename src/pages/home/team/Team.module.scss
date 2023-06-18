@@ -7,8 +7,14 @@
   font-size: 14px;
   color: #000000;
   position: relative;
-  min-width: 330px;
+  min-width: 300px;
   // background-color: aqua;
+  @media screen and (max-width: 700px) {
+    min-height: 60vh;
+  }
+  @media screen and (max-width: 400px) {
+    min-height: 80vh;
+  }
 }
 .inner_container {
   width: 100%;
@@ -20,7 +26,7 @@
   align-items: center;
   // background-color: #ff7f50;
   @media screen and (max-width: 700px) {
-    padding: 30px 20px;
+    padding: 30px 20px 20px 20px;
     width: 100%;
   }
 }
@@ -28,7 +34,7 @@
 .title_block {
   font-weight: 500;
   font-size: 40px;
-  line-height: 48px;
+  // line-height: 48px;
   text-transform: uppercase;
   margin-bottom: 65px;
   display: flex;
@@ -38,6 +44,8 @@
   padding-left: 7%;
   @media screen and (max-width: 700px) {
     padding-left: 0%;
+    font-size: 33px;
+    margin-bottom: 0px;
   }
 }
 .orange_color {
@@ -60,13 +68,13 @@
   @media screen and (max-width: 700px) {
     min-height: 400px;
     background-size: 70%;
-    background-position: left -50px, top right;
+    background-position: left -30px, top right;
   }
 }
 %main_block {
   position: absolute;
   display: flex;
-  left: 30px;
+  left: 7%;
   bottom: 40px;
   width: 50%;
   background-color: white;

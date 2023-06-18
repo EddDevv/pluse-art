@@ -7,7 +7,10 @@
   font-size: 14px;
   color: #000000;
   position: relative;
-  min-width: 330px;
+  min-width: 300px;
+  @media screen and (max-width: 700px) {
+    min-height: 100%;
+  }
   // background-color: aqua;
 }
 .inner_container {
@@ -18,9 +21,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // background-color: #ff7f50;
+  // background-color: #ccc7c6;
   @media screen and (max-width: 700px) {
-    padding: 30px 20px;
+    padding: 30px 20px 20px 20px;
     width: 100%;
   }
 }
@@ -28,9 +31,13 @@
 .title_block {
   font-weight: 500;
   font-size: 40px;
-  line-height: 48px;
+  // line-height: 48px;
   text-transform: uppercase;
   margin-bottom: 65px;
+  @media screen and (max-width: 700px) {
+    font-size: 33px;
+    margin-bottom: 10px;
+  }
 }
 .green_blocks {
   display: flex;
@@ -63,11 +70,13 @@
     gap: 10px;
     padding: 10px;
     flex-direction: column;
-    background-size: none;
-    background-size: contain;
+    background-size: 100%;
   }
-  @media screen and (min-width: 1200px) {
+  @media screen and (min-width: 1400px) {
     background-size: cover;
+  }
+  @media screen and (max-width: 500px) {
+    background-size: 100%;
   }
 }
 .green_block_1 {
@@ -92,12 +101,15 @@
   width: 40%;
   font-weight: 600;
   font-size: 32px;
-  line-height: 39px;
+  // line-height: 39px;
   text-transform: uppercase;
+  @media screen and (max-width: 1200px) {
+    font-size: 25px;
+  }
   @media screen and (max-width: 700px) {
     width: 100%;
     font-size: 25px;
-    line-height: 30px;
+    // line-height: 30px;
     min-height: 60px;
   }
 }

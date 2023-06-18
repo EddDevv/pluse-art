@@ -8,45 +8,56 @@
   color: #000000;
   overflow: hidden;
   position: relative;
+  min-height: 100vh;
 }
 .back_word_left {
   position: absolute;
   z-index: -1;
   top: 0;
   left: 0;
-  background-image: url("../../../assets/images/WordLeft.png");
+  // background-image: url("../../../assets/images/WordLeft.png");
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
 }
 .back_word_right {
   position: absolute;
   z-index: -1;
   top: 0;
   right: 0;
-  background-image: url("../../../assets/images/WordRight.png");
+  // background-image: url("../../../assets/images/WordRight.png");
+  @media screen and (max-width: 700px) {
+    // background-image: none;
+  }
 }
 
 .inner_container {
   width: 100%;
-  padding: 125px 5% 30px 30%;
+  padding: 125px 8% 30px 30%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: start;
   gap: 26px;
-  // background-color: #FF7F50;
+  // background-color: aqua;
   @media screen and (max-width: 700px) {
-    padding: 30px 20px;
+    padding: 30px 20px 30px 20px;
   }
 }
 
 .title_block {
   font-weight: 500;
   font-size: 40px;
-  line-height: 48px;
+  // line-height: 48px;
   text-transform: uppercase;
   color: #000000;
   width: 351px;
   margin-bottom: 46px;
+  @media screen and (max-width: 700px) {
+    font-size: 33px;
+    margin-bottom: 10px;
+  }
 }
 .orange_text {
   color: #ff7f50;
@@ -60,6 +71,9 @@
   align-items: center;
   justify-content: flex-start;
   padding: 10px;
+  @media screen and (max-width: 700px) {
+    flex-wrap: wrap;
+  }
 }
 .white_block_icon {
   width: 10%;
@@ -67,6 +81,7 @@
   margin-left: 20px;
   @media screen and (max-width: 700px) {
     margin-left: 0;
+    width: 20%;
   }
 }
 .white_block_title {
@@ -76,6 +91,9 @@
   line-height: 24px;
   text-transform: uppercase;
   color: #000000;
+  @media screen and (max-width: 700px) {
+    width: 80%;
+  }
 }
 .white_block_text {
   width: 50%;
@@ -83,11 +101,16 @@
   font-size: 16px;
   line-height: 19px;
   color: #000000;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 }
 .button_invest {
   margin-top: 46px;
   align-self: flex-end;
   @media screen and (max-width: 700px) {
     width: 100%;
+    margin-top: 15px;
+    // margin-bottom: 15px;
   }
 }

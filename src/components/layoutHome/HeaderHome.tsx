@@ -11,6 +11,8 @@ const HeaderHome = () => {
     <div
       className={
         window.location.pathname === "/"
+          // ? `${styles.container} ${styles.container_main}`
+          // : styles.container
           ? `${styles.container} ${styles.container_main}`
           : styles.container
       }
@@ -46,7 +48,7 @@ const HeaderHome = () => {
           <img src={Avatar} alt="" />
         </div>
         <div>|</div>
-        <div style={{ marginLeft: "-10px" }}>RU</div>
+        <div>RU</div>
       </div>
     </div>
   );

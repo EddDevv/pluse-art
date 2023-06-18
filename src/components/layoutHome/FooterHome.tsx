@@ -21,7 +21,7 @@ const FooterHome = () => {
 
         <div className={styles.personal_container}>
           <div>|</div>
-          <div style={{ marginLeft: "-10px" }}>RU</div>
+          <div>RU</div>
         </div>
       </div>
 
