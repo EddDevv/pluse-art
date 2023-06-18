@@ -16,8 +16,22 @@ const tegs = [
     title: "ЮРИДИЧЕСКАЯ прозрачность",
     text: "ООО «Пульс АРТ» имеет полный пакет документов и лицензий для предоставления услуг на финансовом рынке",
     icon: (
-      <div className="">
-        <img src={GifHouse} alt="" />
+      <div className="" >
+        {/* <video src={GifHouse} /> */}
+        {/* <img src={GifHouse} alt="" /> */}
+        {/* <img src="../../../assets/images/GifBooks.mp4" alt="" />
+        <video src="../../../assets/images/GifBooks.mp4" /> */}
+        {/* <video
+          id="example_video_1"
+          width="100"
+          height="100"
+          src="../../../assets/images/GifBooks.mp4"
+        >
+          followed by:{" "}
+        </video> */}
+        <video width="50px" height="50px" autoPlay loop muted>
+          <source src="./images/GifHouse.mp4" type="video/mp4" />
+        </video>
       </div>
     ),
   },
@@ -27,7 +41,10 @@ const tegs = [
     text: "Ваши активы находятся в ЗАО «Центральный Депозитарий» Киргизской Республики",
     icon: (
       <div className="">
-        <img src={GifRound} alt="" />
+        {/* <img src={GifRound} alt="" /> */}
+        <video width="50px" height="50px" autoPlay loop muted>
+          <source src="./images/GifRound.mp4" type="video/mp4" />
+        </video>
       </div>
     ),
   },
@@ -37,7 +54,10 @@ const tegs = [
     text: "Ваши инвестиции обеспечены акциями, находящимися в вашей собственности",
     icon: (
       <div className="">
-        <img src={GifMonets} alt="" />
+        {/* <img src={GifMonets} alt="" /> */}
+        <video width="50px" height="50px" autoPlay loop muted>
+          <source src="./images/GifMonets.mp4" type="video/mp4" />
+        </video>
       </div>
     ),
   },
@@ -47,7 +67,10 @@ const tegs = [
     text: "Наша компания предоставляет вам бесплатное обучение",
     icon: (
       <div className="">
-        <img src={GifBooks} alt="" />
+        {/* <img src={GifBooks} alt="" /> */}
+        <video width="50px" height="50px" autoPlay loop muted>
+          <source src="./images/GifBooks.mp4" type="video/mp4" />
+        </video>
       </div>
     ),
   },
