@@ -4,30 +4,26 @@ import Avatar from "../../assets/images/avatar.png";
 
 import styles from "./LayoutHome.module.scss";
 import { NavLink } from "react-router-dom";
-
-export const menuItems = [
-  { id: 1, name: "О нас", to: "/about" },
-  { id: 2, name: "Наши продукты", to: "/products" },
-  { id: 3, name: "Отзывы", to: "/reviews" },
-  { id: 4, name: "FAQ", to: "/faq" },
-  { id: 5, name: "Контакты", to: "/contacts" },
-];
+import { menuItems } from "../../assets/consts/consts";
 
 const HeaderHome = () => {
-
   return (
     <div
       className={
-        window.location.pathname === "/" ? `${styles.container} ${styles.container_main}` : styles.container
+        window.location.pathname === "/"
+          ? `${styles.container} ${styles.container_main}`
+          : styles.container
       }
     >
-      <div className={styles.logo_container}>
-        <div>PUSLE</div>
-        <div>
-          <img src={Logo} alt="" />
+      <NavLink to="/">
+        <div className={styles.logo_container}>
+          <div>PUSLE</div>
+          <div>
+            <img src={Logo} alt="" />
+          </div>
+          <div className={styles.orange_color}>ART</div>
         </div>
-        <div className={styles.orange_color}>ART</div>
-      </div>
+      </NavLink>
 
       <div className={styles.nav_container}>
         {menuItems.map((elem) => (

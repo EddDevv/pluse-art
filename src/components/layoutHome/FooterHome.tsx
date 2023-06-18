@@ -2,20 +2,22 @@ import Logo from "../../assets/images/Logo.png";
 
 import styles from "./LayoutHome.module.scss";
 import { NavLink } from "react-router-dom";
-import { menuItems } from "./HeaderHome";
 import { Spacer } from "@chakra-ui/react";
+import { menuItems } from "../../assets/consts/consts";
 
 const FooterHome = () => {
   return (
     <div className={styles.container_footer}>
       <div className={styles.footer_logo}>
-        <div className={styles.logo_container}>
-          <div>PUSLE</div>
-          <div>
-            <img src={Logo} alt="" />
+        <NavLink to="/">
+          <div className={styles.logo_container}>
+            <div>PUSLE</div>
+            <div>
+              <img src={Logo} alt="" />
+            </div>
+            <div className={styles.orange_color}>ART</div>
           </div>
-          <div className={styles.orange_color}>ART</div>
-        </div>
+        </NavLink>
 
         <div className={styles.personal_container}>
           <div>|</div>
