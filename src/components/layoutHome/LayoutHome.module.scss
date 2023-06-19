@@ -147,3 +147,33 @@
 .birga {
   justify-self: flex-end;
 }
+
+.container_double {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+%item {
+  font-size: 20px;
+}
+
+.item {
+  @extend %item;
+}
+
+.active_item {
+  @extend %item;
+  color: #ff7f50;
+}
+
+.select{
+  background-color: transparent;
+}
+.option{
+  background-color: transparent;
+}
+.drawer_body{
+  background: rgba(128, 192, 192, 1);
+}
+
