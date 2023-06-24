@@ -9,6 +9,7 @@ import GifBooks from "../../../assets/images/GifBooks.png";
 
 import styles from "./Platform.module.scss";
 import { commonLeftShiftAnimation } from "../../../utils/animation/animations";
+import { Text } from "@chakra-ui/react";
 
 export const FadeOutAnimation = {
   hidden: {
@@ -33,7 +34,7 @@ const Platform = () => {
         <div className={styles.inner_container}>
           <div className={styles.title_block}>
             ПЛАТФОРМА <br />
-            <text className={styles.orange_text}>PULSE</text>&nbsp; ART
+            <Text className={styles.orange_text}>PULSE</Text>&nbsp; ART
           </div>
 
           <div className={styles.white_block}>
@@ -60,7 +61,7 @@ const Platform = () => {
                 инвестиционных компаний на рынке Кыргызстана.
               </div>
               <div className={styles.info}>
-                Инвестируя с нами – <text className={styles.orange_text}>вы инвестируете в будущее</text>
+                Инвестируя с нами – <Text className={styles.orange_text}>вы инвестируете в будущее</Text>
               </div>
             </div>
           </div>

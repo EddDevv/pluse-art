@@ -2,7 +2,7 @@ import Logo from "../../assets/images/Logo.png";
 
 import styles from "./LayoutHome.module.scss";
 import { NavLink } from "react-router-dom";
-import { Spacer } from "@chakra-ui/react";
+import { Spacer, Text } from "@chakra-ui/react";
 import { menuItems } from "../../assets/consts/consts";
 
 const FooterHome = () => {
@@ -31,7 +31,7 @@ const FooterHome = () => {
             className={styles.footer_sub_title}
             style={{ maxWidth: "200px" }}
           >
-            Инвестируй <b className={styles.orange_text}>{" правильно "}</b> и
+            Инвестируй <Text className={styles.orange_text}>{" правильно "}</Text> и
             безопасно
           </div>
           <Spacer />

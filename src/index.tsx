@@ -5,6 +5,11 @@ import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import { store } from "./store";
+import { HelmetProvider } from "react-helmet-async";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
@@ -13,8 +18,13 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ColorModeScript />
-      <App />
+      <Provider store={store}>
+        <HelmetProvider>
+          <ColorModeScript />
+          <App />
+          <ToastContainer />
+        </HelmetProvider>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );

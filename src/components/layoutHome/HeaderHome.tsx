@@ -3,7 +3,7 @@ import Logo from "../../assets/images/Logo.png";
 import Avatar from "../../assets/images/avatar.png";
 
 import styles from "./LayoutHome.module.scss";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { menuItems } from "../../assets/consts/consts";
 import { useMediaQuery } from "@chakra-ui/react";
 import SideBarMobile from "./SideBarMobile";
@@ -47,15 +47,16 @@ const HeaderHome = () => {
               </div>
             ))}
           </div>
-
-          <div className={styles.personal_container}>
-            <div className={styles.link_to_pa}>Личный кабинет</div>
-            <div>
-              <img src={Avatar} alt="" />
+          <Link to="/login">
+            <div className={styles.personal_container}>
+              <div className={styles.link_to_pa}>Личный кабинет</div>
+              <div>
+                <img src={Avatar} alt="" />
+              </div>
+              <div>|</div>
+              <div>RU</div>
             </div>
-            <div>|</div>
-            <div>RU</div>
-          </div>
+          </Link>
         </>
       ) : (
         <SideBarMobile />

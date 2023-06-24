@@ -78,3 +78,132 @@ body {
 .orange_text {
   color: #ff7f50;
 }
+
+%gray_input {
+  background: #f3f3f3;
+  box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  min-height: 54px;
+  width: 100%;
+  font-size: 16px;
+  padding: 10px;
+  transition: all 0.5s;
+  position: relative;
+
+  &:focus-visible {
+    transition: all 0.5s;
+    outline-color: #82bed2;
+  }
+
+  &:focus {
+    outline-color: #128eb8;
+  }
+}
+
+.gray_input {
+  @extend %gray_input;
+}
+.gray_input_w100 {
+  @extend %gray_input;
+  width: 100%
+}
+.gray_input_mt {
+  @extend %gray_input;
+  margin-top: 20px;
+}
+.gray_input_mb {
+  @extend %gray_input;
+  margin-bottom: 20px;
+}
+.gray_input_mt40_w100 {
+  @extend %gray_input;
+  margin-top: 40px;
+  width: 100%;
+}
+.gray_input_mt10_w100 {
+  @extend %gray_input;
+  margin-top: 10px;
+  width: 100%;
+}
+.gray_input_mt40_w50 {
+  @extend %gray_input;
+  margin-top: 40px;
+  width: 30%;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+
+.required {
+  color: #f50d62;
+  font-weight: 600;
+  font-size: 14px;
+}
+.absolute_left {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+%main_button {
+  background: linear-gradient(180deg, #9ad0c3 0%, #62aac6 100%);
+  box-shadow: inset 0px -3px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  color: white;
+  min-height: 54px;
+  min-width: none;
+  font-size: 20px;
+  line-height: 23px;
+  text-shadow: 0px 2px 4px #177e64;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  // transition-duration: 1s;
+  &:hover {
+    background: linear-gradient(180deg, #49dfbb 0%, #62aac6 100%);
+    box-shadow: inset 0px -3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+.main_button {
+  @extend %main_button;
+}
+.main_button_s {
+  @extend %main_button;
+  min-height: 40px;
+  font-size: 14px;
+}
+.main_button_w100 {
+  @extend %main_button;
+  width: 100%;
+}
+.main_button_mt40_w100 {
+  @extend %main_button;
+  margin-top: 40px;
+  width: 100%;
+}
+.main_button_mt40_w50 {
+  @extend %main_button;
+  margin-top: 40px;
+  width: 50%;
+  @media screen and (max-width: 1050px) {
+    width: 100%;
+  }
+}
+.main_button_narrow {
+  @extend %main_button;
+  @media screen and (max-width: 1300px) {
+    width: 100%;
+    font-size: 14px;
+  }
+  @media screen and (max-width: 1050px) {
+    width: 100%;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #284c63;
+}
+.item {
+  width: 27px;
+  height: 38px;
+  background: #ffffff;
+  opacity: 0.6;
+  border: 1px solid #c7c7c7;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 700px) {
+    width: 20px;
+    height: 30px;
+    font-size: 20px;
+  }
+}
+.desc_item {
+  width: 69px;
+  font-size: 14px;
+  text-align: center;
+}

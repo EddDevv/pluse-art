@@ -9,6 +9,8 @@ import { ROUTES } from "./assets/consts/consts";
 import Products from "./pages/home/products/Products";
 import Team from "./pages/home/team/Team";
 import Platform from "./pages/home/platform/Platform";
+import Login from "./pages/auth/login/Login";
+import SignUp from "./pages/auth/signUp/SignUp";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -49,6 +51,16 @@ export const App = () => (
       <Route path={ROUTES.products} element={<LayoutHome />}>
         <Route index element={<Products />} />
       </Route>
+      <Route path="/login" element={<LayoutHome />}>
+        <Route index element={<Login />} />
+      </Route>
+      <Route path="/signup" element={<LayoutHome />}>
+        <Route index element={<SignUp />} />
+      </Route>
+      <Route path="/signup/:id" element={<LayoutHome />}>
+        <Route index element={<SignUp />} />
+      </Route>
+
       <Route path={ROUTES.reviews} element={<LayoutHome />}>
         <Route index element={<HomeMain />} />
       </Route>

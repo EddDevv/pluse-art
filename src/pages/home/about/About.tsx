@@ -9,6 +9,7 @@ import GifBooks from "../../../assets/images/GifBooks.png";
 
 import styles from "./About.module.scss";
 import { commonLeftShiftAnimation } from "../../../utils/animation/animations";
+import { Text } from "@chakra-ui/react";
 
 const tegs = [
   {
@@ -111,7 +112,7 @@ const About = () => {
         <div className={styles.inner_container}>
           <div className={styles.title_block}>
             ПОЧЕМУ <br />
-            <text className={styles.orange_text}>ВЫБИРАЮТ</text>&nbsp; НАС
+            <Text className={styles.orange_text}>ВЫБИРАЮТ</Text>&nbsp; НАС
           </div>
 
           {tegs.map((elem) => (

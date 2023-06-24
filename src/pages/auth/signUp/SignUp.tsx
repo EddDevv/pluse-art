@@ -4,27 +4,46 @@ import React, { FC, useEffect, useState } from "react";
 import { upAnimation } from "../../../utils/animation/animations";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 // import {
 //   addCaptchaErrorCount,
 //   registerUser,
 // } from "../../../features/auth/authSlice";
 import { Button, Center, Fade, Spinner } from "@chakra-ui/react";
+import { AuthApi } from "../../../api/auth/auth";
+import { $apiWithoutToken } from "../../../http/apiService";
+import Meta from "../../../utils/seo/Meta";
+import axios from "axios";
+import { BASEAPPURL, instanceWithoutAuth } from "../../../api/instance";
+import { UserRegistration } from "../../../store/auth/actions";
+import { toast } from "react-toastify";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 // import { Captcha } from "../../../components/captcha/Captcha";
 // import { $apiWithoutToken } from "../../../http/apiService";
 // import Meta from "../../../utils/seo/Meta";
 // import Logos from "../../../components/home/logos/Logos";
 
 type SignUpForm = {
+  email: string;
   login: string;
   password: string;
-  passwordRepeat: string;
-  inviter: string;
+  confirmPassword: string;
+  phoneNumber: any;
+  inviterId: string;
 };
 
 const SignUp: FC = () => {
   const { id } = useParams();
-  const md5 = require("md5");
+  // const md5 = require("md5");
+  const { token } = useAppSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
+  const [isInviterLive, setIsInviterLive] = useState(true);
+  const [inviter, setInviter] = useState("");
+  const [check, setCheck] = useState(false);
+  const [isShowPass, setIsShowPass] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -37,12 +56,16 @@ const SignUp: FC = () => {
   const [successCaptcha, setSuccessCaptcha] = useState(false);
   const [registerData, setRegisterData] = useState({});
 
-  const [checkLogin, setCheckLogin] = useState("");
+  const [checkedEmail, setCheckedEmail] = useState("");
+  const [checkedLogin, setCheckedLogin] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const [checkInviter, setCheckInviter] = useState("");
-  const [isBlockedInviter, setIsBlockedInviter] = useState(false);
   const [isInviterNotFound, setIsInviterNotFound] = useState(false);
-  const [freeLogins, setFreeLogins] = useState([]);
-  const [isFreeLogin, setIsFreeLogin] = useState(false);
+  // const [freeLogins, setFreeLogins] = useState([]);
+  const [isEmailRegistered, setEmailRegistered] = useState(false);
+  const [isLoginRegistered, setIsLoginRegistered] = useState(false);
+  const [loadingEmail, setLoadingEmail] = useState(false);
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loadingInviter, setLoadingInviter] = useState(false);
   const [captchaDispatch, setCaptchaDispatch] = useState(false);
@@ -58,14 +81,34 @@ const SignUp: FC = () => {
     mode: "all",
   });
 
+  const checkIsEmailFree = async (email: string) => {
+    setLoadingEmail(true);
+    const isRegister = await AuthApi.isEmail(email);
+    if (isRegister?.data === true) {
+      setEmailRegistered(true);
+    } else {
+      setEmailRegistered(false);
+    }
+    setLoadingEmail(false);
+  };
+
+  const checkIsLoginFree = async (login: string) => {
+    setLoadingLogin(true);
+    const isRegister = await AuthApi.isRegister(login);
+    if (isRegister?.data === true || isRegister?.data === false) {
+      setIsLoginRegistered(isRegister?.data);
+    }
+    setLoadingLogin(false);
+  };
+
   // Redirect when registered
   // useEffect(() => {
-  //   if (accessToken) {
+  //   if (token) {
   //     navigate("/user");
   //   }
-  // }, [isError, accessToken, message, navigate, dispatch, successCaptcha]);
+  // }, [token]);
 
-  // // Open captcha when 5 errors
+  // Open captcha when 5 errors
   // useEffect(() => {
   //   captchaError >= 7 && openCaptcha();
   // }, [captchaError, addCaptchaErrorCount]);
@@ -74,24 +117,127 @@ const SignUp: FC = () => {
     setVisibleCaptcha(true);
   };
 
+  // ********ФУНКЦИЯ ПОДСЧЕТА ПЕРЕхОДОВ***************
+  const sendHitStatistic = async (id: any) => {
+    try {
+      await axios.post(`${BASEAPPURL}api/Partners/referal-stat/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      const paramsId = id?.split("&")[0];
+      const existRefId = localStorage.getItem("refId");
+      try {
+        if (paramsId !== existRefId) {
+          sendHitStatistic(paramsId);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setInviter(paramsId);
+      localStorage.setItem("refId", paramsId);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const localRefId = localStorage.getItem("refId");
+
+    if (localRefId) {
+      setInviter(localRefId);
+    }
+  }, []);
+
+  // ПРОВЕРКА СПОНСОРА НА СУЩЕСТВОВАНИЕ
+  const testInviterHandler = async () => {
+    if (!inviter) {
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          accept: "application/json",
+        },
+      };
+
+      const response = await axios.get(
+        `${BASEAPPURL}api/Auth/get-sponsor-login?sponsorId=${inviter}`,
+        config
+      );
+
+      if (response.data !== "Партнер не найден") {
+        setIsInviterLive(true);
+      } else {
+        setIsInviterLive(false);
+      }
+    } catch (error) {
+      setIsInviterLive(false);
+      console.error(error);
+    }
+  };
+
+  // Проверка инвайтера в зависимости от изменения
+  useEffect(() => {
+    testInviterHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inviter]);
+
   // Form handler to Redux
   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
     const registerData = {
-      login: checkLogin,
-      password: md5(data.password),
-      passwordRepeat: md5(data.passwordRepeat),
-      // inviter: data.inviter,
-      inviter: data.inviter ? data.inviter : "admin", // 09.01.23 Временно передаем admin, если пользователь не ввел спонсора
+      email: data.email,
+      login: checkedLogin,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+      phoneNumber: data.phoneNumber,
+      inviterId: Number(data.inviterId),
+      code: "1",
     };
     setRegisterData(registerData);
     setCaptchaDispatch(true);
     openCaptcha();
-    setFreeLogins([]);
+    // setFreeLogins([]);
     reset();
+  };
+
+  const registerHandler = async (payload: any) => {
+    setIsLoading(true);
+    try {
+      const res = await instanceWithoutAuth.post("api/Auth/register", payload);
+      if (res.status >= 200 && res.status < 300 && res?.data) {
+        localStorage.setItem(
+          "keySwagger",
+          JSON.stringify({
+            token: res.data.access_token,
+            refresh_token: res.data.refresh_token,
+          })
+        );
+        dispatch(
+          UserRegistration({
+            token: res.data.access_token,
+            refresh_token: res.data.refresh_token,
+          })
+        );
+        toast.success("Успешно зарегистрированы");
+        navigate("/user");
+      }
+    } catch (error: any) {
+      console.error(error);
+      if (error?.response?.data) {
+        toast.error(`Ошибка регистрации: ${error?.response?.data}!`);
+      } else {
+        toast.error(`Ошибка регистрации: ${error.message}!`);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const successHandler = () => {
     // dispatch(registerUser(registerData));
+    registerHandler(registerData);
     setCaptchaDispatch(false);
   };
 
@@ -99,168 +245,21 @@ const SignUp: FC = () => {
     successCaptcha && captchaDispatch && successHandler();
   }, [successCaptcha]);
 
-  // Checking free login
-  // const testLoginHandler = async () => {
-  //   setLoadingLogin(true);
-  //   try {
-  //     const login = {
-  //       login: checkLogin,
-  //     };
-
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     };
-
-  //     const response = await $apiWithoutToken.post(
-  //       `api/User/is-login-free`,
-  //       login,
-  //       config
-  //     );
-
-  //     if (response.data.free === false) {
-  //       setFreeLogins(response.data.options);
-  //       setIsFreeLogin(response.data.free);
-  //     } else {
-  //       setFreeLogins([]);
-  //       setIsFreeLogin(response.data.free);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     dispatch(addCaptchaErrorCount());
-  //     setLoadingLogin(false);
-  //   }
-  // };
-
-  // Checking inviter is blocked
-  // const testInviterIsBlocked = async () => {
-  //   setIsBlockedInviter(false);
-  //   setIsInviterNotFound(false);
-  //   setLoadingInviter(true);
-
-  //   try {
-  //     const inviter = {
-  //       login: id ? id : checkInviter,
-  //     };
-
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     };
-
-  //     const response = await $apiWithoutToken.post(
-  //       `api/User/inviter-info`,
-  //       inviter,
-  //       config
-  //     );
-
-  //     if (response.data.isBlocked === true) {
-  //       setIsBlockedInviter(true);
-  //     } else {
-  //       setIsBlockedInviter(false);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     dispatch(addCaptchaErrorCount());
-  //     setLoadingInviter(false);
-  //   }
-  // };
-
-  // Checking inviter is exist
-  // const testInviterIsExist = async () => {
-  //   setIsBlockedInviter(false);
-  //   setIsInviterNotFound(false);
-  //   setLoadingInviter(true);
-  //   try {
-  //     const inviter = {
-  //       login: id ? id : checkInviter,
-  //     };
-
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     };
-
-  //     const response = await $apiWithoutToken.post(
-  //       `api/User/inviter-exists`,
-  //       inviter,
-  //       config
-  //     );
-
-  //     if (response.data.exists === false) {
-  //       setIsInviterNotFound(true);
-  //     } else {
-  //       setIsInviterNotFound(false);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     dispatch(addCaptchaErrorCount());
-  //     setLoadingInviter(false);
-  //   }
-  // };
-
-  // Testing inviter
-  // const testInviterHandler = () => {
-  //   testInviterIsBlocked();
-  //   testInviterIsExist();
-  //   chechIfIdSaved();
-  // };
-
-  // Check inviter when useParams
-  // useEffect(() => {
-  //   if (id) {
-  //     testInviterHandler();
-  //   }
-  // }, [id]);
-
-  // ********ФУНКЦИЯ ПОДСЧЕТА ПЕРЕхОДОВ***************
-  // const transitRefLink = async () => {
-  //   const rd = {
-  //     login: id,
-  //   };
-  //   try {
-  //     await $apiWithoutToken.post(`/api/User/transit-ref-link`, rd);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // ***************USE PARAMS***************
-  // const chechIfIdSaved = () => {
-  //   if (!id) return;
-  //   const existRefId = localStorage.getItem("refId");
-  //   try {
-  //     if (id !== existRefId) {
-  //       console.log("transitRefLink")
-  //       transitRefLink();
-  //       localStorage.setItem("refId", id);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   return (
     <>
-      {/* <Meta
+      <Meta
         title="Register"
         description="Для регистрации в приложении ввуедите уникальный логин и пароль."
-      > */}
-        {visibleCaptcha && (
+      >
+        {/* {visibleCaptcha && (
           <Fade in={visibleCaptcha}>
-            {/* <Captcha
+            <Captcha
             setSuccessCaptcha={setSuccessCaptcha}
             setVisibleCaptcha={setVisibleCaptcha}
             visibleCaptcha={visibleCaptcha}
-          /> */}
+          />
           </Fade>
-        )}
+        )} */}
 
         <div className={styles.container}>
           <motion.div
@@ -284,17 +283,59 @@ const SignUp: FC = () => {
                 className={styles.form}
               >
                 <div className={styles.input_container}>
+                  {/* *****************************************************email *******************************************/}
+                  <div className={styles.div_50}>
+                    <input
+                      placeholder="Email"
+                      type="text"
+                      className="gray_input_w100"
+                      value={checkedEmail}
+                      {...register("email", {
+                        required: "The field is required",
+                        onChange: (e) => setCheckedEmail(e.target.value),
+                        onBlur: (e) => checkIsEmailFree(e.target.value),
+                        pattern: {
+                          value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                          message: "Введите валидный емэйл!",
+                        },
+                        minLength: {
+                          value: 4,
+                          message: "Min 4 letters!",
+                        },
+                      })}
+                    />
+                    {errors?.email && (
+                      <div className="required">
+                        {errors.email.message || "Error!"}
+                      </div>
+                    )}
+                    {isEmailRegistered && (
+                      <div className="required">Емэйл уже зарегистрирован</div>
+                    )}
+                    {loadingEmail && (
+                      <Center w="100%" mt={2}>
+                        <Spinner
+                          size="lg"
+                          thickness="6px"
+                          speed="0.7s"
+                          emptyColor="#61D64A"
+                          color="#1c3b6a"
+                        />
+                      </Center>
+                    )}
+                  </div>
+
                   {/* *****************************************************login *******************************************/}
                   <div className={styles.div_50}>
                     <input
                       placeholder="Логин"
                       type="text"
                       className="gray_input"
-                      value={checkLogin}
+                      value={checkedLogin}
                       {...register("login", {
                         required: "The field is required",
-                        // onBlur: () => testLoginHandler(),
-                        onChange: (e) => setCheckLogin(e.target.value),
+                        onChange: (e) => setCheckedLogin(e.target.value),
+                        onBlur: (e) => checkIsLoginFree(e.target.value),
                         pattern: {
                           value: /^[a-zA-Z](.[a-zA-Z0-9]*)$/,
                           message:
@@ -315,7 +356,10 @@ const SignUp: FC = () => {
                         {errors.login.message || "Error!"}
                       </div>
                     )}
-                    {loadingLogin ? (
+                    {isLoginRegistered && (
+                      <div className="required">Логин уже зарегистрирован</div>
+                    )}
+                    {loadingLogin && (
                       <Center w="100%" mt={2}>
                         <Spinner
                           size="lg"
@@ -325,33 +369,50 @@ const SignUp: FC = () => {
                           color="#1c3b6a"
                         />
                       </Center>
-                    ) : (
-                      <Center w="100%">
-                        {freeLogins.length > 0 && (
-                          <div className="required">
-                            {"Login is not free! Free variants:"}
-                          </div>
-                        )}
-                        {freeLogins.length > 0 &&
-                          freeLogins?.map((login, index) => (
-                            <Button
-                              m={1}
-                              mx={4}
-                              fontWeight="bold"
-                              color="blue.500"
-                              key={index}
-                              onClick={() => {
-                                setCheckLogin(login);
-                                setIsFreeLogin(true);
-                                setFreeLogins([]);
-                              }}
-                            >
-                              {login}
-                            </Button>
-                          ))}
-                      </Center>
                     )}
                   </div>
+
+                  {/* *****************************************************phone *******************************************/}
+                  <div className={styles.div_50}>
+                    <PhoneInput
+                      inputProps={{
+                        name: "phone",
+                        required: true,
+                        // defaultMask: "... ... .. .. ",
+                        // autoFocus: true,
+                      }}
+                      containerClass="phone_cont"
+                      inputClass="gray_input"
+                      placeholder="Phone number"
+                      country={"ru"}
+                      value={phoneNumber}
+                      onChange={(tel) => {
+                        setPhoneNumber(tel);
+                      }}
+                      // {...register("phoneNumber", {
+                      //   required: "The field is required",
+                      // })}
+                    />
+                  </div>
+
+                  <input
+                    type="hidden"
+                    value={phoneNumber}
+                    {...register("phoneNumber", {
+                      required: "The field is required",
+                      onChange: (e) => setPhoneNumber(e.target.value),
+                      minLength: {
+                        value: 4,
+                        message: "Min 4 letters!",
+                      },
+                    })}
+                  />
+                  {errors?.phoneNumber && (
+                    <div className="required">
+                      {/* {errors?.phoneNumber?.message || "Error!"} */}
+                      The field is required
+                    </div>
+                  )}
 
                   {/* *****************************************************inviter *******************************************/}
 
@@ -362,9 +423,7 @@ const SignUp: FC = () => {
                       type="text"
                       value={id ?? checkInviter}
                       className="gray_input"
-                      {...register("inviter", {
-                        // required: "The field is required!", // Закоментировано 09,01,23 на время
-                        // onBlur: () => testInviterHandler(),
+                      {...register("inviterId", {
                         onChange: (e) => setCheckInviter(e.target.value),
                         pattern: {
                           value: /^[a-zA-Z](.[a-zA-Z0-9]*)$/,
@@ -381,9 +440,9 @@ const SignUp: FC = () => {
                         },
                       })}
                     />
-                    {errors?.inviter && (
+                    {errors?.inviterId && (
                       <div className="required">
-                        {errors.inviter.message || "Error!"}
+                        {errors.inviterId.message || "Error!"}
                       </div>
                     )}
                     {loadingInviter && (
@@ -396,10 +455,6 @@ const SignUp: FC = () => {
                           color="#1c3b6a"
                         />
                       </Center>
-                    )}
-
-                    {isBlockedInviter === true && (
-                      <div className="required">Инвайтер заблокирован!</div>
                     )}
 
                     {isInviterNotFound === true && (
@@ -416,13 +471,15 @@ const SignUp: FC = () => {
                       className="gray_input"
                       {...register("password", {
                         required: "The field is required",
-                        minLength: {
-                          value: 4,
-                          message: "Min 4 letters!",
+                        pattern: {
+                          value:
+                            /(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
+                          message:
+                            "Заглавная Буква, строчная буква, цифра и спецсимвол, длина не меньше 8 символов и не должен начинаться с @",
                         },
-                        maxLength: {
-                          value: 10,
-                          message: "Max 10 letters!",
+                        minLength: {
+                          value: 8,
+                          message: "Min 8 letters!",
                         },
                       })}
                     />
@@ -439,25 +496,23 @@ const SignUp: FC = () => {
                       placeholder="Повторите пароль"
                       type="password"
                       className="gray_input"
-                      {...register("passwordRepeat", {
+                      {...register("confirmPassword", {
                         required: "The field is required",
+
                         minLength: {
-                          value: 4,
-                          message: "Min 4 letters!",
+                          value: 8,
+                          message: "Min 8 letters!",
                         },
-                        maxLength: {
-                          value: 10,
-                          message: "Max 10 letters!",
-                        },
+
                         validate: (value) => {
                           const { password } = getValues();
                           return password === value || "Passwords must match!";
                         },
                       })}
                     />
-                    {errors?.passwordRepeat && (
+                    {errors?.confirmPassword && (
                       <div className="required">
-                        {errors.passwordRepeat.message || "Error!"}
+                        {errors.confirmPassword.message || "Error!"}
                       </div>
                     )}
                   </div>
@@ -467,11 +522,11 @@ const SignUp: FC = () => {
                   className="main_button_mt40_w50"
                   onClick={handleSubmit(onSubmit)}
                   disabled={
-                    // isLoading ||
+                    isLoading ||
                     !isValid ||
                     visibleCaptcha ||
-                    !isFreeLogin ||
-                    isBlockedInviter ||
+                    isLoginRegistered ||
+                    isEmailRegistered ||
                     isInviterNotFound
                   }
                 >
@@ -485,7 +540,7 @@ const SignUp: FC = () => {
             </div>
           </motion.div>
         </div>
-      {/* </Meta> */}
+      </Meta>
     </>
   );
 };

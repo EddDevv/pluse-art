@@ -10,6 +10,7 @@ import styles from "./HomeStart.module.scss";
 import {
   fadeOutAnimation,
 } from "../../../utils/animation/animations";
+import { Text } from "@chakra-ui/react";
 
 export const scaleHeaderAnimation = {
   hidden: {
@@ -72,7 +73,7 @@ const HomeStart = () => {
               <div className={styles.main_left}>
                 <div className={styles.title}>
                   Инвестируй{" "}
-                  <text className={styles.orange_color}>правильно</text> и
+                  <Text className={styles.orange_color}>правильно</Text> и
                   безопасно
                 </div>
                 <div className={styles.desc}>Зарабатывай с профессионалами</div>

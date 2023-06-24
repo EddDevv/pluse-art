@@ -1,0 +1,41 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  width: 95%;
+}
+
+.pagination .text {
+  font-size: 1.5rem;
+}
+
+.page {
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #d5d5d5;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #404040;
+  cursor: pointer;
+}
+
+.page.active {
+  cursor: not-allowed;
+  background: #e6cb8b;
+}
+.page:hover {
+  background: #e6cb8b;
+}
+
+.page.disabled {
+  //   background-color: transparent !important;
+  cursor: not-allowed;
+  //   opacity: 0.5;
+}

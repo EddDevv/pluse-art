@@ -15,6 +15,7 @@ import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Button, Fade, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { LocalSpinner } from "../../../UIcomponents/localSpinner/LocalSpinner";
 
 type EnterForm = {
   login: string;
@@ -25,10 +26,15 @@ type EnterForm = {
 
 const Login: FC = () => {
   const dispatch = useAppDispatch();
-  const md5 = require("md5");
+  // const md5 = require("md5");
+
+  useEffect(() => {
+    console.log("login");
+  }, []);
 
   // const { accessToken, isLoading, isError, captchaError, message } =
   //   useAppSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Captcha
   const [visibleCaptcha, setVisibleCaptcha] = useState(false);
@@ -125,86 +131,128 @@ const Login: FC = () => {
   return (
     <>
       {/* <Meta title="Login" description="Авторизуйтесь в приложении."> */}
-        <div className={styles.container}>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className={styles.main_container}
-          >
-            <div className={styles.inner_container}>
-              <motion.div
-                className={styles.title}
-                variants={upAnimation}
-                custom={1}
-              >
-                {isReset ? "Сброс пароля" : "Авторизация"}
-              </motion.div>
+      <div className={styles.container}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className={styles.main_container}
+        >
+          <div className={styles.inner_container}>
+            <motion.div
+              className={styles.title}
+              variants={upAnimation}
+              custom={1}
+            >
+              {isReset ? "Сброс пароля" : "Авторизация"}
+            </motion.div>
 
-              {visibleCaptcha && (
-                <Fade in={visibleCaptcha}>
-                  {/* <Captcha
+            {visibleCaptcha && (
+              <Fade in={visibleCaptcha}>
+                {/* <Captcha
                     setSuccessCaptcha={setSuccessCaptcha}
                     setVisibleCaptcha={setVisibleCaptcha}
                     visibleCaptcha={visibleCaptcha}
                   /> */}
-                </Fade>
-              )}
+              </Fade>
+            )}
 
-              <motion.div
-                variants={upAnimation}
-                custom={2}
-                className={styles.form}
-              >
-                <div className={styles.input_box}>
-                  <div className={styles.label}>Логин</div>
-                  <input
-                    // placeholder="Логин"
-                    type="text"
-                    className="gray_input"
-                    {...register("login", {
-                      required: "The field is required!",
-                      onChange: (e) => {
-                        // if (e.target.value.length >= 4) {
-                        // checkIsGaForLogin(e.target.value);
-                        // }
-                      },
-                      minLength: {
-                        value: 4,
-                        message: "Min 4 letters!",
-                      },
-                      maxLength: {
-                        value: 10,
-                        message: "Max 10 letters!",
-                      },
-                    })}
-                  />
-                  {errors?.login && (
-                    <div className="required">
-                      {errors.login.message || "Error!"}
+            <motion.div
+              variants={upAnimation}
+              custom={2}
+              className={styles.form}
+            >
+              <div className={styles.input_box}>
+                <div className={styles.label}>Логин</div>
+                <input
+                  // placeholder="Логин"
+                  type="text"
+                  className="gray_input"
+                  {...register("login", {
+                    required: "The field is required!",
+                    onChange: (e) => {
+                      // if (e.target.value.length >= 4) {
+                      // checkIsGaForLogin(e.target.value);
+                      // }
+                    },
+                    minLength: {
+                      value: 4,
+                      message: "Min 4 letters!",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Max 10 letters!",
+                    },
+                  })}
+                />
+                {errors?.login && (
+                  <div className="required">
+                    {errors.login.message || "Error!"}
+                  </div>
+                )}
+              </div>
+
+              {(isReset && isGa) || !isReset ? (
+                <>
+                  <div className={styles.input_box}>
+                    <div className={styles.label}>
+                      {isReset ? "Новый пароль" : "Пароль"}
                     </div>
-                  )}
-                </div>
-
-                {(isReset && isGa) || !isReset ? (
-                  <>
-                    <div className={styles.input_box}>
-                      <div className={styles.label}>
-                        {isReset ? "Новый пароль" : "Пароль"}
+                    <InputGroup>
+                      <input
+                        type={isShowPassword ? "text" : "password"}
+                        className="gray_input"
+                        {...register("password", {
+                          required: "The field is required",
+                          minLength: {
+                            value: 4,
+                            message: "Min 4 letters!",
+                          },
+                          maxLength: {
+                            value: 10,
+                            message: "Max 10 letters!",
+                          },
+                        })}
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button
+                          // h="1.75rem"
+                          mt={4}
+                          size="sm"
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                        >
+                          {isShowPassword ? <ViewOffIcon /> : <ViewIcon />}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                    {errors?.password && (
+                      <div className="required">
+                        {errors.password.message || "Error!"}
                       </div>
+                    )}
+                  </div>
+
+                  {isReset && (
+                    <div className={styles.input_box}>
+                      <div className={styles.label}>Повторите пароль</div>
                       <InputGroup>
                         <input
-                          type={isShowPassword ? "text" : "password"}
                           className="gray_input"
-                          {...register("password", {
-                            required: "The field is required",
+                          type={isShowPassword ? "text" : "password"}
+                          {...register("passwordRepeat", {
                             minLength: {
                               value: 4,
-                              message: "Min 4 letters!",
+                              message: "Минимум 4 символа!",
                             },
                             maxLength: {
                               value: 10,
-                              message: "Max 10 letters!",
+                              message: "Максимум 10 символов!",
+                            },
+                            validate: (value) => {
+                              const { password } = getValues();
+                              return (
+                                password === value || "Пароли должны совпадать!"
+                              );
                             },
                           })}
                         />
@@ -219,125 +267,81 @@ const Login: FC = () => {
                           </Button>
                         </InputRightElement>
                       </InputGroup>
-                      {errors?.password && (
+                      {errors?.passwordRepeat && (
                         <div className="required">
-                          {errors.password.message || "Error!"}
+                          {errors.passwordRepeat.message || "Error!"}
                         </div>
                       )}
                     </div>
-
-                    {isReset && (
-                      <div className={styles.input_box}>
-                        <div className={styles.label}>Повторите пароль</div>
-                        <InputGroup>
-                          <input
-                            className="gray_input"
-                            type={isShowPassword ? "text" : "password"}
-                            {...register("passwordRepeat", {
-                              minLength: {
-                                value: 4,
-                                message: "Минимум 4 символа!",
-                              },
-                              maxLength: {
-                                value: 10,
-                                message: "Максимум 10 символов!",
-                              },
-                              validate: (value) => {
-                                const { password } = getValues();
-                                return (
-                                  password === value ||
-                                  "Пароли должны совпадать!"
-                                );
-                              },
-                            })}
-                          />
-                          <InputRightElement width="4.5rem">
-                            <Button
-                              // h="1.75rem"
-                              mt={4}
-                              size="sm"
-                              onClick={() => setIsShowPassword(!isShowPassword)}
-                            >
-                              {isShowPassword ? <ViewOffIcon /> : <ViewIcon />}
-                            </Button>
-                          </InputRightElement>
-                        </InputGroup>
-                        {errors?.passwordRepeat && (
-                          <div className="required">
-                            {errors.passwordRepeat.message || "Error!"}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {isGa && (
-                      <div className={styles.input_box}>
-                        <div className={styles.label}>Код GA</div>
-                        <input
-                          className="gray_input"
-                          {...register("pin", {
-                            required: isGa ? "The field is required" : false,
-                          })}
-                        />
-                        {errors?.pin && (
-                          <div className="required">
-                            {errors.pin.message || "Error!"}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    <button
-                      className="main_button_mt40_w100"
-                      // disabled={isLoading || !isValid}
-                      // onClick={handleSubmit(onSubmitOrResetLoginForm)}
-                    >
-                      {/* {isLoading ? <LocalSpinner size="60" /> : "Войти"} */}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="required">
-                      Без подключенного GA сменить пароль может только
-                      администратор!
+                  )}
+                  {isGa && (
+                    <div className={styles.input_box}>
+                      <div className={styles.label}>Код GA</div>
+                      <input
+                        className="gray_input"
+                        {...register("pin", {
+                          required: isGa ? "The field is required" : false,
+                        })}
+                      />
+                      {errors?.pin && (
+                        <div className="required">
+                          {errors.pin.message || "Error!"}
+                        </div>
+                      )}
                     </div>
-                    <button className="main_button_mt40_w100">
-                      <a
-                        href="https://t.me/MTB_Invest"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Написать в поддержку
-                      </a>
-                    </button>
-                  </>
-                )}
+                  )}
 
-                <div className={styles.link}>
-                  <NavLink to="/signup">Регистрация</NavLink>
+                  <button
+                    className="main_button_mt40_w100"
+                    // disabled={isLoading || !isValid}
+                    // onClick={handleSubmit(onSubmitOrResetLoginForm)}
+                  >
+                    {isLoading ? <LocalSpinner size="60" /> : "Войти"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className="required">
+                    Без подключенного GA сменить пароль может только
+                    администратор!
+                  </div>
+                  <button className="main_button_mt40_w100">
+                    <a
+                      href="https://t.me/MTB_Invest"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Написать в поддержку
+                    </a>
+                  </button>
+                </>
+              )}
+
+              <div className={styles.link}>
+                <NavLink to="/signup">Регистрация</NavLink>
+              </div>
+
+              {!isReset ? (
+                <div
+                  className={styles.link}
+                  style={{ marginTop: "0px" }}
+                  onClick={() => setIsReset(true)}
+                >
+                  Забыли пароль?
                 </div>
-
-                {!isReset ? (
-                  <div
-                    className={styles.link}
-                    style={{ marginTop: "0px" }}
-                    onClick={() => setIsReset(true)}
-                  >
-                    Забыли пароль?
-                  </div>
-                ) : (
-                  <div
-                    className={styles.link}
-                    style={{ marginTop: "0px" }}
-                    onClick={() => setIsReset(false)}
-                  >
-                    Войти
-                  </div>
-                )}
-
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
+              ) : (
+                <div
+                  className={styles.link}
+                  style={{ marginTop: "0px" }}
+                  onClick={() => setIsReset(false)}
+                >
+                  Войти
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
       {/* </Meta> */}
     </>
   );

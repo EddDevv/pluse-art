@@ -1,3 +1,4 @@
+import { Text } from "@chakra-ui/react";
 import styles from "./HomeMain.module.scss";
 
 const HomeBunner = () => {
@@ -5,7 +6,7 @@ const HomeBunner = () => {
     <div className={styles.bunner}>
       <div className={styles.bunner_title}>
         хочешь новые &nbsp;
-        <b className="orange_text">возможности?</b>
+        <Text className="orange_text">возможности?</Text>
       </div>
       <div className={styles.bunner_flex}>
         <div className={styles.button_container}>
