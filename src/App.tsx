@@ -74,6 +74,13 @@ export const App = () => (
         <Route path="/user" element={<PrivateRoute />}>
           <Route index element={<Cabinet/>} />
         </Route>
+        <Route path={ROUTES.broker} element={<PrivateRoute />}>
+          <Route index element={<Cabinet/>} />
+        </Route>
+        <Route path={ROUTES.settings} element={<PrivateRoute />}>
+          <Route index element={<Cabinet/>} />
+        </Route>
+
       </Route>
     </Routes>
   </ChakraProvider>
