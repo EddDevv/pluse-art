@@ -9,7 +9,14 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 //   addCaptchaErrorCount,
 //   registerUser,
 // } from "../../../features/auth/authSlice";
-import { Button, Center, Fade, Spinner } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Fade,
+  InputGroup,
+  InputRightElement,
+  Spinner,
+} from "@chakra-ui/react";
 import { AuthApi } from "../../../api/auth/auth";
 import { $apiWithoutToken } from "../../../http/apiService";
 import Meta from "../../../utils/seo/Meta";
@@ -19,6 +26,8 @@ import { UserRegistration } from "../../../store/auth/actions";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { Captcha } from "../../../components/captcha/Captcha";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 // import { Captcha } from "../../../components/captcha/Captcha";
 // import { $apiWithoutToken } from "../../../http/apiService";
@@ -43,7 +52,6 @@ const SignUp: FC = () => {
   const [isInviterLive, setIsInviterLive] = useState(true);
   const [inviter, setInviter] = useState("");
   const [check, setCheck] = useState(false);
-  const [isShowPass, setIsShowPass] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -69,6 +77,8 @@ const SignUp: FC = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loadingInviter, setLoadingInviter] = useState(false);
   const [captchaDispatch, setCaptchaDispatch] = useState(false);
+  const [isPhoneBlur, setIsPhoneBlur] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
   // Initialize React hook form
   const {
@@ -187,19 +197,20 @@ const SignUp: FC = () => {
   // Form handler to Redux
   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
     const registerData = {
+      inviterId: Number(data.inviterId),
       email: data.email,
+      phoneNumber: phoneNumber,
       login: checkedLogin,
       password: data.password,
       confirmPassword: data.confirmPassword,
-      phoneNumber: data.phoneNumber,
-      inviterId: Number(data.inviterId),
+
       code: "1",
     };
     setRegisterData(registerData);
     setCaptchaDispatch(true);
     openCaptcha();
     // setFreeLogins([]);
-    reset();
+    // reset();
   };
 
   const registerHandler = async (payload: any) => {
@@ -225,10 +236,17 @@ const SignUp: FC = () => {
       }
     } catch (error: any) {
       console.error(error);
-      if (error?.response?.data) {
-        toast.error(`Ошибка регистрации: ${error?.response?.data}!`);
+      if (error?.response?.data?.errors) {
+        const errObject = error.response.data.errors;
+        const arrOfMessages: any = Object.entries(errObject)?.[0]?.[1];
+
+        toast.error(`Ошибка регистрации: ${arrOfMessages?.[0]}!`);
+      } else if (error?.response?.data) {
+        toast.error(
+          `Ошибка регистрации: ${error?.response?.data?.toString()}!`
+        );
       } else {
-        toast.error(`Ошибка регистрации: ${error.message}!`);
+        toast.error(`Ошибка регистрации: ${error?.message}!`);
       }
     } finally {
       setIsLoading(false);
@@ -251,15 +269,15 @@ const SignUp: FC = () => {
         title="Register"
         description="Для регистрации в приложении ввуедите уникальный логин и пароль."
       >
-        {/* {visibleCaptcha && (
+        {visibleCaptcha && (
           <Fade in={visibleCaptcha}>
             <Captcha
-            setSuccessCaptcha={setSuccessCaptcha}
-            setVisibleCaptcha={setVisibleCaptcha}
-            visibleCaptcha={visibleCaptcha}
-          />
+              setSuccessCaptcha={setSuccessCaptcha}
+              setVisibleCaptcha={setVisibleCaptcha}
+              visibleCaptcha={visibleCaptcha}
+            />
           </Fade>
-        )} */}
+        )}
 
         <div className={styles.container}>
           <motion.div
@@ -291,7 +309,7 @@ const SignUp: FC = () => {
                       className="gray_input_w100"
                       value={checkedEmail}
                       {...register("email", {
-                        required: "The field is required",
+                        required: "Обязательное поле",
                         onChange: (e) => setCheckedEmail(e.target.value),
                         onBlur: (e) => checkIsEmailFree(e.target.value),
                         pattern: {
@@ -300,7 +318,7 @@ const SignUp: FC = () => {
                         },
                         minLength: {
                           value: 4,
-                          message: "Min 4 letters!",
+                          message: "Минимум 4 символа!",
                         },
                       })}
                     />
@@ -309,7 +327,7 @@ const SignUp: FC = () => {
                         {errors.email.message || "Error!"}
                       </div>
                     )}
-                    {isEmailRegistered && (
+                    {!errors?.email && isEmailRegistered && (
                       <div className="required">Емэйл уже зарегистрирован</div>
                     )}
                     {loadingEmail && (
@@ -333,21 +351,18 @@ const SignUp: FC = () => {
                       className="gray_input"
                       value={checkedLogin}
                       {...register("login", {
-                        required: "The field is required",
+                        required: "Обязательное поле",
                         onChange: (e) => setCheckedLogin(e.target.value),
                         onBlur: (e) => checkIsLoginFree(e.target.value),
                         pattern: {
-                          value: /^[a-zA-Z](.[a-zA-Z0-9]*)$/,
+                          // value: /^[a-zA-Z](.[a-zA-Z0-9]*)$/,
+                          value: /^[a-zA-Z](.[a-zA-Z0-9.-]*)$/,
                           message:
-                            "Login must start with a letter. Latin letters and numbers are allowed!",
+                            "Логин должен начинаться с буквы, возможны латинские символы, цифры, -, _.",
                         },
                         minLength: {
                           value: 4,
-                          message: "Min 4 letters!",
-                        },
-                        maxLength: {
-                          value: 10,
-                          message: "Max 10 letters!",
+                          message: "Минимум 4 символа!",
                         },
                       })}
                     />
@@ -356,7 +371,7 @@ const SignUp: FC = () => {
                         {errors.login.message || "Error!"}
                       </div>
                     )}
-                    {isLoginRegistered && (
+                    {!errors?.login && isLoginRegistered && (
                       <div className="required">Логин уже зарегистрирован</div>
                     )}
                     {loadingLogin && (
@@ -387,32 +402,50 @@ const SignUp: FC = () => {
                       country={"ru"}
                       value={phoneNumber}
                       onChange={(tel) => {
+                        setIsPhoneBlur(false);
                         setPhoneNumber(tel);
+                      }}
+                      onBlur={() => {
+                        setIsPhoneBlur(true);
                       }}
                       // {...register("phoneNumber", {
                       //   required: "The field is required",
                       // })}
                     />
+                    {isPhoneBlur && phoneNumber.length < 11 && (
+                      <div className="required">Некорректный номер</div>
+                    )}
                   </div>
 
                   <input
                     type="hidden"
                     value={phoneNumber}
-                    {...register("phoneNumber", {
-                      required: "The field is required",
-                      onChange: (e) => setPhoneNumber(e.target.value),
-                      minLength: {
-                        value: 4,
-                        message: "Min 4 letters!",
-                      },
-                    })}
+                    onChange={(e) => {
+                      setIsPhoneBlur(false);
+                      setPhoneNumber(e.target.value);
+                    }}
+                    onBlur={() => {
+                      console.log(isPhoneBlur);
+                      setIsPhoneBlur(true);
+                    }}
+                    // {...register("phoneNumber", {
+                    //   required: "The field is required",
+                    //   onChange: (e) => {
+                    //     setIsPhoneBlur(true);
+                    //     setPhoneNumber(e.target.value);
+                    //   },
+                    //   onBlur: () => setIsPhoneBlur(true),
+                    //   minLength: {
+                    //     value: 4,
+                    //     message: "Min 4 letters!",
+                    //   },
+                    // })}
                   />
-                  {errors?.phoneNumber && (
+                  {/* {errors?.phoneNumber && (
                     <div className="required">
-                      {/* {errors?.phoneNumber?.message || "Error!"} */}
-                      The field is required
+                      {errors?.phoneNumber?.message || "Error!"}
                     </div>
-                  )}
+                  )} */}
 
                   {/* *****************************************************inviter *******************************************/}
 
@@ -424,20 +457,12 @@ const SignUp: FC = () => {
                       value={id ?? checkInviter}
                       className="gray_input"
                       {...register("inviterId", {
+                        required: "Обязательное поле",
                         onChange: (e) => setCheckInviter(e.target.value),
-                        pattern: {
-                          value: /^[a-zA-Z](.[a-zA-Z0-9]*)$/,
-                          message:
-                            "Sponsor must start with a letter. Latin letters and numbers are allowed!",
-                        },
-                        minLength: {
-                          value: 4,
-                          message: "Min 4 letters!",
-                        },
-                        maxLength: {
-                          value: 20,
-                          message: "Max 10 letters!",
-                        },
+                        // pattern: {
+                        //   value: /^[0-9](.[0-9]*)$/,
+                        //   message: "Только цифры!",
+                        // },
                       })}
                     />
                     {errors?.inviterId && (
@@ -465,24 +490,36 @@ const SignUp: FC = () => {
                   {/* *****************************************************password *******************************************/}
 
                   <div className={styles.div_50}>
-                    <input
-                      placeholder="Пароль"
-                      type="password"
-                      className="gray_input"
-                      {...register("password", {
-                        required: "The field is required",
-                        pattern: {
-                          value:
-                            /(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
-                          message:
-                            "Заглавная Буква, строчная буква, цифра и спецсимвол, длина не меньше 8 символов и не должен начинаться с @",
-                        },
-                        minLength: {
-                          value: 8,
-                          message: "Min 8 letters!",
-                        },
-                      })}
-                    />
+                    <InputGroup>
+                      <input
+                        placeholder="Пароль"
+                        type={isShowPassword ? "text" : "password"}
+                        className="gray_input"
+                        {...register("password", {
+                          required: "The field is required",
+                          pattern: {
+                            value:
+                              /(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
+                            message:
+                              "Заглавная Буква, строчная буква, цифра и спецсимвол, длина не меньше 8 символов и не должен начинаться с @",
+                          },
+                          minLength: {
+                            value: 8,
+                            message: "Min 8 letters!",
+                          },
+                        })}
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button
+                          // h="1.75rem"
+                          mt={4}
+                          size="sm"
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                        >
+                          {isShowPassword ? <ViewOffIcon /> : <ViewIcon />}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
                     {errors?.password && (
                       <div className="required">
                         {errors.password.message || "Error!"}
@@ -492,24 +529,38 @@ const SignUp: FC = () => {
 
                   {/* *****************************************************passwordRepeat *******************************************/}
                   <div className={styles.div_50}>
-                    <input
-                      placeholder="Повторите пароль"
-                      type="password"
-                      className="gray_input"
-                      {...register("confirmPassword", {
-                        required: "The field is required",
+                    <InputGroup>
+                      <input
+                        placeholder="Повторите пароль"
+                        type={isShowPassword ? "text" : "password"}
+                        className="gray_input"
+                        {...register("confirmPassword", {
+                          required: "The field is required",
 
-                        minLength: {
-                          value: 8,
-                          message: "Min 8 letters!",
-                        },
+                          minLength: {
+                            value: 8,
+                            message: "Min 8 letters!",
+                          },
 
-                        validate: (value) => {
-                          const { password } = getValues();
-                          return password === value || "Passwords must match!";
-                        },
-                      })}
-                    />
+                          validate: (value) => {
+                            const { password } = getValues();
+                            return (
+                              password === value || "Passwords must match!"
+                            );
+                          },
+                        })}
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button
+                          // h="1.75rem"
+                          mt={4}
+                          size="sm"
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                        >
+                          {isShowPassword ? <ViewOffIcon /> : <ViewIcon />}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
                     {errors?.confirmPassword && (
                       <div className="required">
                         {errors.confirmPassword.message || "Error!"}

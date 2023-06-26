@@ -11,6 +11,9 @@ import Team from "./pages/home/team/Team";
 import Platform from "./pages/home/platform/Platform";
 import Login from "./pages/auth/login/Login";
 import SignUp from "./pages/auth/signUp/SignUp";
+import LayoutUser from "./components/layoutUser/LayoutUser";
+import { PrivateRoute } from "./privateRoute/PrivateRoute";
+import Cabinet from "./pages/user/cabinet/Cabinet";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -63,6 +66,14 @@ export const App = () => (
 
       <Route path={ROUTES.reviews} element={<LayoutHome />}>
         <Route index element={<HomeMain />} />
+      </Route>
+
+
+       {/* **************КАБИНЕТ************************* */}
+       <Route path="/user" element={<LayoutUser />}>
+        <Route path="/user" element={<PrivateRoute />}>
+          <Route index element={<Cabinet/>} />
+        </Route>
       </Route>
     </Routes>
   </ChakraProvider>
