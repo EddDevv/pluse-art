@@ -228,10 +228,10 @@ const Login: FC = () => {
                         value: 4,
                         message: "Min 4 letters!",
                       },
-                      maxLength: {
-                        value: 10,
-                        message: "Max 10 letters!",
-                      },
+                      // maxLength: {
+                      //   value: 10,
+                      //   message: "Max 10 letters!",
+                      // },
                     })}
                   />
                   {errors?.login && (
@@ -257,10 +257,10 @@ const Login: FC = () => {
                               value: 4,
                               message: "Min 4 letters!",
                             },
-                            maxLength: {
-                              value: 10,
-                              message: "Max 10 letters!",
-                            },
+                            // maxLength: {
+                            //   value: 10,
+                            //   message: "Max 10 letters!",
+                            // },
                           })}
                         />
                         <InputRightElement width="4.5rem">

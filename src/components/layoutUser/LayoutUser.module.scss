@@ -60,6 +60,97 @@
     }
   }
 }
+.rates_container {
+  width: 100%;
+  display: flex;
+  gap: 21px;
+  padding-top: 19px;
+}
+.card_container {
+  background: #fff;
+  box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
+  width: 32%;
+  min-width: 280px;
+  min-height: 90px;
+  padding: 17px;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
+}
+.card_first {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.rate_logo_box {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.rate_logo {
+  object-fit: cover;
+}
+.rate_volume_text {
+  color: var(--gray-3, #828282);
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 300;
+  margin-top: 10px;
+}
+.rate_name {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.rate_name_title {
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+}
+.rate_name_subtitle {
+  color: var(--gray-3, #828282);
+  text-align: right;
+  font-size: 12px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.rate_volume {
+  color: #000;
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.rate_runc {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+.rate_amount {
+  color: #000;
+  text-align: right;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.rate_delta {
+  color: #f00;
+  text-align: right;
+  font-size: 12px;
+  font-family: Inter;
+  text-transform: uppercase;
+}
+.rate_rank {
+  color: var(--gray-3, #828282);
+  text-align: right;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
 .logo_container {
   display: flex;
   font-weight: 700;
@@ -167,13 +258,12 @@
   color: #ff7f50;
 }
 
-.select{
+.select {
   background-color: transparent;
 }
-.option{
+.option {
   background-color: transparent;
 }
-.drawer_body{
+.drawer_body {
   background: rgba(128, 192, 192, 1);
 }
-

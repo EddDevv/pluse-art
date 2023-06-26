@@ -13,3 +13,10 @@ export const menuItems = [
     { id: 4, name: "FAQ", to: ROUTES.faq },
     { id: 5, name: "Контакты", to: ROUTES.contacts },
 ];
+
+export const StatusDeal = {
+    Active: "Активен",
+    Reinvest: "Реинвестирован",
+    Term: "Выплачены проценты",
+    Terminate: "Завершен",
+};

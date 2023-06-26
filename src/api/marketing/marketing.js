@@ -4,7 +4,7 @@
 // import { store } from "../../store/index";
 import { toast } from "react-toastify";
 import instance from "../instance";
-import { StatusDeal } from "../../components/Lk/ProgramMaxiMain/ProgramMaxiMain";
+import { StatusDeal } from "../../assets/consts/consts";
 
 // const baseUrl = "http://lk.pride.anyusecase.com/";
 export const pageSize = 4;
