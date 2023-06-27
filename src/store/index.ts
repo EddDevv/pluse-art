@@ -1,3 +1,4 @@
+import { dopInfoReducer } from './fund/reducer';
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 
 // import thunk from "redux-thunk";
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   currencyRates: currencyRatesReducer,
   stockRates: stockRatesReducer,
   rightMenu: rightMenuReducer,
+  dopInfo: dopInfoReducer,
 });
 
 declare global {

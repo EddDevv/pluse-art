@@ -1,3 +1,4 @@
+import { FundAction } from './../../store/fund/actions';
 import { store } from "../../store";
 import { AccountsData, AllInfoUserMain, ChangeBusinessBalance, UserAvatar, UserWallets } from "../../store/allInfoUser";
 import { setContestsListActive, setContestsListPast } from "../../store/contest/actions";
@@ -112,6 +113,8 @@ class CMainApi {
       if (resNews?.status >= 200 && resNews.status < 300) {
         store.dispatch(setNewsList(resNews.data));
       }
+      const etherFund = await MainApi.getEtherFund();
+      etherFund && store.dispatch(FundAction(etherFund.toLocaleString("ru-RU")));
       const resVoteList = await instance.get("api/Poll/poll-list");
       if (resVoteList?.status >= 200 && resVoteList.status < 300) {
         store.dispatch(Votes(resVoteList.data));

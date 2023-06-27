@@ -9,9 +9,10 @@ import { AiOutlineGift } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { MdExitToApp } from "react-icons/md";
 import { menuUserItems } from "../../assets/consts/consts";
+import NavMenu from "./NavMenu";
 
 const SideBarUser: FC = () => {
-  const { auth, userData, allInfoUser } = useAppSelector((state) => state);
+  const { auth, userData, allInfoUser, dopInfo } = useAppSelector((state) => state);
 
   return (
     <div className={styles.navbar_container}>
@@ -57,8 +58,8 @@ const SideBarUser: FC = () => {
         </div>
       </div>
 
-      <div className={styles.lk}>Личный кабинет</div>
-      <div className={styles.nav_cont}>
+      {/* <div className={styles.lk}>Личный кабинет</div> */}
+      {/* <div className={styles.nav_cont}>
         {menuUserItems.map((elem) => (
           <div key={elem.id} style={{ position: "relative" }}>
             <NavLink
@@ -71,7 +72,14 @@ const SideBarUser: FC = () => {
             </NavLink>
           </div>
         ))}
+      </div> */}
+
+      <NavMenu />
+
+      <div className={styles.image_for_balance}>
+        <div className={styles.balance_amount}>{dopInfo.fund} &nbsp; USD</div>
       </div>
+      <div className={styles.balance_title}>баланс инвестиционного фонда</div>
     </div>
   );
 };

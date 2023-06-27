@@ -69,16 +69,59 @@ export const App = () => (
       </Route>
 
 
-       {/* **************КАБИНЕТ************************* */}
-       <Route path="/user" element={<LayoutUser />}>
+      {/* **************КАБИНЕТ************************* */}
+      <Route path="/user" element={<LayoutUser />}>
         <Route path="/user" element={<PrivateRoute />}>
-          <Route index element={<Cabinet/>} />
+          <Route index element={<Cabinet />} />
         </Route>
-        <Route path={ROUTES.broker} element={<PrivateRoute />}>
-          <Route index element={<Cabinet/>} />
+        {/* <Route path={ROUTES.broker} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route> */}
+       
+        <Route path={ROUTES.market} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.stocks} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.tarif} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.documents} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+
+        <Route path={ROUTES.conservative} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.moderate} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.agressive} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+
+        <Route path={ROUTES.refill} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.withdrawal} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.operations} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+
+        <Route path={ROUTES.cabinet} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
         </Route>
         <Route path={ROUTES.settings} element={<PrivateRoute />}>
-          <Route index element={<Cabinet/>} />
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.charity} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.pulse} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
         </Route>
 
       </Route>
