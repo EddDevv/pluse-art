@@ -14,6 +14,7 @@ import SignUp from "./pages/auth/signUp/SignUp";
 import LayoutUser from "./components/layoutUser/LayoutUser";
 import { PrivateRoute } from "./privateRoute/PrivateRoute";
 import Cabinet from "./pages/user/cabinet/Cabinet";
+import Operations from "./pages/user/operations/Operations";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -72,7 +73,7 @@ export const App = () => (
       {/* **************КАБИНЕТ************************* */}
       <Route path="/user" element={<LayoutUser />}>
         <Route path="/user" element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Operations />} />
         </Route>
         {/* <Route path={ROUTES.broker} element={<PrivateRoute />}>
           <Route index element={<Cabinet />} />
@@ -108,7 +109,7 @@ export const App = () => (
           <Route index element={<Cabinet />} />
         </Route>
         <Route path={ROUTES.operations} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Operations />} />
         </Route>
 
         <Route path={ROUTES.cabinet} element={<PrivateRoute />}>

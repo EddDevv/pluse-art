@@ -75,15 +75,21 @@ body {
   background: #80c0c0;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.green_button_w100 {
+  @extend %button;
+  background: #80c0c0;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+}
 .orange_text {
   color: #ff7f50;
 }
 
 %gray_input {
-  background: #f3f3f3;
-  box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  min-height: 54px;
+  background: #F8F8F8;
+  // box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+  // border-radius: 5px;
+  min-height: 46px;
   width: 100%;
   font-size: 16px;
   padding: 10px;
@@ -92,7 +98,7 @@ body {
 
   &:focus-visible {
     transition: all 0.5s;
-    outline-color: #82bed2;
+    outline-color: #F8F8F8;
   }
 
   &:focus {
@@ -105,7 +111,7 @@ body {
 }
 .gray_input_w100 {
   @extend %gray_input;
-  width: 100%
+  width: 100%;
 }
 .gray_input_mt {
   @extend %gray_input;
@@ -144,6 +150,67 @@ body {
   top: 10px;
   right: 10px;
 }
+.page_container {
+  width: 100%;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+}
+.page_inner_container {
+  padding: 50px 0;
+  @media screen and (max-width: 760px) {
+    padding: 20px 0;
+  }
+}
+.page_title {
+  color: #005a5a;
+  font-size: 20px;
+  font-family: Inter;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding-left: 20px;
+}
+
+%table_item {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+.table_item_5 {
+  @extend %table_item;
+  width: 5%;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+.table_item_10 {
+  @extend %table_item;
+  width: 10%;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+.table_item_15 {
+  @extend %table_item;
+  width: 15%;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+.table_item_30 {
+  @extend %table_item;
+  width: 30%;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+
+// ***************************************************
 
 %main_button {
   background: linear-gradient(180deg, #9ad0c3 0%, #62aac6 100%);

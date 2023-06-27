@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { store } from "./store";
 import { HelmetProvider } from "react-helmet-async";
+import "./i18n";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");

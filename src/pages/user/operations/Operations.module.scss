@@ -1,0 +1,75 @@
+.title_flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+  @media screen and (max-width: 1050px) {
+    margin-bottom: 20px;
+  }
+  // background-color: aqua;
+  img {
+    cursor: pointer;
+  }
+}
+.items_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.operation_item {
+  width: 100%;
+  min-height: 82px;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(194, 225, 225, 0.47);
+
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 5px;
+  font-weight: 500;
+}
+.hesh {
+  color: var(--gray-2, #4f4f4f);
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 300;
+}
+.in_out {
+  color: var(--gray-2, #4f4f4f);
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 500;
+  line-height: 140%;
+}
+.desc {
+  color: var(--gray-2, #4f4f4f);
+  font-size: 16px;
+}
+.sum {
+  color: #000;
+  text-align: right;
+  font-size: 20px;
+  font-family: Inter;
+}
+.usd {
+}
+.filter_title {
+  color: var(--gray-2, #4f4f4f);
+  font-size: 12px;
+  font-weight: 300;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.filter {
+}
+.filter_apply {
+  background: #008080;
+  height: 46px;
+  width: 100%;
+  box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
+  color: #fff;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 600;
+}
