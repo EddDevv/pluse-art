@@ -28,6 +28,9 @@
   gap: 5px;
   padding: 5px;
   font-weight: 500;
+  @media screen and (max-width: 760px) {
+    flex-direction: column;
+  }
 }
 .hesh {
   color: var(--gray-2, #4f4f4f);
@@ -73,13 +76,13 @@
   font-family: Inter;
   font-weight: 600;
 }
-.filter_flex{
+.filter_flex {
   display: flex;
   width: 100%;
   align-items: end;
   gap: 5px;
 }
-.load_cont{
+.load_cont {
   width: 100%;
   margin-top: 35px;
   display: flex;

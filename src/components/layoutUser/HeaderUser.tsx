@@ -6,7 +6,6 @@ import styles from "./LayoutUser.module.scss";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { menuItems } from "../../assets/consts/consts";
 import { Skeleton, useMediaQuery } from "@chakra-ui/react";
-import SideBarMobile from "./SideBarMobile";
 import getRefresh from "../../api/getRefresh";
 import { useAppSelector } from "../../store";
 import { AuthApi } from "../../api/auth/auth";
@@ -68,7 +67,7 @@ const HeaderUser = () => {
 
   return (
       <div className={styles.rates_container}>
-        {isLoading && <LocalSpinnerAbsolute size="500" />}
+        {isLoading && <LocalSpinnerAbsolute size="150" />}
         {rates.map((el) => (
           <RateCard key={el.symbol} rate={el} />
         ))}

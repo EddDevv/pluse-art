@@ -11,12 +11,25 @@ import { MdExitToApp } from "react-icons/md";
 import { menuUserItems } from "../../assets/consts/consts";
 import NavMenu from "./NavMenu";
 
-const SideBarUser: FC = () => {
-  const { auth, userData, allInfoUser, dopInfo } = useAppSelector((state) => state);
+type Propstype = {
+  onClose?: any;
+};
+
+const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
+  const { auth, userData, allInfoUser, dopInfo } = useAppSelector(
+    (state) => state
+  );
 
   return (
     <div className={styles.navbar_container}>
-      <NavLink to="/">
+      <NavLink
+        to="/"
+        onClick={() => {
+          if (onClose) {
+            onClose();
+          }
+        }}
+      >
         <div className={styles.logo_container}>
           <div>PUSLE</div>
           <div>
@@ -74,7 +87,7 @@ const SideBarUser: FC = () => {
         ))}
       </div> */}
 
-      <NavMenu />
+      <NavMenu onClose={onClose} />
 
       <div className={styles.image_for_balance}>
         <div className={styles.balance_amount}>{dopInfo.fund} &nbsp; USD</div>
