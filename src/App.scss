@@ -86,7 +86,7 @@ body {
 }
 
 %gray_input {
-  background: #F8F8F8;
+  background: #f8f8f8;
   // box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
   // border-radius: 5px;
   min-height: 46px;
@@ -98,7 +98,7 @@ body {
 
   &:focus-visible {
     transition: all 0.5s;
-    outline-color: #F8F8F8;
+    outline-color: #f8f8f8;
   }
 
   &:focus {
@@ -172,6 +172,13 @@ body {
   text-transform: uppercase;
   padding-left: 20px;
 }
+.modal_title {
+  color: #005a5a;
+  font-size: 20px;
+  font-family: Inter;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
 
 %table_item {
   min-height: 100%;
@@ -207,6 +214,17 @@ body {
   width: 30%;
   @media screen and (max-width: 760px) {
     width: 100%;
+  }
+}
+
+.loadmore {
+  color: var(--gray-2, #4f4f4f);
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 300;
+  cursor: pointer;
+  &:hover {
+    color: #005a5a;
   }
 }
 

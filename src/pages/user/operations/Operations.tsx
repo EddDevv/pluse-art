@@ -83,7 +83,7 @@ const Operations = () => {
   const { t } = useTranslation();
   const { language } = useAppSelector((state) => state.allInfoUser.value);
   const { businessBalance } = useAppSelector((state) => state.allInfoUser);
-  const { userData } = useAppSelector((state) => state);
+  const { auth, userData } = useAppSelector((state) => state);
 
   const [directionForFilter, setDirectionForFilter] = useState("");
   const [articleForFilter, setArticleForFilter] = useState("");
@@ -132,7 +132,12 @@ const Operations = () => {
             }
           });
         });
-        setHistoryItems(items);
+        if (page === 1) {
+          setHistoryItems(items);
+        } else {
+          setHistoryItems([...historyItems, ...items]);
+        }
+
         setTotalCount(response?.data.totalCount);
       }
     } catch (error: any) {
@@ -144,37 +149,14 @@ const Operations = () => {
     } finally {
       setIsLoading(false);
       setIsOpen(false);
+      await getArticles();
     }
   };
-
-  // Pagination
-  const { nextPage, prevPage, page, gaps, setPage, totalPages } = usePagination(
-    {
-      contentPerPage: itemsPerPage,
-      count: totalCount,
-    }
-  );
-
-  useEffect(
-    () => {
-      getHistory();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [
-      // directionForFilter,
-      // articleForFilter,
-      // page,
-      // dateFrom,
-      // dateTo,
-      // language,
-      // account,
-    ]
-  );
 
   const getArticles = async () => {
     setIsLoading(true);
     try {
-      const res = await instanceWithoutAuth.get(`api/Finance/payment-articles`);
+      const res = await instance.get(`api/Finance/payment-articles`);
       if (res.status === 200) {
         const tempArr = [...res.data];
         const filterArr = tempArr.filter(
@@ -192,9 +174,34 @@ const Operations = () => {
     }
   };
 
+  // Pagination
+  // const { nextPage, prevPage, page, gaps, setPage, totalPages } = usePagination(
+  //   {
+  //     contentPerPage: itemsPerPage,
+  //     count: totalCount,
+  //   }
+  // );
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    getArticles();
-  }, []);
+    if (auth.token && auth.token?.length > 0) {
+      getHistory();
+      // getArticles();
+    }
+  }, [
+    auth.token,
+    page,
+    // directionForFilter,
+    // articleForFilter,
+    // dateFrom,
+    // dateTo,
+    // language,
+    // account,
+  ]);
+
+  // useEffect(() => {
+  //   getArticles();
+  // }, []);
 
   const Status = ({ financeItem }: { financeItem: FinanceItemType }) => {
     if (financeItem.processingStatus === "Отменен") {
@@ -230,9 +237,7 @@ const Operations = () => {
         >
           <ModalCloseButton onClick={() => setIsOpen(false)} />
 
-          <ModalHeader w="100%" textAlign="center" className="page_title">
-            <div> {t("User_layout.history")}</div>
-          </ModalHeader>
+          <div className="modal_title"> {t("User_layout.history")}</div>
 
           <div className={styles.filter_title}>{t("DopItem2.account")}</div>
           <div className={styles.filter}>
@@ -285,13 +290,39 @@ const Operations = () => {
             </select>
           </div>
 
+          <div className={styles.filter_flex}>
+            <div style={{ width: "45%" }}>
+              <div className={styles.filter_title}>{t("New.period")}</div>
+              <div className={styles.filter}>
+                <input
+                  type="date"
+                  className="gray_input_w100"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className={styles.filter_title}>{t("New.to")}</div>
+            <div className={styles.filter} style={{ width: "45%" }}>
+              <input
+                type="date"
+                className="gray_input_w100"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+              />
+            </div>
+          </div>
+
           <div style={{ position: "relative" }}>
             <button
               className={styles.filter_apply}
               style={{ marginTop: "20px" }}
               // isLoading={isLoading}
               // spinner={<LocalSpinner size="lg" />}
-              onClick={() => getHistory()}
+              onClick={() => {
+                setPage(1);
+                getHistory();
+              }}
               disabled={isLoading}
               // style={{ backgroundColor: "#85c7db" }}
             >
@@ -311,35 +342,53 @@ const Operations = () => {
         </div>
 
         <div className={styles.items_container}>
-          {historyItems.map((elem) => (
-            <div className={styles.operation_item} key={elem.id}>
-              <div className={`table_item_15 ${styles.hesh}`}>{elem.id}</div>
-              <div className={`table_item_15 ${styles.hesh}`}>
-                <div className={styles.in_out}>
-                  {elem.debetSum
-                    ? t("History.withdrawal")
-                    : t("History.refill")}
+          {historyItems?.length > 0 ? (
+            <>
+              {historyItems.map((elem) => (
+                <div className={styles.operation_item} key={elem.id}>
+                  <div className={`table_item_15 ${styles.hesh}`}>
+                    {elem.id}
+                  </div>
+                  <div className={`table_item_15 ${styles.hesh}`}>
+                    <div className={styles.in_out}>
+                      {elem.debetSum
+                        ? t("History.withdrawal")
+                        : t("History.refill")}
+                    </div>
+                    <div>
+                      <Moment format="DD.MM.YYYY HH:mm" locale="ru">
+                        {elem.paymentDate}
+                      </Moment>
+                    </div>
+                  </div>
+                  <div className={`table_item_30 ${styles.desc}`}>
+                    {elem.objectName}
+                  </div>
+                  <div className={`table_item_15 ${styles.sum}`}>
+                    <div>
+                      {elem.creditSum ? elem?.creditSum : elem?.debetSum}
+                      &nbsp;{" "}
+                      <b style={{ fontSize: "14px" }}>{elem.currencyCode}</b>
+                    </div>
+                  </div>
+                  <div className={`table_item_15`}>
+                    <Status financeItem={elem} />
+                  </div>
                 </div>
-                <div>
-                  <Moment format="DD.MM.YYYY HH:mm" locale="ru">
-                    {elem.paymentDate}
-                  </Moment>
+              ))}
+
+              {page * itemsPerPage < totalCount && (
+                <div
+                  className={styles.load_cont}
+                  onClick={() => setPage(page + 1)}
+                >
+                  <div className="loadmore">{t("New.loadmore")}</div>
                 </div>
-              </div>
-              <div className={`table_item_30 ${styles.desc}`}>
-                {elem.objectName}
-              </div>
-              <div className={`table_item_15 ${styles.sum}`}>
-                <div>
-                  {elem.creditSum ? elem?.creditSum : elem?.debetSum}
-                  &nbsp; <b style={{ fontSize: "14px" }}>{elem.currencyCode}</b>
-                </div>
-              </div>
-              <div className={`table_item_15`}>
-                <Status financeItem={elem} />
-              </div>
-            </div>
-          ))}
+              )}
+            </>
+          ) : (
+            <div>{t("New.no_found")}</div>
+          )}
         </div>
       </div>
     </div>
