@@ -5,6 +5,7 @@ import { usePagination } from "../../../utils/pagination/usePagination";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../store";
 import IconSettings from "../../../assets/images/IconSettings.svg";
+import Icon_item from "../../../assets/images/Icon_item.png";
 import Moment from "react-moment";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
 import {
@@ -79,14 +80,20 @@ export enum AccountEnum {
 
 const itemsPerPage = 10;
 
-const Operations = () => {
+type PropType = {
+  isWithdrawal?: boolean;
+  refresh?: boolean;
+};
+
+const Operations = ({ isWithdrawal, refresh }: PropType) => {
   const { t } = useTranslation();
-  const { language } = useAppSelector((state) => state.allInfoUser.value);
   const { businessBalance } = useAppSelector((state) => state.allInfoUser);
   const { auth, userData } = useAppSelector((state) => state);
 
   const [directionForFilter, setDirectionForFilter] = useState("");
-  const [articleForFilter, setArticleForFilter] = useState("");
+  const [articleForFilter, setArticleForFilter] = useState(
+    isWithdrawal ? "Вывод средств" : ""
+  );
   const [account, setAccount] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
@@ -191,6 +198,7 @@ const Operations = () => {
   }, [
     auth.token,
     page,
+    refresh,
     // directionForFilter,
     // articleForFilter,
     // dateFrom,
@@ -219,124 +227,17 @@ const Operations = () => {
 
   return (
     <div className="page_container">
-      <Modal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        closeOnOverlayClick={false}
-        // scrollBehavior="inside"
-        motionPreset="slideInRight"
-        isCentered={true}
-        // size={width ? "full" : "lg"}
-      >
-        <ModalOverlay backdropFilter="auto" backdropBlur="2px" />
-        <ModalContent
-          bg="#FFFFFF"
-          borderRadius="5px"
-          padding={["20px 15px", "20px 15px", "40px"]}
-          boxShadow="0px 4px 50px rgba(178, 200, 215, 0.46)"
-        >
-          <ModalCloseButton onClick={() => setIsOpen(false)} />
-
-          <div className="modal_title"> {t("User_layout.history")}</div>
-
-          <div className={styles.filter_title}>{t("DopItem2.account")}</div>
-          <div className={styles.filter}>
-            <select
-              onChange={(e) => {
-                setPage(1);
-                setAccount(e.target.value);
-              }}
-              value={account}
-              className="gray_input_w100"
-            >
-              <option value={""}> {t("Finance.all")}</option>
-              {Object.keys(AccountEnum).map(
-                (elem, index) =>
-                  (index === 0 ||
-                    businessBalance === 1 ||
-                    userData.value.balanceBusiness > 0) && (
-                    <option key={elem} value={elem}>
-                      {t(`DopItem2.${elem}`)}: &nbsp;{" "}
-                      {elem === AccountEnum.Inner
-                        ? getNumWithoutZeroToFixedN(+userData.value.balance, 2)
-                        : getNumWithoutZeroToFixedN(
-                            +userData.value.balanceBusiness,
-                            2
-                          )}
-                      $
-                    </option>
-                  )
-              )}
-            </select>
-          </div>
-
-          <div className={styles.filter_title}>{t("Finance.stat")}</div>
-          <div className={styles.filter}>
-            <select
-              onChange={(e) => {
-                setPage(1);
-                setArticleForFilter(e.target.value);
-              }}
-              value={articleForFilter}
-              className="gray_input_w100"
-            >
-              <option value={""}> {t("Finance.all")}</option>
-              {articles.length > 0 &&
-                articles.map((elem: string, index: number) => (
-                  <option key={elem} value={elem}>
-                    {elem}
-                  </option>
-                ))}
-            </select>
-          </div>
-
-          <div className={styles.filter_flex}>
-            <div style={{ width: "45%" }}>
-              <div className={styles.filter_title}>{t("New.period")}</div>
-              <div className={styles.filter}>
-                <input
-                  type="date"
-                  className="gray_input_w100"
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className={styles.filter_title}>{t("New.to")}</div>
-            <div className={styles.filter} style={{ width: "45%" }}>
-              <input
-                type="date"
-                className="gray_input_w100"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div style={{ position: "relative" }}>
-            <button
-              className={styles.filter_apply}
-              style={{ marginTop: "20px" }}
-              // isLoading={isLoading}
-              // spinner={<LocalSpinner size="lg" />}
-              onClick={() => {
-                setPage(1);
-                getHistory();
-              }}
-              disabled={isLoading}
-              // style={{ backgroundColor: "#85c7db" }}
-            >
-              {t("New.apply")}
-            </button>
-            {isLoading && <LocalSpinnerAbsolute size="100px" />}
-          </div>
-        </ModalContent>
-      </Modal>
-
       <div className="page_inner_container">
         <div className={styles.title_flex}>
-          <div className="page_title">{t("User_layout.history")}</div>
-          <div onClick={() => setIsOpen(true)}>
+          {isWithdrawal ? (
+            <div className={styles.isWithdrawal}>
+              <img src={Icon_item} alt="" />
+              {t("New.withdrawal_history")}
+            </div>
+          ) : (
+            <div className="page_title">{t("User_layout.history")}</div>
+          )}
+          <div onClick={() => setIsOpen(true)} style={{ cursor: "pointer" }}>
             <img src={IconSettings} alt="" />
           </div>
         </div>
@@ -391,6 +292,129 @@ const Operations = () => {
           )}
         </div>
       </div>
+
+      {/* **************************************************************** */}
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        closeOnOverlayClick={false}
+        // scrollBehavior="inside"
+        motionPreset="slideInRight"
+        isCentered={true}
+        // size={width ? "full" : "lg"}
+      >
+        <ModalOverlay backdropFilter="auto" backdropBlur="2px" />
+        <ModalContent
+          bg="#FFFFFF"
+          borderRadius="5px"
+          padding={["20px 15px", "20px 15px", "40px"]}
+          boxShadow="0px 4px 50px rgba(178, 200, 215, 0.46)"
+        >
+          <ModalCloseButton onClick={() => setIsOpen(false)} />
+
+          <div className="modal_title">
+            {isWithdrawal
+              ? t("New.withdrawal_history")
+              : t("User_layout.history")}
+          </div>
+
+          <div className={styles.filter_title}>{t("DopItem2.account")}</div>
+          <div className={styles.filter}>
+            <select
+              onChange={(e) => {
+                setPage(1);
+                setAccount(e.target.value);
+              }}
+              value={account}
+              className="gray_input_w100"
+            >
+              <option value={""}> {t("Finance.all")}</option>
+              {Object.keys(AccountEnum).map(
+                (elem, index) =>
+                  (index === 0 ||
+                    businessBalance === 1 ||
+                    userData.value.balanceBusiness > 0) && (
+                    <option key={elem} value={elem}>
+                      {t(`DopItem2.${elem}`)}: &nbsp;{" "}
+                      {elem === AccountEnum.Inner
+                        ? getNumWithoutZeroToFixedN(+userData.value.balance, 2)
+                        : getNumWithoutZeroToFixedN(
+                            +userData.value.balanceBusiness,
+                            2
+                          )}
+                      $
+                    </option>
+                  )
+              )}
+            </select>
+          </div>
+
+          {isWithdrawal !== true && (
+            <>
+              <div className={styles.filter_title}>{t("Finance.stat")}</div>
+              <div className={styles.filter}>
+                <select
+                  onChange={(e) => {
+                    setPage(1);
+                    setArticleForFilter(e.target.value);
+                  }}
+                  value={articleForFilter}
+                  className="gray_input_w100"
+                >
+                  <option value={""}> {t("Finance.all")}</option>
+                  {articles.length > 0 &&
+                    articles.map((elem: string, index: number) => (
+                      <option key={elem} value={elem}>
+                        {elem}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            </>
+          )}
+
+          <div className={styles.filter_flex}>
+            <div style={{ width: "45%" }}>
+              <div className={styles.filter_title}>{t("New.period")}</div>
+              <div className={styles.filter}>
+                <input
+                  type="date"
+                  className="gray_input_w100"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className={styles.filter_title}>{t("New.to")}</div>
+            <div className={styles.filter} style={{ width: "45%" }}>
+              <input
+                type="date"
+                className="gray_input_w100"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div style={{ position: "relative" }}>
+            <button
+              className={styles.filter_apply}
+              style={{ marginTop: "20px" }}
+              // isLoading={isLoading}
+              // spinner={<LocalSpinner size="lg" />}
+              onClick={() => {
+                setPage(1);
+                getHistory();
+              }}
+              disabled={isLoading}
+              // style={{ backgroundColor: "#85c7db" }}
+            >
+              {t("New.apply")}
+            </button>
+            {isLoading && <LocalSpinnerAbsolute size="100px" />}
+          </div>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

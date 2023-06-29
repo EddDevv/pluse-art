@@ -15,6 +15,7 @@ import LayoutUser from "./components/layoutUser/LayoutUser";
 import { PrivateRoute } from "./privateRoute/PrivateRoute";
 import Cabinet from "./pages/user/cabinet/Cabinet";
 import Operations from "./pages/user/operations/Operations";
+import Withdrawal from "./pages/user/withdrawal/Withdrawal";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -106,7 +107,7 @@ export const App = () => (
           <Route index element={<Cabinet />} />
         </Route>
         <Route path={ROUTES.withdrawal} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Withdrawal />} />
         </Route>
         <Route path={ROUTES.operations} element={<PrivateRoute />}>
           <Route index element={<Operations />} />
