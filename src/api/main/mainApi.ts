@@ -50,11 +50,8 @@ class CMainApi {
 
   async getInitialMainReduxInfo() {
     const resMain = await MainApi.getMainInfo();
-    // console.log("resMain", resMain);
     if (resMain?.status >= 200 && resMain.status < 300) {
       store.dispatch(UserData(resMain.data));
-      // resMain.data?.userInfo?.language &&
-      //   i18n.changeLanguage(resMain.data?.userInfo.language);
       const array: string[] = [];
       Object.keys(resMain.data).forEach((elem) => {
         if (elem.startsWith("balance")) {
