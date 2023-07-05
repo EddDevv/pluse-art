@@ -3,6 +3,12 @@
   margin: 22px 0;
   box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
   padding: 31px 29px;
+  color: var(--gray-2, #4f4f4f);
+  font-size: 12px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   @media screen and (max-width: 760px) {
     padding: 20px;
   }
@@ -20,6 +26,19 @@
   //   cursor: pointer;
   // }
 }
+.filter_container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+.filter_flex {
+  display: flex;
+  // width: 100%;
+  gap: 20px;
+}
+
+// ********************************
 .items_container {
   width: 100%;
   display: flex;

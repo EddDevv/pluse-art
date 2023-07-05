@@ -31,6 +31,7 @@ const NavSubMenu: FC<Propstype> = ({ onClose, menuItem }: Propstype) => {
           {menuItem?.sub?.map((elem: any) => (
             <NavLink
               to={elem.to}
+              key={elem.name}
               // className={({ isActive }) =>
               //   isActive ? styles.active_nav : styles.inactive_nav
               // }

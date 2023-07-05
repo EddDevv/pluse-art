@@ -90,26 +90,25 @@ const Market = () => {
           <div className="page_title">{t("MarketPage.market")}</div>
         </div>
 
-        <div className={styles.filter__container}>
-          <input
-            className={styles.search__input}
-            readOnly
-            placeholder="Поиск временно недоступен"
-          />
+        <div className={styles.filter_container}>
+          <div>{t("New.search")}</div>
+          <div className={styles.filter_flex}>
+            <input
+              className="gray_input"
+              readOnly
+              placeholder="Поиск временно недоступен"
+            />
 
-          <select
-            style={{
-              minWidth: "285px",
-              boxShadow: "none",
-              border: " 1px solid #9c27b0",
-            }}
-            className="select_filter"
-            name="filter"
-            value={filter}
-            onChange={(e) => handleFilter(e.target)}
-          >
-            <option value="active">KSE</option>
-          </select>
+            <select
+              className="gray_input"
+              placeholder={t("New.choose_currency")}
+              value={filter}
+              onChange={(e) => handleFilter(e.target)}
+            >
+              <option value="active">KSE</option>
+            </select>
+          </div>
+          <div>{t("New.total")} {totalCount} {t("New.stocks")}</div>
         </div>
 
         <div className={styles.items_container}>
