@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { LocalSpinner } from "../localSpinner/LocalSpinner";
+import { useTranslation } from "react-i18next";
 
 type IProps = {
   isOpen: boolean;
@@ -30,6 +31,8 @@ const ModalMain: FC<IProps> = ({
   width,
   color,
 }) => {
+  const { t } = useTranslation();
+
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const handleLocalSumbit = async () => {
@@ -69,27 +72,31 @@ const ModalMain: FC<IProps> = ({
 
         {children && children}
 
-        <ModalFooter justifyContent={handleSubmit ? "space-between" : "center"}>
-          <Button
+        <div style={{ display: "flex", justifyContent: handleSubmit ? "space-between" : "center", gap: "10px"}}>
+          <button
             onClick={() => handleClose()}
-            isDisabled={isLoading}
-            style={{ backgroundColor: "#e6cb8b" }}
-            minW={[32, 40]}
+            // isDisabled={isLoading}
+            // style={{ backgroundColor: "#e6cb8b" }}
+            // minW={[32, 40]}
+            className="outline_green_button"
+            style={{ width: "50%" }}
           >
-            Закрыть
-          </Button>
+            {t("New.close")}
+          </button>
           {handleSubmit && (
-            <Button
-              isLoading={isLoading}
-              spinner={<LocalSpinner size="lg" />}
+            <button
+              // isLoading={isLoading}
+              // spinner={<LocalSpinner size="lg" />}
               onClick={handleLocalSumbit}
-              style={{ backgroundColor: "#85c7db" }}
-              minW={[32, 40]}
+              // style={{ backgroundColor: "#85c7db" }}
+              // minW={[32, 40]}
+              className="dark_green_button"
+              style={{ width: "50%" }}
             >
-              Подтвердить
-            </Button>
+              {t("Platform.confirm")}
+            </button>
           )}
-        </ModalFooter>
+        </div>
       </ModalContent>
     </Modal>
   );

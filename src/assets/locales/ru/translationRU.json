@@ -997,6 +997,19 @@
     "search": "Поиск",
     "total": "Всего ",
     "stocks": " акций",
-    "choose_currency": "Выберите валюту"
+    "choose_currency": "Выберите валюту",
+    "per_year": "За год",
+    "per_month": "За месяц",
+    "per_week": "За неделю",
+    "per_day": "За день",
+    "stock_price": "Цена за акцию",
+    "amount": "в 1 лоте - 10 шт.",
+    "input_amount": "Введите количество",
+    "input_sum": "Сумма сделки",
+    "close": "Закрыть",
+    "operation_confirm": "Подтверждение операции!",
+    "you_buy": "Вы приобретаете",
+    "income_per_year": "Доходность за год",
+    "": ""
   }
 }

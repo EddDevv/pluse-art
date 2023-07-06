@@ -1,5 +1,6 @@
 import axios from "axios";
 import { store, useAppDispatch } from "../store";
+import { UserLogout } from "../store/auth/actions";
 // import { logoutUser } from "../features/auth/authSlice";
 // import { resetUserInfo } from "../features/userInfo/userInfoSlice";
 
@@ -10,8 +11,7 @@ const localRefreshToken = localStorage.getItem("refreshToken");
 
 // Logout
 const logoutHandler = () => {
-  // store.dispatch(logoutUser());
-  // store.dispatch(resetUserInfo());
+  store.dispatch(UserLogout());
 };
 
 const $api = axios.create({

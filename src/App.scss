@@ -102,6 +102,20 @@ body {
   line-height: normal;
 }
 
+.outline_green_button {
+  color: #005A5A;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: 1px solid #005A5A;
+  box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
+  min-height: 40px;
+  padding: 5px;
+  min-width: 150px;
+}
+
 .orange_text {
   color: #ff7f50;
 }
@@ -230,6 +244,22 @@ body {
   gap: 5px;
   display: flex;
   padding: 5px 0;
+  border-bottom: 1px solid #E0E0E0;
+  min-height: 80px;
+
+  &:hover {
+    background: #F3F9F9;
+  }
+
+  &:first-child {
+    // border-top: 1px solid #E0E0E0;
+    min-height: 30px;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
 }
 
 .table_item_5 {
@@ -396,4 +426,10 @@ body {
   color: #008080;
   text-decoration: underline;
   font-weight: 500;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: #BDBDBD;
 }
