@@ -348,7 +348,7 @@ const SignUp: FC = () => {
                     <input
                       placeholder="Логин"
                       type="text"
-                      className="gray_input"
+                      className="gray_input_w100"
                       value={checkedLogin}
                       {...register("login", {
                         required: "Обязательное поле",
@@ -397,7 +397,7 @@ const SignUp: FC = () => {
                         // autoFocus: true,
                       }}
                       containerClass="phone_cont"
-                      inputClass="gray_input"
+                      inputClass="gray_input_w100"
                       placeholder="Phone number"
                       country={"ru"}
                       value={phoneNumber}
@@ -455,7 +455,7 @@ const SignUp: FC = () => {
                       placeholder="Inviter"
                       type="text"
                       value={id ?? checkInviter}
-                      className="gray_input"
+                      className="gray_input_w100"
                       {...register("inviterId", {
                         required: "Обязательное поле",
                         onChange: (e) => setCheckInviter(e.target.value),
@@ -494,7 +494,7 @@ const SignUp: FC = () => {
                       <input
                         placeholder="Пароль"
                         type={isShowPassword ? "text" : "password"}
-                        className="gray_input"
+                        className="gray_input_w100"
                         {...register("password", {
                           required: "The field is required",
                           pattern: {
@@ -533,7 +533,7 @@ const SignUp: FC = () => {
                       <input
                         placeholder="Повторите пароль"
                         type={isShowPassword ? "text" : "password"}
-                        className="gray_input"
+                        className="gray_input_w100"
                         {...register("confirmPassword", {
                           required: "The field is required",
 

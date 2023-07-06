@@ -23,7 +23,6 @@ const StockItem = ({ stock }: any) => {
   const [stockName, setStockName] = useState<string>("");
   const [stockCode, setStockCode] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -69,7 +68,6 @@ const StockItem = ({ stock }: any) => {
     let hash = 0;
     let i;
 
-    /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -80,8 +78,6 @@ const StockItem = ({ stock }: any) => {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.slice(-2);
     }
-    /* eslint-enable no-bitwise */
-
     return color;
   }
 
@@ -137,7 +133,7 @@ const StockItem = ({ stock }: any) => {
   return (
     <>
       {/* ............МОДАЛКА ПОДТВЕРЖДЕНИЯ ПОКУПКИ АКЦИЙ................. */}
-      <Fade in={isOpenModal}>
+      {/* <Fade in={isOpenModal}>
         <div className="modal__wrapper">
           <div className="modal__text withdraw__modalWrapper">
             <div>{t("MarketPage.success")}</div>
@@ -183,25 +179,25 @@ const StockItem = ({ stock }: any) => {
             </div>
           </div>
         </div>
-      </Fade>
+      </Fade> */}
 
       {/* **************ТАБЛИЦА******************** */}
-      <div className={styles.item}>
-        <div className={styles.item__logo}>
+      <div className="table_row">
+        <div className="table_item_10">
           <Avatar {...stringAvatar(stock.code)} />
         </div>
 
         <Tooltip title={stock.objectName}>
-          <div className={styles.item__name}>
+          <div className="table_item_40" style={{ alignItems: "start" }}>
             {stock.objectName.slice(0, 25)}...
           </div>
         </Tooltip>
 
-        <div className={styles.item__price}>
+        <div className="table_item_15">
           {getNumWithoutZeroToFixedN(stock.sellPrice, 2)}$
         </div>
 
-        <div className={styles.item__chart}>
+        <div className="table_item_20">
           <LineChartLittle
             color={dataForChart.color}
             labels={dataForChart?.labels}
@@ -210,31 +206,31 @@ const StockItem = ({ stock }: any) => {
           />
         </div>
 
-        <div className={styles.item__count}>
+        {/* <div className="table_item_12_5">
           <input
             type="number"
             value={totalCount}
             onChange={(e) => {
               setTotalCount(e.target.value);
             }}
-            className={styles.count__input}
+            className="gray_input_w100"
           />
         </div>
 
-        <div className={styles.item__sum}>
+        <div className="table_item_12_5">
           <input
             type="number"
             readOnly
             value={totalSum}
-            className={styles.count__input}
+            className="gray_input_w100"
           />
-        </div>
+        </div> */}
 
-        <div className={styles.item__buy}>
+        <div className="table_item_15">
           <button
-            className={styles.byu__btn}
+            className="dark_green_button"
             onClick={() => openModalHandler()}
-            // disabled={totalCount < 1}
+          // disabled={totalCount < 1}
           >
             {t("MarketPage.byu")}
           </button>

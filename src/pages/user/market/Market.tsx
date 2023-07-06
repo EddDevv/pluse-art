@@ -52,7 +52,7 @@ const Market = () => {
   const [filter, setFilter] = useState("KSE");
   const [stocks, setStocks] = useState<IStock[]>([]);
   const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
+  // const [totalCount, setTotalCount] = useState(0);
 
   // **********ФУНКЦИЯ ПОЛУЧЕНИЯ АКЦИЙ***************
   const getStocks = async () => {
@@ -108,34 +108,34 @@ const Market = () => {
               <option value="active">KSE</option>
             </select>
           </div>
-          <div>{t("New.total")} {totalCount} {t("New.stocks")}</div>
-        </div>
+          <div>{t("New.total")} {stocks.length} {t("New.stocks")}</div>
 
-        <div className={styles.items_container}>
-          {stocks?.length > 0 ? (
-            <>
-              <div className={styles.table__container}>
+          <div className={styles.items_container}>
+            {stocks?.length > 0 ? (
+              <>
                 {isLargesThan850 && (
-                  <div className={styles.table__header}>
-                    <div className={styles.item__logo}>
-                      {t("MarketPage.logo")}
-                    </div>
-                    <div className={styles.item__name}>
+                  <div className="table_row ">
+                    {/* <div className={styles.item__logo}>
+                        {t("MarketPage.logo")}
+                      </div> */}
+                    <div className="table_item_10" style={{alignItems: "start"}}>
                       {t("MarketPage.name")}
                     </div>
-                    <div className={styles.item__price}>
+                    <div className="table_item_40">
+                    </div>
+                    <div className="table_item_15">
                       {t("MarketPage.price")}
                     </div>
-                    <div className={styles.item__chart}>
+                    <div className="table_item_20">
                       {t("MarketPage.chart")}
                     </div>
-                    <div className={styles.item__count}>
+                    {/* <div className="table_item_12_5">
                       {t("MarketPage.count")}
                     </div>
-                    <div className={styles.item__sum}>
+                    <div className="table_item_12_5">
                       {t("MarketPage.sum")}
-                    </div>
-                    <div className={styles.item__buy}>
+                    </div> */}
+                    <div className="table_item_15">
                       {t("MarketPage.byu")}
                     </div>
                   </div>
@@ -143,21 +143,23 @@ const Market = () => {
                 {stocks?.map((stock: IStock, index: number) => (
                   <StockItem key={stock.code} stock={stock} />
                 ))}
-              </div>
 
-              {page * itemsPerPage < totalCount && (
-                <div
-                  className={styles.load_cont}
-                  onClick={() => setPage(page + 1)}
-                >
-                  <div className="loadmore">{t("New.loadmore")}</div>
-                </div>
-              )}
-            </>
-          ) : (
-            <div>{t("New.no_found")}</div>
-          )}
+                {page * itemsPerPage < stocks.length && (
+                  <div
+                    className={styles.load_cont}
+                    onClick={() => setPage(page + 1)}
+                  >
+                    <div className="loadmore">{t("New.loadmore")}</div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div>{t("New.no_found")}</div>
+            )}
+          </div>
         </div>
+
+
       </div>
     </div>
   );

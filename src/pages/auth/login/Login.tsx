@@ -216,7 +216,7 @@ const Login: FC = () => {
                   <input
                     // placeholder="Логин"
                     type="text"
-                    className="gray_input"
+                    className="gray_input_w100"
                     {...register("login", {
                       required: "The field is required!",
                       onChange: (e) => {
@@ -250,7 +250,7 @@ const Login: FC = () => {
                       <InputGroup>
                         <input
                           type={isShowPassword ? "text" : "password"}
-                          className="gray_input"
+                          className="gray_input_w100"
                           {...register("password", {
                             required: "The field is required",
                             minLength: {
@@ -286,7 +286,7 @@ const Login: FC = () => {
                         <div className={styles.label}>Повторите пароль</div>
                         <InputGroup>
                           <input
-                            className="gray_input"
+                            className="gray_input_w100"
                             type={isShowPassword ? "text" : "password"}
                             {...register("passwordRepeat", {
                               // minLength: {
@@ -328,7 +328,7 @@ const Login: FC = () => {
                       <div className={styles.input_box}>
                         <div className={styles.label}>Код GA</div>
                         <input
-                          className="gray_input"
+                          className="gray_input_w100"
                           {...register("pin", {
                             required: isGa ? "The field is required" : false,
                           })}
