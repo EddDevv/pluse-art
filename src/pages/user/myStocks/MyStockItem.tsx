@@ -134,6 +134,7 @@ const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsTy
         title={t("New.stock_seil")}
         handleClose={() => { setIsOpenModal(false) }}
         handleSubmit={() => { setIsOpenModal(false); setIsOpenConfirmModal(true) }}
+        isOrange={true}
       >
         <div className={styles.stock_body_modal}>
           <div><Moment format="DD/MM/YYYY HH:mm" locale="ru">{new Date()}</Moment></div>
