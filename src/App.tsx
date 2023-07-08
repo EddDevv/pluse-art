@@ -18,6 +18,7 @@ import Operations from "./pages/user/operations/Operations";
 import Withdrawal from "./pages/user/withdrawal/Withdrawal";
 import Market from "./pages/user/market/Market";
 import MyStocks from "./pages/user/myStocks/MyStocks";
+import BrokerDocuments from "./pages/user/brokerDocuments/BrokerDocuments";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -92,7 +93,7 @@ export const App = () => (
           <Route index element={<Cabinet />} />
         </Route>
         <Route path={ROUTES.documents} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<BrokerDocuments />} />
         </Route>
 
         <Route path={ROUTES.conservative} element={<PrivateRoute />}>
