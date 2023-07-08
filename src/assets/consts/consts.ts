@@ -82,3 +82,6 @@ export const StatusDeal = {
     Term: "Выплачены проценты",
     Terminate: "Завершен",
 };
+
+export const speedMaxEnum = [3, 4, 5]
+

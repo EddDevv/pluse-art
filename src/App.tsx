@@ -19,6 +19,7 @@ import Withdrawal from "./pages/user/withdrawal/Withdrawal";
 import Market from "./pages/user/market/Market";
 import MyStocks from "./pages/user/myStocks/MyStocks";
 import BrokerDocuments from "./pages/user/brokerDocuments/BrokerDocuments";
+import Portfolio from "./pages/user/portfolio/Portfolio";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -82,7 +83,7 @@ export const App = () => (
         {/* <Route path={ROUTES.broker} element={<PrivateRoute />}>
           <Route index element={<Cabinet />} />
         </Route> */}
-       
+
         <Route path={ROUTES.market} element={<PrivateRoute />}>
           <Route index element={<Market />} />
         </Route>
@@ -97,13 +98,13 @@ export const App = () => (
         </Route>
 
         <Route path={ROUTES.conservative} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Portfolio portfolioId={0} />} />
         </Route>
         <Route path={ROUTES.moderate} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Portfolio portfolioId={1} />} />
         </Route>
         <Route path={ROUTES.agressive} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Portfolio portfolioId={2} />} />
         </Route>
 
         <Route path={ROUTES.refill} element={<PrivateRoute />}>
