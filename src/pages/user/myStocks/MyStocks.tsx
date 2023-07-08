@@ -1,55 +1,62 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Market.module.scss";
+import styles from "./MyStocks.module.scss";
 import instance from "../../../api/instance";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   useMediaQuery,
 } from "@chakra-ui/react";
-import { LocalSpinner } from "../../../UIcomponents/localSpinner/LocalSpinner";
-import { LocalSpinnerAbsolute } from "../../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
-import StockItem from "./StockItem";
-import { IStock, PeriodEnum } from "../../../assets/types/StockTypes";
+import { ISellStock, IStock, PeriodEnum } from "../../../assets/types/StockTypes";
+import MyStockItem from "./MyStockItem";
+import { stockRatesAction } from "../../../store/stockRates/actions";
 
 const itemsPerPage = 10;
 
-const Market = () => {
+
+
+const MyStocks = () => {
   const { t } = useTranslation();
   const { token } = useAppSelector((state) => state.auth);
   const isLargesThan850 = useMediaQuery("(min-width:850px)");
   const [filter, setFilter] = useState("");
-  const [stocks, setStocks] = useState<IStock[]>([]);
+  const [stocks, setStocks] = useState<ISellStock[]>([]);
   const [page, setPage] = useState(1);
   const [period, setPeriod] = useState(PeriodEnum.month);
 
+  const dispatch = useAppDispatch();
+  const [refreshStocks, setRefreshStocks] = useState(false);
+
+
   // const [totalCount, setTotalCount] = useState(0);
 
-  // **********ФУНКЦИЯ ПОЛУЧЕНИЯ АКЦИЙ***************
+  // **********ФУНКЦИЯ ПОЛУЧЕНИЯ АКЦИЙ ЮЗЕРА***************
   const getStocks = async () => {
     try {
-      const response = await instance.get("/api/Stock/list");
+      const response = await instance.post("/api/Stock/stock-contracts");
       if (response.data) {
-        const tempArr = response.data.filter((item: any, index: number) => {
-          return item.sellPrice > 0;
-        });
+        setStocks(response.data);
+      }
+    } catch (error) {
+      console.error("stocks-contracts>>>", error);
+    }
+  };
 
-        setStocks(tempArr);
+  // **********ПОЛУЧЕНИЕ ВСЕх АКЦИЙ В РЕДАКС***************
+  const getStocksToRedux = async () => {
+    try {
+      const response = await instance.get("/api/Stock/list");
+      if (response?.status >= 200 && response.status < 300) {
+        dispatch(stockRatesAction(response.data));
       }
     } catch (error) {
       console.error("stocks>>>", error);
     }
   };
 
-  const getStocksWithFilter = async () => {
-    if (!filter) return;
-    try {
-      const response = await instance.get(`/api/Stock/${filter}`);
-      if (response.data) {
-        setStocks([response.data]);
-      }
-    } catch (error) {
-      console.error("stocks>>>", error);
-    }
+  // **********ОБЩАЯЯ ФУНКЦИЯ ОБЕРТКА***************
+  const getAllRates = async () => {
+    await getStocks();
+    await getStocksToRedux();
   };
 
   // **********ВЫЗОВ ФУНКЦИЯ ПОЛУЧЕНИЯ АКЦИЙ***************
@@ -58,20 +65,37 @@ const Market = () => {
       return;
     }
 
-    getStocks();
-  }, [token]);
+    getAllRates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, refreshStocks]);
 
-  useEffect(() => {
-    if (!token || !filter) return;
-    getStocksWithFilter();
-  }, [filter]);
+
+
+
+
+  // const getStocksWithFilter = async () => {
+  //   if (!filter) return;
+  //   try {
+  //     const response = await instance.get(`/api/Stock/${filter}`);
+  //     if (response.data) {
+  //       setStocks([response.data]);
+  //     }
+  //   } catch (error) {
+  //     console.error("stocks>>>", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!token || !filter) return;
+  //   getStocksWithFilter();
+  // }, [filter]);
 
 
   return (
     <div className="page_container">
       <div className={`${styles.paper}`}>
         <div className={styles.title_flex}>
-          <div className="page_title">{t("MarketPage.market")}</div>
+          <div className="page_title">{t("New.you_stocks")}</div>
         </div>
 
         <div className={styles.filter_container}>
@@ -103,45 +127,31 @@ const Market = () => {
               <>
                 {isLargesThan850 && (
                   <div className="table_row ">
-                    {/* <div className={styles.item__logo}>
-                        {t("MarketPage.logo")}
-                      </div> */}
                     <div className="table_item_10" style={{ alignItems: "start" }}>
-                      {t("MarketPage.name")}
+
                     </div>
                     <div className="table_item_30">
+                      {t("MarketPage.name")}
                     </div>
-                    <div className="table_item_15">
+                    <div className="table_item_15" style={{ alignItems: "end" }}>
                       {t("MarketPage.price")}
                     </div>
-                    <div className="table_item_15">
-                      <select
-                        value={period}
-                        onChange={(e) => setPeriod(e.target.value as PeriodEnum)}
-                        style={{ border: "none" }}
-                      >
-                        {Object.keys(PeriodEnum).map(elem => (
-                          <option key={elem} value={elem}>{t(`New.per_${elem}`)}</option>
-                        ))}
-                      </select>
+                    <div className="table_item_15" style={{ alignItems: "end" }}>
+                      {t("MarketPage.in_stock")}
+                    </div>
+                    <div className="table_item_15" style={{ alignItems: "end" }} >
+                      {t("New.in_sum")}
                     </div>
                     <div className="table_item_15">
-                      {t("MarketPage.chart")}
-                    </div>
-
-                    {/* <div className="table_item_12_5">
-                      {t("MarketPage.count")}
-                    </div>
-                    <div className="table_item_12_5">
-                      {t("MarketPage.sum")}
-                    </div> */}
-                    <div className="table_item_15">
-                      {t("MarketPage.byu")}
                     </div>
                   </div>
                 )}
-                {stocks?.map((stock: IStock, index: number) => (
-                  <StockItem key={stock.code} stock={stock} period={period} />
+                {stocks?.map((stock) => (
+                  <MyStockItem key={stock.stockCode}
+                    stock={stock}
+                    period={period}
+                    refreshStocks={refreshStocks}
+                    setRefreshStocks={setRefreshStocks} />
                 ))}
 
                 {/* {page * itemsPerPage < stocks.length && (
@@ -166,4 +176,4 @@ const Market = () => {
   );
 };
 
-export default Market;
+export default MyStocks;

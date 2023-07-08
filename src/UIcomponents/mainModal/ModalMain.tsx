@@ -20,6 +20,7 @@ type IProps = {
   children?: React.ReactNode;
   width?: string;
   color?: string;
+  isOrange?: boolean;
 };
 
 const ModalMain: FC<IProps> = ({
@@ -30,6 +31,7 @@ const ModalMain: FC<IProps> = ({
   children,
   width,
   color,
+  isOrange
 }) => {
   const { t } = useTranslation();
 
@@ -72,25 +74,18 @@ const ModalMain: FC<IProps> = ({
 
         {children && children}
 
-        <div style={{ display: "flex", justifyContent: handleSubmit ? "space-between" : "center", gap: "10px"}}>
+        <div style={{ display: "flex", justifyContent: handleSubmit ? "space-between" : "center", gap: "10px" }}>
           <button
             onClick={() => handleClose()}
-            // isDisabled={isLoading}
-            // style={{ backgroundColor: "#e6cb8b" }}
-            // minW={[32, 40]}
-            className="outline_green_button"
+            className={isOrange ? "outline_black_button" : "outline_green_button"}
             style={{ width: "50%" }}
           >
             {t("New.close")}
           </button>
           {handleSubmit && (
             <button
-              // isLoading={isLoading}
-              // spinner={<LocalSpinner size="lg" />}
               onClick={handleLocalSumbit}
-              // style={{ backgroundColor: "#85c7db" }}
-              // minW={[32, 40]}
-              className="dark_green_button"
+              className={isOrange ? "dark_orange_button" : "dark_green_button"}
               style={{ width: "50%" }}
             >
               {t("Platform.confirm")}
