@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./MyStocks.module.scss";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { MainApi } from "../../../api/main/mainApi";
 import instance from "../../../api/instance";
 import { toast } from "react-toastify";
-import { Avatar, Fade, Tooltip } from "@chakra-ui/react";
 import { getNumWithoutZeroToFixedN } from "../../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
 import Moment from "react-moment";
-import { ISellStock, IStock, IStockData, PeriodEnum } from "../../../assets/types/StockTypes";
+import { ISellStock, PeriodEnum } from "../../../assets/types/StockTypes";
 import MainAvatar from "../../../UIcomponents/mainAvatar/MainAvatar";
 
 interface IDataForChart {

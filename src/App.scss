@@ -101,6 +101,10 @@ body {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .orange_button_s {
@@ -123,6 +127,10 @@ body {
   min-height: 40px;
   padding: 5px;
   min-width: 150px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .dark_orange_button {
@@ -140,6 +148,10 @@ body {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .outline_black_button {
@@ -155,6 +167,10 @@ body {
   min-height: 40px;
   padding: 5px;
   min-width: 150px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .orange_text {

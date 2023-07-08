@@ -11,6 +11,7 @@ import {
 import React, { FC, useState } from "react";
 import { LocalSpinner } from "../localSpinner/LocalSpinner";
 import { useTranslation } from "react-i18next";
+import { LocalSpinnerAbsolute } from "../localSpinner/LocalSpinnerAbsolute";
 
 type IProps = {
   isOpen: boolean;
@@ -83,13 +84,17 @@ const ModalMain: FC<IProps> = ({
             {t("New.close")}
           </button>
           {handleSubmit && (
-            <button
-              onClick={handleLocalSumbit}
-              className={isOrange ? "dark_orange_button" : "dark_green_button"}
-              style={{ width: "50%" }}
-            >
-              {t("Platform.confirm")}
-            </button>
+            <div style={{ position: "relative", width: "50%" }} >
+              {isLoading && <LocalSpinnerAbsolute size="70px" />}
+              <button
+                onClick={handleLocalSumbit}
+                className={isOrange ? "dark_orange_button" : "dark_green_button"}
+                style={{ width: "100%" }}
+                disabled={isLoading}
+              >
+                {t("Platform.confirm")}
+              </button>
+            </div>
           )}
         </div>
       </ModalContent>
