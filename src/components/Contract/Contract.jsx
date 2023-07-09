@@ -13,6 +13,7 @@ import Moment from "react-moment";
 import roboto from "../../assets/fonts/Roboto/Roboto-Regular.ttf";
 import robotoBold from "../../assets/fonts/Roboto/Roboto-Bold.ttf";
 import "moment/locale/ru";
+import { getNumWithoutZeroToFixedN } from "../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 
 // Font.register({
 //   family: "Roboto",
@@ -438,7 +439,7 @@ export const Contract =
             <Text>
               2.4. Объем инвестиционных вложений по настоящему Договору
               составляет &nbsp;{" "}
-              {getNumberWithoutZero(+deal?.sumUsd?.toFixed(2))} USD.
+              {getNumWithoutZeroToFixedN(+deal?.sumUsd, 2)} USD.
             </Text>
           </View>
           <View style={styles.main}>
@@ -576,7 +577,7 @@ export const Contract =
               могут поступать на счет, указанный в п. 3.1.1 настоящего Договора
               как путём передачи (зачисления) на брокерский счёт, так и в кассу
               Брокера, для зачисления на счет в размере &nbsp;{" "}
-              {getNumberWithoutZero(+deal?.sumUsd?.toFixed(2))} &nbsp;USD не
+              {getNumWithoutZeroToFixedN(+deal?.sumUsd, 2)} &nbsp;USD не
               позднее 3 дней с даты подписания настоящего Договора.
             </Text>
           </View>
@@ -787,7 +788,7 @@ export const Contract =
           <View style={styles.main}>
             <Text>
               4.2. Сумма Инвестиций по настоящему Договору составляет &nbsp;{" "}
-              {getNumberWithoutZero(+deal?.sumUsd?.toFixed(2))} USD.
+              {getNumWithoutZeroToFixedN(+deal?.sumUsd, 2)} USD.
             </Text>
           </View>
           <View style={styles.main}>
@@ -861,7 +862,7 @@ export const Contract =
               этом Получатель инвестиций обязуется возвратить сумму вложенных
               инвестиций с начисленной за период до расторжения настоящего
               Договора прибыли (без учётов налогов) через 20 (двадцать)
-              календарных дней с даты расторжения Договора. 
+              календарных дней с даты расторжения Договора.
               При этом происходит перерасчет полученной прибыли из расчета среднебанковской ставки но не менее 10 % (Десять) годовых.
             </Text>
           </View>

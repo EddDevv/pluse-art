@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./Portfolio.module.scss"
 import { useAppSelector } from "../../../store";
@@ -7,16 +7,124 @@ import { BsBarChart } from "react-icons/bs"
 import GifMonets from "../../../assets/images/GifMonets.svg"
 import { speedMaxEnum } from "../../../assets/consts/consts";
 import Calculator from "./calculator/Calculator";
+import { DealType, StatusDeal } from "../../../assets/types/Portfolio";
+import { MarketingApi } from "../../../api/marketing/marketing";
+import { toast } from "react-toastify";
+import { DealItem } from "./dealItem/DealItem";
+import { DealItemCancel } from "./dealItem/DealItemCancel";
 
 
 type PropsType = {
     portfolioId: number;
 }
 
+const pageSize = 4;
+
 const Portfolio = ({ portfolioId }: PropsType) => {
     const { t } = useTranslation();
+    const { auth } = useAppSelector((state) => state);
     const { value } = useAppSelector(state => state.investPlans)
     const [refresh, setRefresh] = useState(false);
+
+    const [dealStatus, setDealStatus] = useState("");
+    const [dealList, setDealList] = useState<DealType[]>([]);
+    const [maxWidth] = useState("180px");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+
+
+    useEffect(() => {
+        if (auth.token && dealList.length === 0) {
+            getDealList();
+        }
+    }, [auth.token]);
+
+    useEffect(() => {
+        if (currentPage === 1) {
+            setDealList([]);
+        }
+        getDealList();
+    }, [refresh, dealStatus, currentPage, portfolioId]);
+
+    const getDealList = async () => {
+        const response = await MarketingApi.getDealList(
+            dealStatus,
+            currentPage,
+            value[portfolioId].investPlan
+        );
+        if (response?.status >= 200 && response.status < 300 && response.data) {
+            if (currentPage <= 1) {
+                const data = response.data.items;
+                setDealList(data);
+            } else {
+                setDealList([...dealList, ...response.data.items]);
+            }
+            setTotalCount(response.data.totalCount);
+        }
+    };
+
+    const loadMore = async () => {
+        setCurrentPage((prev) => prev + 1);
+    };
+
+    const terminateDeal = useCallback(async (programId: number) => {
+        const response = await MarketingApi.terminateDeal(programId);
+        if (response?.status === 204) {
+            // dealList.forEach((element) => {
+            //   if (element.id === programId) {
+            //     element.status = StatusDeal.Term;
+            //     element.endDate = new Date().getTime().toString();
+            //     let distance = 0;
+            //     if (element.statusChangedDate) {
+            //       distance =
+            //         +new Date(element.endDate) - +new Date(element.statusChangedDate);
+            //     } else {
+            //       distance =
+            //         +new Date(element.endDate) - +new Date(element.startDate);
+            //     }
+            //     element.sumIncome =
+            //       element.sumIncome +
+            //       (element.sum *
+            //         rate *
+            //         (investPlan.percentPerMonth + element.speedPercent) *
+            //         distance) /
+            //         (daysOnMonth * 24 * 60 * 60 * 1000);
+            //     // console.warn(element);
+            //   }
+            //   const tempArray = [...dealList];
+            //   setDealList(tempArray);
+            //   // window.location.reload();
+            // });
+            toast.success(
+                `${t("Programs.deal")} №${programId} ${t("Programs.terminated")}!`
+            );
+            setCurrentPage(1);
+            setRefresh(!refresh);
+        } else {
+            toast.error(t("Programs.deal_terminate_error"));
+        }
+    }, []);
+
+    const resumeDeal = async (investmentId: number) => {
+        const response = await MarketingApi.resumeDeal(investmentId);
+        if (response?.status === 204) {
+            toast.success(
+                `${t("Programs.deal")} №${investmentId} ${t("Programs.resumed")}!`
+            );
+            // dealList.forEach((element) => {
+            //   if (element.id === investmentId) {
+            //     element.status = StatusDeal.Active;
+            //     element.statusChangedDate = new Date().getTime().toString();
+            //   }
+            //   const tempArray = [...dealList];
+            //   setDealList(tempArray);
+            // });
+            setCurrentPage(1);
+            setRefresh(!refresh);
+        } else {
+            toast.error(t("Programs.deal_resume_error"));
+        }
+    };
 
 
     return (
@@ -73,6 +181,116 @@ const Portfolio = ({ portfolioId }: PropsType) => {
                     refresh={refresh}
                     setRefresh={setRefresh}
                 />
+            </div>
+
+
+            {/* ****************List************** */}
+            <div className={`${styles.paper_2}`}>
+                <div className={styles.title_flex_2}>
+
+                    <div className="page_title">{t("New.your_portfolios")}</div>
+
+                    <div >
+                        <select
+                            className="gray_input"
+                            name="filter"
+                            value={dealStatus}
+                            onChange={(e: any) => {
+                                setDealStatus(e.target.value);
+                                setCurrentPage(1);
+                            }}
+                        >
+                            <option value={""}> {t("Programs.all")}</option>
+                            <option value={StatusDeal.Active}>{t("Programs.active")}</option>
+                            <option value={StatusDeal.Reinvest}>{t("DopItem2.Reinvest")}</option>
+                            <option value={StatusDeal.Terminate}>{t("Programs.terminate")}</option>
+                            <option value={StatusDeal.Term}>{t("Programs.term")}</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div className={"deal_row"}>
+                    {dealList.map((deal) => {
+                        if (deal.status === StatusDeal.Active)
+                            return (
+                                <DealItem
+                                    key={deal.id}
+                                    deal={deal}
+                                    numberDeal={deal.id}
+                                    terminateDeal={terminateDeal}
+                                    isLowRisk={false}
+                                    maxSpeedCount={speedMaxEnum[portfolioId]}
+                                    dealList={dealList}
+                                    setDealList={setDealList}
+                                    investPlan={value[portfolioId]}
+                                    refresh={refresh}
+                                    setRefresh={setRefresh}
+                                    setCurrentPage={setCurrentPage}
+                                />
+                            );
+                        else if (deal.status === StatusDeal.Term) {
+                            const delta = +new Date() - +new Date(deal?.statusChangedDate);
+                            if (delta < 21 * 24 * 60 * 60 * 1000) {
+                                return (
+                                    <DealItemCancel
+                                        key={deal.id}
+                                        deal={deal}
+                                        numberDeal={deal.id}
+                                        resumeDeal={resumeDeal}
+                                        refresh={refresh}
+                                        setRefresh={setRefresh}
+                                        setCurrentPage={setCurrentPage}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <DealItemCancel
+                                        key={deal.id}
+                                        deal={deal}
+                                        numberDeal={deal.id}
+                                        isTimeout={true}
+                                        refresh={refresh}
+                                        setRefresh={setRefresh}
+                                        setCurrentPage={setCurrentPage}
+                                    />
+                                );
+                            }
+                        } else if (deal.status === StatusDeal.Terminate) {
+                            return (
+                                <DealItemCancel
+                                    key={deal.id}
+                                    deal={deal}
+                                    numberDeal={deal.id}
+                                    isTimeout={true}
+                                    refresh={refresh}
+                                    setRefresh={setRefresh}
+                                    setCurrentPage={setCurrentPage}
+                                />
+                            );
+                        }
+                        return (
+                            <DealItemCancel
+                                key={deal.id}
+                                deal={deal}
+                                numberDeal={deal.id}
+                                isTimeout={true}
+                                refresh={refresh}
+                                setRefresh={setRefresh}
+                                setCurrentPage={setCurrentPage}
+                            />
+                        );
+                    })}
+                </div>
+                {currentPage * pageSize < totalCount && (
+                    <div className={"deal_row"}>
+                        <div style={{ margin: "0 auto" }}>
+                            <div className="form_entry_in_program_bottom_btn">
+                                <button onClick={loadMore}>{t("FaqPage.show_more")}</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )
