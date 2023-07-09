@@ -166,3 +166,151 @@
         margin-bottom: 20px;
     }
 }
+
+.deals_container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.deal_box {
+    background: #FAFFFF;
+    box-shadow: 0px 0px 30px 0px rgba(194, 225, 225, 0.61);
+    width: 48.5%;
+    min-width: 300px;
+    min-height: 693px;
+
+    color: var(--gray-1, #333);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    @media screen and (max-width: 760px) {}
+}
+
+.deal_top {
+    padding: 30px 17px;
+    display: flex;
+    color: var(--gray-3, #828282);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 150%;
+}
+
+.deal_top_left {
+    width: 40%;
+}
+
+.deal_timer {
+    color: #333;
+    text-align: center;
+    font-family: Inter;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.timer_column {
+    span {
+        color: var(--gray-1, #333);
+        text-align: center;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%;
+    }
+}
+
+.deal_income_box {
+    border: 1px solid #FFF;
+    background: #FFF;
+    box-shadow: 0px 0px 50px 0px rgba(194, 225, 225, 0.61);
+
+    padding: 35px 29px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.income {
+    color: #F25822;
+    text-align: right;
+    font-family: Inter;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+
+}
+
+.usd {
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.deal_sum_box {
+    display: flex;
+    padding: 22px 29px;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+
+    .sum {
+        color: #333;
+        text-align: right;
+        font-family: Inter;
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 140%;
+    }
+}
+
+.deal_buttons_box {
+    padding: 0 30px;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.auto_box {
+    margin: 27px 14px;
+    padding: 20px 16px;
+    background: #FFF;
+    box-shadow: 0px 0px 50px 0px rgba(194, 225, 225, 0.61);
+    // width: 100%;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.auto_flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.speed {
+    color: #000;
+    font-family: Inter;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+}

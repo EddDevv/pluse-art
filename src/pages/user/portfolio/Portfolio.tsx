@@ -210,7 +210,7 @@ const Portfolio = ({ portfolioId }: PropsType) => {
                 </div>
 
 
-                <div className={"deal_row"}>
+                <div className={styles.deals_container}>
                     {dealList.map((deal) => {
                         if (deal.status === StatusDeal.Active)
                             return (

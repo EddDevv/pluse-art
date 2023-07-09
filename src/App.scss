@@ -107,6 +107,8 @@ body {
   }
 }
 
+
+
 .orange_button_s {
   border: 1px solid #FF7F50;
   background: #FF7F50;
@@ -125,6 +127,24 @@ body {
   border: 1px solid #005A5A;
   box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
   min-height: 40px;
+  padding: 5px;
+  min-width: 150px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.outline_green_button_2 {
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border: 1px solid #008080;
+  min-height: 46px;
   padding: 5px;
   min-width: 150px;
 

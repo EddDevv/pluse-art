@@ -10,13 +10,16 @@ import { useAppSelector } from "../../../../store";
 import { useDaysOnMounth } from "../../../../hooks/useDaysOnMounth";
 import { useText } from "../../../../hooks/useText";
 import instance from "../../../../api/instance";
-import { Fade } from "@chakra-ui/react";
+import { Fade, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { MainApi } from "../../../../api/main/mainApi";
 import { Loader } from "../../../../api/Loader";
 import { getNumWithoutZeroToFixedN } from "../../../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 import { ModalReplanish } from "./ModalReplanish";
 import { PDFLinkContainer } from "./PDFLinkContainer";
 import { ModalConfirm } from "./ModalConfirm";
+import styles from "../Portfolio.module.scss"
+import { LocalSpinnerAbsolute } from "../../../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
+import { speedMaxEnum } from "../../../../assets/consts/consts";
 
 type PropType = {
   deal: DealType;
@@ -99,6 +102,9 @@ export const DealItem = React.memo(function DealItem({
   const [pay, setPay] = useState(false);
   const [isOpenReplanish, setIsOpenReplanish] = useState(false);
   const [insure, setInsure] = useState(false);
+
+  const [newSpeed, setNewSpeed] = useState("no");
+
 
   const checkSpeed = () => {
     if (
@@ -209,14 +215,12 @@ export const DealItem = React.memo(function DealItem({
         ) {
           accumulatedBeforeChangeSpeedIncome =
             (deal.sum *
-              // rate *
               investPlan.percentPerMonth *
               (distanceForToday - fromChangeSpeedTimeStamp)) /
             (daysOnMonth * 24 * 60 * 60 * 1000);
         } else {
           accumulatedBeforeChangeSpeedIncome =
             (deal.sum *
-              // rate *
               (investPlan.percentPerMonth + deal.speedPercent) *
               (distanceForToday - fromChangeSpeedTimeStamp)) /
             (daysOnMonth * 24 * 60 * 60 * 1000);
@@ -404,7 +408,7 @@ export const DealItem = React.memo(function DealItem({
   };
 
   return (
-    <div className="deal_item">
+    <div className={styles.deal_box}>
       <ModalConfirm
         open={open}
         setOpen={setOpen}
@@ -563,47 +567,78 @@ export const DealItem = React.memo(function DealItem({
       </Fade>
 
       {/* ***************************MAIN********************************** */}
-      <div className="deal_top">
-        {t("Programs.deal")} #{numberDeal}
-      </div>
-      <div className="deal_top_row">
-        <div className="deal_top_row_left">
-          <div className="deal_top_row_left_top_avto">{t("Programs.auto")}</div>
-          <div className="deal_top_row_left_numb">{speed}x</div>
+
+      <div className={styles.deal_top}>
+
+        <div className={styles.deal_top_left}>
+          {/* <div>{t("Programs.auto")}</div> */}
+          <div>{t("Programs.deal")} #{numberDeal} </div>
+          <div> {t("Programs.from")} <Moment format="DD/MM/YYYY">{deal.startDate}</Moment></div>
         </div>
-        <div className="deal_top_row_timer">
-          <div className="deal_top_row_timer_top">
-            <span id="days">{days} </span>
-            <span id="hours">{hours} </span>
-            <span id="minutes">{minute} </span>
-            <span id="seconds">{seconds} </span>
+        <div className={styles.deal_timer}>
+          <div className={styles.timer_column}>
+            <div>{days} </div>
+            <span>{dayText} </span>
           </div>
-          <div className="deal_top_row_timer_bottom">
-            <span>{dayText}</span>
-            <span>{hourText}</span>
-            <span>{minText}</span>
-            <span>{secText}</span>
+          <div className={styles.timer_column}>
+            <div>{hours} </div>
+            <span>{hourText} </span>
+          </div>
+          <div className={styles.timer_column}>
+            <div>{minute} </div>
+            <span>{minText} </span>
+          </div>
+          <div className={styles.timer_column}>
+            <div>{seconds} </div>
+            <span>{secText} </span>
           </div>
         </div>
       </div>
 
-      <div className="deal_item_sum">
-        <div>{t("Programs.sum_of_portfolio")}</div>&nbsp;
-        <div
-          className="sum_green"
-          style={{ color: deal.isPromo === true ? "#4169e1" : "" }}
+      {/* дата начала работы */}
+      <div style={{ minHeight: "30px" }}>
+        {(+(new Date(deal.startDate)) > +(new Date())) && <div style={{ width: "100%", textAlign: "center", color: "#898ea0", fontWeight: "bold" }}>
+          {t("DopItem2.deal_start")}
+          <Moment format="DD.MM.YYYY HH:mm" locale="ru">{deal.startDate}</Moment>
+        </div>}
+      </div>
+
+
+      <div className={styles.deal_income_box}>
+        <div>{t("New.your_income")}</div>
+        <div className={styles.income}>{price}
+          <b className={styles.usd}>&nbsp; USD</b>
+        </div>
+      </div>
+
+      <div className={styles.deal_sum_box}>
+        <div>{t("New.portfolio_sum")}</div>
+        <div className={styles.sum}>{deal.sum}
+          <b className={styles.usd}>&nbsp; USD</b>
+        </div>
+      </div>
+
+      <div className={styles.deal_buttons_box}>
+        {isLoading && <LocalSpinnerAbsolute size="70px" />}
+        <button
+          onClick={handleCancel}
+          className="outline_green_button_2"
+          style={{ width: "50%", minHeight: "46px" }}
         >
-          {deal.sum} USD
-        </div>
+          {t("New.terminate_deal")}
+        </button>
+
+        <button
+          onClick={() => setIsOpenReplanish(true)}
+          className="dark_green_button"
+          style={{ width: "50%", minHeight: "46px" }}
+          disabled={isLoading}
+        >
+          {t("Programs.replanish")}
+        </button>
       </div>
 
-      <div className="deal_item_money">
-        <div className="deal_item_money_left">
-          {t("Programs.your")} <br />
-          {t("Programs.earnings")}
-        </div>
-        <div className="deal_item_money_right">{price}</div>
-      </div>
+
       {/*********** уведомление об окончании автоматизации ***************/}
       {deal.speedEndDate && (
         <div style={{ textAlign: "center", width: "100%" }}>
@@ -612,49 +647,39 @@ export const DealItem = React.memo(function DealItem({
         </div>
       )}
 
-      <div className="deal_item_range">
-        <div className="form_entry_in_program_bottom_range">
-          {!isLowRisk && (
-            <form>
-              <div className="form_entry_in_program_bottom_range_top">
-                <input
-                  type="text"
-                  name="amountInput2"
-                  min="0"
-                  max="5"
-                  value={speed}
-                  readOnly
-                />
-                <span>х {t("Programs.auto")}</span>
-              </div>
-              <div className="form_entry_in_program_bottom_range_center">
-                <input
-                  type="range"
-                  name="amountRange2"
-                  min="0"
-                  max={maxSpeedCount}
-                  onChange={handlerSpeed}
-                  value={speed}
-                />
-              </div>
-              <div className="form_entry_in_program_bottom_range_bottom">
-                <div className="form_entry_in_program_bottom_range_bottom_left">
-                  0х {t("Programs.auto")}
-                </div>
-                <div className="form_entry_in_program_bottom_range_bottom_right">
-                  {maxSpeedCount}х {t("Programs.auto")}
-                </div>
-              </div>
-            </form>
-          )}
+      <div className={styles.auto_box}>
+        <div className={styles.auto_flex}>
+          <div>{t("Programs.auto")}</div>
+          <div className={styles.speed}>{speed} <b className={styles.usd}>X</b></div>
         </div>
+
+        <div className={styles.auto_flex}>
+          <RadioGroup
+            onChange={(e) => {
+              setNewSpeed(e);
+              // handlerSpeed(e);
+            }}
+            // value={speed}
+            value={newSpeed}
+            colorScheme='teal'
+          >
+            <Stack direction='row' gap={45}>
+              {["no", "1", "2", "3", "4", "5"].map(elem => (
+                <Radio
+                  value={elem}
+                  color={"teal.500"}
+                  isDisabled={elem === "no" || +elem <= speedMaxEnum[investPlan.investPlan - 1] ? false : true}
+                >
+                  {elem === "no"
+                    ? t("DopItems.no")
+                    : <div className={styles.green_speed}>{elem} X</div>}
+                </Radio>))}
+            </Stack>
+          </RadioGroup>
+        </div>
+
       </div>
 
-      {/* дата начала работы */}
-      {(+(new Date(deal.startDate)) > +(new Date())) && <div style={{ width: "100%", paddingTop: "20px", textAlign: "center", color: "#898ea0", fontWeight: "bold" }}>
-        {t("DopItem2.deal_start")}
-        <Moment format="DD.MM.YYYY HH:mm" locale="ru">{deal.startDate}</Moment>
-      </div>}
 
       {/* Оплата скорости */}
       <div className="deal_item_btns">
@@ -673,26 +698,12 @@ export const DealItem = React.memo(function DealItem({
           </button>
         )}
 
-        {/* Разрыв сделки */}
-        <button
-          onClick={handleCancel}
-          className="deal_item_cansel_btn"
-          disabled={isLoading}
-        >
-          {t("Programs.break")} <br /> {t("Programs.deal2")}
-        </button>
 
-        <button
-          className="deal_item_pay_btn"
-          onClick={() => setIsOpenReplanish(true)}
-          style={{ cursor: "pointer", backgroundColor: "#fb9832" }}
-          disabled={isLoading}
-        >
-          {t("Programs.replanish")}
-        </button>
+
+
       </div>
 
-      <div className="input_strax">
+      {/* <div className="input_strax">
         {deal.insuranceEndDate ? (
           <label>{t("Programs.portfolio_is_insured")}</label>
         ) : (
@@ -710,7 +721,7 @@ export const DealItem = React.memo(function DealItem({
             {t("Programs.insure_portfolio")}
           </div>
         )}
-      </div>
+      </div> */}
       {/* <div>deal.sum:{deal.sum}</div>
       <div>deal.sumIncome:{deal.sumIncome}</div>
       <div>deal.speedPercent:{deal.speedPercent}</div>
@@ -731,7 +742,7 @@ export const DealItem = React.memo(function DealItem({
       <div>+new Date():{+new Date()}</div>
       <div>isPromo:{deal.isPromo.toString()}</div> */}
 
-      {isOpenLink ? (
+      {/* {isOpenLink ? (
         <div style={{ textAlign: "center", height: "80px" }}>
           <PDFLinkContainer
             deal={deal}
@@ -750,7 +761,7 @@ export const DealItem = React.memo(function DealItem({
             {t("Programs.form_contract")}
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 });
