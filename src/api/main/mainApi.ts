@@ -49,6 +49,9 @@ class CMainApi {
   }
 
   async getInitialMainReduxInfo() {
+    if (!store.getState().auth?.token) {
+      return;
+    }
     const resMain = await MainApi.getMainInfo();
     if (resMain?.status >= 200 && resMain.status < 300) {
       store.dispatch(UserData(resMain.data));
@@ -63,17 +66,21 @@ class CMainApi {
       });
       store.dispatch(AccountsData(array));
     }
-    const resAllInfo = await instance.get("api/Partners/current");
-    if (resAllInfo?.status >= 200 && resAllInfo.status < 300) {
-      store.dispatch(AllInfoUserMain(resAllInfo.data));
-      resAllInfo.data?.image &&
-        fetch(`${BASEAPPURL}assets/Img/${resAllInfo.data.image}`, {
-          method: "GET",
-          headers: {
-            accept: "application/octet-stream",
-            Authorization: `Bearer ${store.getState().auth.token}`,
-          },
-        }).then((res) => store.dispatch(UserAvatar(res.url)));
+    try {
+      const resAllInfo = await instance.get("api/Partners/current");
+      if (resAllInfo?.status >= 200 && resAllInfo.status < 300) {
+        store.dispatch(AllInfoUserMain(resAllInfo.data));
+        resAllInfo.data?.image &&
+          fetch(`${BASEAPPURL}assets/Img/${resAllInfo.data.image}`, {
+            method: "GET",
+            headers: {
+              accept: "application/octet-stream",
+              Authorization: `Bearer ${store.getState().auth.token}`,
+            },
+          }).then((res) => store.dispatch(UserAvatar(res.url)));
+      }
+    } catch (e) {
+      console.error("getInitialMainReduxInfo error>>>", e)
     }
     // }
   };

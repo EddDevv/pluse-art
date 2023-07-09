@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./Portfolio.module.scss"
 import { useAppSelector } from "../../../store";
@@ -5,6 +6,7 @@ import { AiOutlineWarning } from "react-icons/ai"
 import { BsBarChart } from "react-icons/bs"
 import GifMonets from "../../../assets/images/GifMonets.svg"
 import { speedMaxEnum } from "../../../assets/consts/consts";
+import Calculator from "./calculator/Calculator";
 
 
 type PropsType = {
@@ -14,6 +16,7 @@ type PropsType = {
 const Portfolio = ({ portfolioId }: PropsType) => {
     const { t } = useTranslation();
     const { value } = useAppSelector(state => state.investPlans)
+    const [refresh, setRefresh] = useState(false);
 
 
     return (
@@ -56,13 +59,20 @@ const Portfolio = ({ portfolioId }: PropsType) => {
                             <div style={{ marginBottom: "10px" }}>{t("New.portfolio_sum")}</div>
                             <div className={styles.green}>
                                 <b className={styles.dop}>{t("Programs.from")} &nbsp;</b>
-                                {value[portfolioId].minSum} $ &nbsp;
+                                {value[portfolioId].minSum.toLocaleString()} $ &nbsp;
                                 <b className={styles.dop}>{t("Programs.to")} &nbsp;</b>
                                 {value[portfolioId].maxSum.toLocaleString()} $
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <Calculator
+                    portfolioId={portfolioId}
+                    investPlan={value[portfolioId]}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                />
             </div>
         </div>
     )

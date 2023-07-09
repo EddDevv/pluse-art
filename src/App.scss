@@ -133,7 +133,8 @@ body {
   }
 }
 
-.dark_orange_button {
+
+%dark_orange_button {
   // @extend %button;
   background: #FF7F50;
   box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
@@ -152,6 +153,16 @@ body {
   &:disabled {
     opacity: 0.5;
   }
+}
+
+.dark_orange_button {
+  @extend %dark_orange_button;
+}
+
+.dark_orange_button_w100 {
+  @extend %dark_orange_button;
+  width: 100%;
+  min-height: 46px;
 }
 
 .outline_black_button {
@@ -489,4 +500,76 @@ body {
   height: 1px;
   width: 100%;
   background: #BDBDBD;
+}
+
+// range
+.input_range {
+  width: 100%;
+
+  input {
+    // color: #62aac6;
+    // background-color: #62aac6;
+
+    // color: #62aac6;
+    overflow: hidden;
+    width: 100%;
+    // background: linear-gradient(180deg, #9ad0c3 0%, #62aac6 100%);
+    background-color: red;
+    height: 10px;
+    border-radius: 5px;
+    // -webkit-appearance: progress-bar;
+    -webkit-appearance: none;
+
+    // writing-mode: bt-rl;
+    // -ms-fill-lower {
+    //   background-color: #f743e2;
+    // }
+    // background-color: #f743e2;
+    // color:#f743e2
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      box-sizing: content-box;
+      /* стили вашего бегунка */
+    }
+
+    &::-webkit-slider-runnable-track {
+      background: #f743e2;
+    }
+
+    &::-ms-track {
+      /* должен следовать после -webkit- */
+      border-color: transparent;
+      color: transparent;
+      /* снова стили вашей дорожки */
+    }
+  }
+
+  input[type="range"]::-moz-range-progress {
+    background-color: #43e5f7;
+  }
+
+  input[type="range"]::-moz-range-track {
+    background-color: #9a905d;
+  }
+
+  input::-webkit-slider-thumb {
+    // background-color: white;
+    // border: solid 9px #62aac6;
+    border-radius: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    -webkit-appearance: none;
+    // background: #f743e2;
+  }
+
+  input[type="range"] {
+    // background: linear-gradient(180deg, #9ad0c3 0%, #62aac6 100%);;
+    background-color: #9a905d;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    // background: #f743e2;
+    color: #13bba4;
+  }
 }

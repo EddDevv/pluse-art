@@ -2,8 +2,14 @@ export const getNumWithoutZeroToFixedN = (num: number, fixed: number) => {
 	if (!isFinite(+num)) {
 		return 0;
 	}
-
-	const str = num.toFixed(fixed);
+	// console.log("num", num)
+	let str;
+	try {
+		str = (+num).toFixed(fixed);
+	} catch (e) {
+		console.log(e)
+		return 0;
+	}
 
 	const deleteZero = (s: string) => {
 		let num = 0;
@@ -21,5 +27,5 @@ export const getNumWithoutZeroToFixedN = (num: number, fixed: number) => {
 		return num;
 	};
 
-	return deleteZero(str);
+	return deleteZero(str).toLocaleString();
 };

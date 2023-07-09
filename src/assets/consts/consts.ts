@@ -85,3 +85,17 @@ export const StatusDeal = {
 
 export const speedMaxEnum = [3, 4, 5]
 
+export enum AccountsFullEnum {
+    Usd = "Usd",
+    Usdc = "Usdc",
+    Bitcoin = "Bitcoin",
+    Ethereum = "Ethereum",
+    Litecoin = "Litecoin",
+}
+export enum AccountsForRdEnum {
+    Usd = "Inner",
+    Usdc = "Usdc",
+    Bitcoin = "Bitcoin",
+    Ethereum = "Ethereum",
+    Litecoin = "Litecoin",
+}
