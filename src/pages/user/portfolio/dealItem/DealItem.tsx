@@ -667,6 +667,7 @@ export const DealItem = React.memo(function DealItem({
               {["no", "1", "2", "3", "4", "5"].map(elem => (
                 <Radio
                   value={elem}
+                  key={elem}
                   color={"teal.500"}
                   isDisabled={elem === "no" || +elem <= speedMaxEnum[investPlan.investPlan - 1] ? false : true}
                 >

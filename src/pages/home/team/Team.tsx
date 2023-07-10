@@ -102,13 +102,14 @@ const Team = () => {
                     ? styles.main_block_2
                     : styles.main_block_1
                 }
+                key={elem.id}
                 onClick={() => setCurrent(elem.id)}
               >
                 <div
                   className={
                     current === elem.id
-                    ? styles.main_block_img
-                    : styles.main_block_img_next
+                      ? styles.main_block_img
+                      : styles.main_block_img_next
                   }
                 >
                   <img src={elem.img} alt="" />
