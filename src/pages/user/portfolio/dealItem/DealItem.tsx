@@ -409,15 +409,14 @@ export const DealItem = React.memo(function DealItem({
 
   return (
     <div className={styles.deal_box}>
-      <ModalConfirm
+      {/* <ModalConfirm
         open={open}
         setOpen={setOpen}
-        // setSuccess={setSuccess}
         submitHandler={terminateDealLocal}
         isLoading={isLoading}
-      />
+      /> */}
       {/* *****************************************************Модалка оплаты скорости */}
-      <Fade in={pay}>
+      {/* <Fade in={pay}>
         <div className="modal__wrapper">
           <div className="modal__text priceModal_noPadding">
             <div
@@ -457,7 +456,7 @@ export const DealItem = React.memo(function DealItem({
                 }
               >
                 <div className="loader_for_button">
-                  {/* <Loader loading={isLoading} /> */}
+                  <Loader loading={isLoading} />
                 </div>
                 {t("Programs.pay")}{" "}
                 {(
@@ -485,10 +484,10 @@ export const DealItem = React.memo(function DealItem({
             </div>
           </div>
         </div>
-      </Fade>
+      </Fade> */}
 
       {/* *****************************************************Модалка пополнения портфеля */}
-      <ModalReplanish
+      {/* <ModalReplanish
         open={isOpenReplanish}
         setOpen={setIsOpenReplanish}
         deal={deal}
@@ -497,9 +496,9 @@ export const DealItem = React.memo(function DealItem({
         setCurrentPage={setCurrentPage}
         refresh={refresh}
         setRefresh={setRefresh}
-      />
+      /> */}
       {/* *****************************************************Модалка оплаты страховки */}
-      <Fade in={insure}>
+      {/* <Fade in={insure}>
         <div className="modal__wrapper">
           <div className="modal__text priceModal_noPadding">
             <div
@@ -564,7 +563,7 @@ export const DealItem = React.memo(function DealItem({
             </div>
           </div>
         </div>
-      </Fade>
+      </Fade> */}
 
       {/* ***************************MAIN********************************** */}
 
