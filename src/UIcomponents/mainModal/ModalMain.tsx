@@ -19,6 +19,7 @@ type IProps = {
   handleClose: () => void;
   handleSubmit?: any;
   children?: React.ReactNode;
+  isDisabled?: boolean;
   width?: string;
   color?: string;
   isOrange?: boolean;
@@ -29,10 +30,11 @@ const ModalMain: FC<IProps> = ({
   title,
   handleClose,
   handleSubmit,
+  isDisabled,
   children,
   width,
   color,
-  isOrange
+  isOrange,
 }) => {
   const { t } = useTranslation();
 
@@ -75,22 +77,32 @@ const ModalMain: FC<IProps> = ({
 
         {children && children}
 
-        <div style={{ display: "flex", justifyContent: handleSubmit ? "space-between" : "center", gap: "10px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: handleSubmit ? "space-between" : "center",
+            gap: "10px",
+          }}
+        >
           <button
             onClick={() => handleClose()}
-            className={isOrange ? "outline_black_button" : "outline_green_button"}
+            className={
+              isOrange ? "outline_black_button" : "outline_green_button"
+            }
             style={{ width: "50%" }}
           >
             {t("New.close")}
           </button>
           {handleSubmit && (
-            <div style={{ position: "relative", width: "50%" }} >
+            <div style={{ position: "relative", width: "50%" }}>
               {isLoading && <LocalSpinnerAbsolute size="70px" />}
               <button
                 onClick={handleLocalSumbit}
-                className={isOrange ? "dark_orange_button" : "dark_green_button"}
+                className={
+                  isOrange ? "dark_orange_button" : "dark_green_button"
+                }
                 style={{ width: "100%" }}
-                disabled={isLoading}
+                disabled={isLoading || isDisabled}
               >
                 {t("Platform.confirm")}
               </button>

@@ -1,3 +1,5 @@
+@import "./AppConsts.scss";
+
 @font-face {
   font-family: "Inter";
   src: url("./assets/fonts/Inter-Light.ttf");
@@ -50,7 +52,7 @@ body {
 %button {
   min-width: 280px;
   height: 70px;
-  background: #ff7f50;
+  background: $ORANGE;
   box-shadow: 0px 10px 30px rgba(205, 205, 205, 0.55);
   font-weight: 600;
   font-size: 16px;
@@ -64,13 +66,12 @@ body {
 
 .orange_button {
   @extend %button;
-  background: #ff7f50;
+  background: $ORANGE;
 }
-
 
 .orange_button_bshadow {
   @extend %button;
-  background: #ff7f50;
+  background: $ORANGE;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -89,13 +90,13 @@ body {
 
 .dark_green_button {
   // @extend %button;
-  border: 1px solid #80C0C0;
-  background: #008080;
+  border: 1px solid #80c0c0;
+  background: $GREEN;
   box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
   min-height: 40px;
   padding: 5px;
   min-width: 150px;
-  color: #FFF;
+  color: $WHITE;
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
@@ -103,28 +104,29 @@ body {
   line-height: normal;
 
   &:disabled {
-    opacity: 0.5;
+    color: $GRAY_4;
+    background: $WHITE;
+    border: 1px solid $GRAY_4;
+    cursor: not-allowed;
   }
 }
 
-
-
 .orange_button_s {
-  border: 1px solid #FF7F50;
-  background: #FF7F50;
+  border: 1px solid $ORANGE;
+  background: $ORANGE;
   box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
   min-height: 40px;
   min-width: 100px;
 }
 
 .outline_green_button {
-  color: #005A5A;
+  color: #005a5a;
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  border: 1px solid #005A5A;
+  border: 1px solid #005a5a;
   box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
   min-height: 40px;
   padding: 5px;
@@ -143,7 +145,7 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  border: 1px solid #008080;
+  border: 1px solid $GREEN;
   min-height: 46px;
   padding: 5px;
   min-width: 150px;
@@ -153,10 +155,9 @@ body {
   }
 }
 
-
 %dark_orange_button {
   // @extend %button;
-  background: #FF7F50;
+  background: $ORANGE;
   box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
 
   min-height: 40px;
@@ -205,7 +206,7 @@ body {
 }
 
 .orange_text {
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 %gray_input {
@@ -332,11 +333,11 @@ body {
   gap: 5px;
   display: flex;
   padding: 5px 0;
-  border-bottom: 1px solid #E0E0E0;
+  border-bottom: 1px solid #e0e0e0;
   min-height: 80px;
 
   &:hover {
-    background: #F3F9F9;
+    background: #f3f9f9;
   }
 
   &:first-child {
@@ -347,7 +348,6 @@ body {
       background: transparent;
     }
   }
-
 }
 
 .table_item_5 {
@@ -431,6 +431,7 @@ body {
 
   &:hover {
     color: #005a5a;
+    font-weight: 500;
   }
 }
 
@@ -511,7 +512,7 @@ body {
 }
 
 .main_link {
-  color: #008080;
+  color: $GREEN;
   text-decoration: underline;
   font-weight: 500;
 }
@@ -519,7 +520,7 @@ body {
 .divider {
   height: 1px;
   width: 100%;
-  background: #BDBDBD;
+  background: #bdbdbd;
 }
 
 // range

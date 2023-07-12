@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { ModalConfirm } from "./ModalConfirm";
 import { useTranslation } from "react-i18next";
 import { DealType } from "../../../../assets/types/Portfolio";
 import { useText } from "../../../../hooks/useText";
@@ -107,14 +106,14 @@ export const DealItemCancel = ({
       <div style={{ marginBottom: "0" }} className="deal_top">
         {t("Programs.deal")} #{numberDeal}
       </div>
-      <ModalConfirm
+      {/* <ModalConfirm
         open={open}
         setOpen={setOpen}
         // setSuccess={setSuccess}
         submitHandler={resumeDealLocal}
         isDate={true}
         isLoading={isLoading}
-      />
+      /> */}
       <div className="deal_top_row">
         {!isTimeout && (
           <div className="deal_top_row_left">

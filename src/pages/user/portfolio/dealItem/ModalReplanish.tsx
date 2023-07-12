@@ -147,6 +147,7 @@ export const ModalReplanish = ({
             >
               <input
                 id="outlined-basic"
+                className="gray_input"
                 placeholder={t("Programs.enter_replanish_sum")}
                 value={sumReplanish}
                 onChange={(e) => {
@@ -193,7 +194,6 @@ export const ModalReplanish = ({
                         className="balance_sidebar_total texp_priceValue_modal"
                         style={{
                           color: "#6D08F3",
-                          //  textAlign: "justify"
                         }}
                       >
                         {t("DopItem2.replanish_description")}
@@ -233,7 +233,7 @@ export const ModalReplanish = ({
 
                 <button
                   onClick={handleReplanish}
-                  className="form_sbmOpen texp_button_modal"
+                  className="outline_green_button"
                   style={{
                     minWidth: "70%",
                     fontSize: 18,
@@ -267,7 +267,7 @@ export const ModalReplanish = ({
                   (deal.isPromo === false &&
                     +sumReplanish + speedPrice + insurancePrice >
                     userData.value.balance)) && (
-                    <div className="worning_universal">
+                    <div className="required">
                       {t("Programs.not_enough_money")}:{" "}
                       {deal.isPromo === true
                         ? getNumWithoutZeroToFixedN(
@@ -283,7 +283,7 @@ export const ModalReplanish = ({
               sumReplanish && (
                 <button
                   onClick={handleCalculateSum}
-                  className="form_sbmOpen texp_button_modal"
+                  className="dark_green_button"
                   disabled={isLoading}
                 >
                   <div className="loader_for_button">

@@ -10,16 +10,16 @@ import { useAppSelector } from "../../../../store";
 import { useDaysOnMounth } from "../../../../hooks/useDaysOnMounth";
 import { useText } from "../../../../hooks/useText";
 import instance from "../../../../api/instance";
-import { Fade, Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { Checkbox, Fade, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { MainApi } from "../../../../api/main/mainApi";
 import { Loader } from "../../../../api/Loader";
 import { getNumWithoutZeroToFixedN } from "../../../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 import { ModalReplanish } from "./ModalReplanish";
 import { PDFLinkContainer } from "./PDFLinkContainer";
-import { ModalConfirm } from "./ModalConfirm";
-import styles from "../Portfolio.module.scss"
+import styles from "../Portfolio.module.scss";
 import { LocalSpinnerAbsolute } from "../../../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
 import { speedMaxEnum } from "../../../../assets/consts/consts";
+import ModalMain from "../../../../UIcomponents/mainModal/ModalMain";
 
 type PropType = {
   deal: DealType;
@@ -82,11 +82,11 @@ export const DealItem = React.memo(function DealItem({
   const [initialSpeed, setInitialSpeed] = useState(
     getSpeed(deal.speedPercent.toFixed(2))
   );
+  // console.log(getSpeed(deal.speedPercent.toFixed(2)))
   const dispatch = useDispatch();
   const [speed, setSpeed] = useState(-1);
   const [timerId, setTimerid] = useState(null);
 
-  const [open, setOpen] = useState(false);
   const [speedValue, setSpeedValue] = useState(0.05);
 
   const [seconds, setSeconds] = useState(0);
@@ -99,12 +99,10 @@ export const DealItem = React.memo(function DealItem({
 
   const { investPlans } = useAppSelector((state) => state);
   const [isOpenLink, setIsOpenlink] = useState(false);
-  const [pay, setPay] = useState(false);
+  const [isOpenTerminate, setIsOpenTerminate] = useState(false);
+  const [isOpenSpeed, setIsOpenSpeed] = useState(false);
   const [isOpenReplanish, setIsOpenReplanish] = useState(false);
   const [insure, setInsure] = useState(false);
-
-  const [newSpeed, setNewSpeed] = useState("no");
-
 
   const checkSpeed = () => {
     if (
@@ -228,18 +226,13 @@ export const DealItem = React.memo(function DealItem({
 
         //*3*********************расчет дохода с момента измемнения ползунка скорости (если было изменение)
         const newIncomPerSecond =
-          (deal.sum *
-            speedValue) /
-          daysOnMonth /
-          (24 * 60 * 60);
+          (deal.sum * speedValue) / daysOnMonth / (24 * 60 * 60);
 
         let accumulatedAfterChangeSpeedIncome = 0;
 
         if (changeSpeedDataTime !== 0) {
           accumulatedAfterChangeSpeedIncome =
-            (deal.sum *
-              speedValue *
-              fromChangeSpeedTimeStamp) /
+            (deal.sum * speedValue * fromChangeSpeedTimeStamp) /
             (daysOnMonth * 24 * 60 * 60 * 1000);
         }
         //*4*********************расчет итогового дохода
@@ -284,10 +277,6 @@ export const DealItem = React.memo(function DealItem({
     t("Programs.days2"),
     t("Programs.days3")
   );
-  const handleCancel = (e: any) => {
-    e.preventDefault();
-    setOpen(true);
-  };
 
   useEffect(() => {
     let isCancelled = false;
@@ -299,8 +288,8 @@ export const DealItem = React.memo(function DealItem({
 
   const terminateDealLocal = async () => {
     setIsLoading(true);
-    await terminateDeal(numberDeal);
-    setOpen(false);
+    await terminateDeal(deal.id);
+    setIsOpenTerminate(false);
     setIsLoading(false);
   };
 
@@ -322,10 +311,10 @@ export const DealItem = React.memo(function DealItem({
     };
   }, [speed, rate]);
 
-  const handlerSpeed = (event: any) => {
-    const { value } = event.target;
-    if (value >= initialSpeed) {
-      setSpeed(value);
+  const handlerSpeed = (value: any) => {
+    // const { value } = event.target;
+    if (+value >= initialSpeed) {
+      setSpeed(+value);
       getSpeedValue(value);
       setChangeSpeedDataTime(new Date().getTime());
     }
@@ -339,7 +328,7 @@ export const DealItem = React.memo(function DealItem({
     };
   }, [deal]);
 
-  const handleAdd = async () => {
+  const handleAddSpeed = async () => {
     setIsLoading(true);
     try {
       const rd: any = {
@@ -367,7 +356,7 @@ export const DealItem = React.memo(function DealItem({
         toast.error(error.message);
       }
     } finally {
-      setPay(false);
+      setIsOpenSpeed(false);
       setIsLoading(false);
     }
   };
@@ -407,84 +396,32 @@ export const DealItem = React.memo(function DealItem({
     }
   };
 
+  useEffect(() => {
+    if (deal.id === 372312) {
+      console.log(initialSpeed);
+    }
+  }, [initialSpeed]);
+
   return (
     <div className={styles.deal_box}>
-      {/* <ModalConfirm
-        open={open}
-        setOpen={setOpen}
-        submitHandler={terminateDealLocal}
-        isLoading={isLoading}
-      /> */}
+      <ModalMain
+        title={`${t("Programs.break")} #${deal.id}`}
+        isOpen={isOpenTerminate}
+        handleClose={() => setIsOpenTerminate(false)}
+        handleSubmit={terminateDealLocal}
+      />
+
       {/* *****************************************************Модалка оплаты скорости */}
-      {/* <Fade in={pay}>
-        <div className="modal__wrapper">
-          <div className="modal__text priceModal_noPadding">
-            <div
-              onClick={() => setPay(false)}
-              className="close_menu_btn close_window"
-            >
-              <span className="before arrow_color" />
-              <span className="after arrow_color" />
-            </div>
 
-            <div className="text__wrapper" style={{ marginTop: "10px" }}>
-              <div className="balance_sidebar_title texp_price_modal">
-                {t("Programs.chosen_auto")}
-              </div>
-              <div className="balance_sidebar_total texp_priceValue_modal">
-                {speed}
-              </div>
-
-              <button
-                onClick={handleAdd}
-                className="form_sbmOpen texp_button_modal"
-                style={{
-                  minWidth: "70%",
-                  fontSize: 18,
-                  fontWeight: 700,
-                  padding: "20px",
-                  margin: "40px",
-                }}
-                disabled={
-                  isLoading ||
-                  (deal.isPromo === true &&
-                    (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
-                    userData.value.balanceBusiness) ||
-                  (deal.isPromo === false &&
-                    (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
-                    userData.value.balance)
-                }
-              >
-                <div className="loader_for_button">
-                  <Loader loading={isLoading} />
-                </div>
-                {t("Programs.pay")}{" "}
-                {(
-                  (speed - initialSpeed) *
-                  investPlan?.speedPrice *
-                  deal.sum
-                ).toFixed(2)}
-              </button>
-
-              {((deal.isPromo === true &&
-                (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
-                userData.value.balanceBusiness) ||
-                (deal.isPromo === false &&
-                  (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
-                  userData.value.balance)) && (
-                  <div className="worning_universal">
-                    {t("Programs.not_enough_money")}:{" "}
-                    {deal.isPromo === true
-                      ? getNumWithoutZeroToFixedN(
-                        +userData.value.balanceBusiness, 2
-                      )
-                      : getNumWithoutZeroToFixedN(+userData.value.balance, 2)}
-                  </div>
-                )}
-            </div>
-          </div>
-        </div>
-      </Fade> */}
+      <ModalMain
+        title={`${t("New.pay_auto_sub")} ${speed} ${t("New.pay_auto_2")}
+        ${((speed - initialSpeed) * investPlan?.speedPrice * deal.sum).toFixed(
+          2
+        )} USD`}
+        isOpen={isOpenSpeed}
+        handleClose={() => setIsOpenSpeed(false)}
+        handleSubmit={handleAddSpeed}
+      />
 
       {/* *****************************************************Модалка пополнения портфеля */}
       {/* <ModalReplanish
@@ -498,81 +435,30 @@ export const DealItem = React.memo(function DealItem({
         setRefresh={setRefresh}
       /> */}
       {/* *****************************************************Модалка оплаты страховки */}
-      {/* <Fade in={insure}>
-        <div className="modal__wrapper">
-          <div className="modal__text priceModal_noPadding">
-            <div
-              onClick={() => {
-                setInsure(false);
-              }}
-              className="close_menu_btn close_window"
-            >
-              <span className="before arrow_color" />
-              <span className="after arrow_color" />
-            </div>
 
-            <div className="text__wrapper" style={{ marginTop: "10px" }}>
-              <div className="balance_sidebar_title texp_price_modal">
-                {t("Programs.arrangement_of_insurance")} №{deal?.id} (
-                {t("Programs.current_sum")}
-                {deal?.sum} USD )
-              </div>
-
-              <button
-                onClick={handleInsure}
-                className="form_sbmOpen texp_button_modal"
-                style={{
-                  minWidth: "70%",
-                  fontSize: 18,
-                  fontWeight: 700,
-                  padding: "20px",
-                  margin: "40px",
-                }}
-                disabled={
-                  isLoading ||
-                  (deal.isPromo === true &&
-                    deal.sum * investPlan.insurancePrice >
-                    userData.value.balanceBusiness) ||
-                  (deal.isPromo === false &&
-                    deal.sum * investPlan.insurancePrice >
-                    userData.value.balance)
-                }
-              >
-                <div className="loader_for_button">
-                  <Loader loading={isLoading} />
-                </div>
-                {t("Programs.pay")}{" "}
-                {(deal.sum * investPlan.insurancePrice).toFixed(2)}
-              </button>
-
-              {((deal.isPromo === true &&
-                deal.sum * investPlan.insurancePrice >
-                userData.value.balanceBusiness) ||
-                (deal.isPromo === false &&
-                  deal.sum * investPlan.insurancePrice >
-                  userData.value.balance)) && (
-                  <div className="worning_universal">
-                    {t("Programs.not_enough_money")}:{" "}
-                    {deal.isPromo === true
-                      ? getNumWithoutZeroToFixedN(
-                        +userData.value.balanceBusiness, 2
-                      )
-                      : getNumWithoutZeroToFixedN(+userData.value.balance, 2)}
-                  </div>
-                )}
-            </div>
-          </div>
-        </div>
-      </Fade> */}
+      <ModalMain
+        title={`${t("Programs.arrangement_of_insurance")} ${deal.id}  ${t(
+          "New.pay_auto_2"
+        )}
+        ${(deal.sum * investPlan.insurancePrice).toFixed(2)} USD`}
+        isOpen={insure}
+        handleClose={() => setInsure(false)}
+        handleSubmit={handleInsure}
+      />
 
       {/* ***************************MAIN********************************** */}
 
       <div className={styles.deal_top}>
-
         <div className={styles.deal_top_left}>
           {/* <div>{t("Programs.auto")}</div> */}
-          <div>{t("Programs.deal")} #{numberDeal} </div>
-          <div> {t("Programs.from")} <Moment format="DD/MM/YYYY">{deal.startDate}</Moment></div>
+          <div>
+            {t("Programs.deal")} #{numberDeal}{" "}
+          </div>
+          <div>
+            {" "}
+            {t("Programs.from")}{" "}
+            <Moment format="DD/MM/YYYY">{deal.startDate}</Moment>
+          </div>
         </div>
         <div className={styles.deal_timer}>
           <div className={styles.timer_column}>
@@ -596,23 +482,35 @@ export const DealItem = React.memo(function DealItem({
 
       {/* дата начала работы */}
       <div style={{ minHeight: "30px" }}>
-        {(+(new Date(deal.startDate)) > +(new Date())) && <div style={{ width: "100%", textAlign: "center", color: "#898ea0", fontWeight: "bold" }}>
-          {t("DopItem2.deal_start")}
-          <Moment format="DD.MM.YYYY HH:mm" locale="ru">{deal.startDate}</Moment>
-        </div>}
+        {+new Date(deal.startDate) > +new Date() && (
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              color: "#898ea0",
+              fontWeight: "bold",
+            }}
+          >
+            {t("DopItem2.deal_start")}
+            <Moment format="DD.MM.YYYY HH:mm" locale="ru">
+              {deal.startDate}
+            </Moment>
+          </div>
+        )}
       </div>
-
 
       <div className={styles.deal_income_box}>
         <div>{t("New.your_income")}</div>
-        <div className={styles.income}>{price}
+        <div className={styles.income}>
+          {price}
           <b className={styles.usd}>&nbsp; USD</b>
         </div>
       </div>
 
       <div className={styles.deal_sum_box}>
         <div>{t("New.portfolio_sum")}</div>
-        <div className={styles.sum}>{deal.sum}
+        <div className={styles.sum}>
+          {deal.sum}
           <b className={styles.usd}>&nbsp; USD</b>
         </div>
       </div>
@@ -620,7 +518,7 @@ export const DealItem = React.memo(function DealItem({
       <div className={styles.deal_buttons_box}>
         {isLoading && <LocalSpinnerAbsolute size="70px" />}
         <button
-          onClick={handleCancel}
+          onClick={() => setIsOpenTerminate(true)}
           className="outline_green_button_2"
           style={{ width: "50%", minHeight: "46px" }}
         >
@@ -637,92 +535,148 @@ export const DealItem = React.memo(function DealItem({
         </button>
       </div>
 
-
-      {/*********** уведомление об окончании автоматизации ***************/}
-      {deal.speedEndDate && (
-        <div style={{ textAlign: "center", width: "100%" }}>
-          {t("Programs.enddate_for_auto")}
-          <Moment format="DD-MM-YYYY">{deal.speedEndDate}</Moment>
-        </div>
-      )}
-
       <div className={styles.auto_box}>
         <div className={styles.auto_flex}>
           <div>{t("Programs.auto")}</div>
-          <div className={styles.speed}>{speed} <b className={styles.usd}>X</b></div>
+          <div className={styles.speed}>
+            {speed} <b className={styles.usd}>X</b>
+          </div>
         </div>
 
         <div className={styles.auto_flex}>
           <RadioGroup
             onChange={(e) => {
-              setNewSpeed(e);
-              // handlerSpeed(e);
+              handlerSpeed(e);
             }}
-            // value={speed}
-            value={newSpeed}
-            colorScheme='teal'
+            value={speed.toString()}
+            colorScheme="teal"
           >
-            <Stack direction='row' gap={45}>
-              {["no", "1", "2", "3", "4", "5"].map(elem => (
+            <Stack direction="row" gap={45}>
+              {["1", "2", "3", "4", "5"].map((elem) => (
                 <Radio
                   value={elem}
                   key={elem}
                   color={"teal.500"}
-                  isDisabled={elem === "no" || +elem <= speedMaxEnum[investPlan.investPlan - 1] ? false : true}
+                  isDisabled={
+                    elem === "no" ||
+                    (+elem <= speedMaxEnum[investPlan.investPlan - 1] &&
+                      +elem >= initialSpeed)
+                      ? false
+                      : true
+                  }
                 >
-                  {elem === "no"
-                    ? t("DopItems.no")
-                    : <div className={styles.green_speed}>{elem} X</div>}
-                </Radio>))}
+                  {elem === "no" ? (
+                    t("DopItems.no")
+                  ) : (
+                    <div className={styles.green_speed}>{elem} X</div>
+                  )}
+                </Radio>
+              ))}
             </Stack>
           </RadioGroup>
         </div>
 
+        <button
+          className={`dark_green_button ${styles.speed_button}`}
+          disabled={
+            isLoading ||
+            speed <= initialSpeed ||
+            (deal.isPromo === true &&
+              (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
+                userData.value.balanceBusiness) ||
+            (deal.isPromo === false &&
+              (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
+                userData.value.balance)
+          }
+          onClick={() => setIsOpenSpeed(true)}
+        >
+          {speed > initialSpeed ? (
+            <>
+              {(deal.isPromo === true &&
+                (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
+                  userData.value.balanceBusiness) ||
+              (deal.isPromo === false &&
+                (speed - initialSpeed) * investPlan?.speedPrice * deal.sum >
+                  userData.value.balance) ? (
+                <>{t("Programs.not_enough_money")}</>
+              ) : (
+                <>
+                  {t("New.pay_auto_1")}
+                  <Moment format="DD/MM/YYYY">
+                    {new Date().setMonth(+new Date().getMonth() + 1)}
+                  </Moment>
+                  {t("New.pay_auto_2")}
+                  {(
+                    (speed - initialSpeed) *
+                    investPlan?.speedPrice *
+                    deal.sum
+                  ).toFixed(2)}
+                  &nbsp; USD
+                </>
+              )}
+            </>
+          ) : (
+            t("New.choose_auto")
+          )}
+        </button>
+        {/*********** уведомление об окончании автоматизации ***************/}
+        <div className={styles.speed_end}>
+          {deal.speedEndDate && (
+            <>
+              {t("Programs.enddate_for_auto")}
+              <Moment format="DD/MM/YYYY">{deal.speedEndDate}</Moment>
+            </>
+          )}
+        </div>
       </div>
 
-
-      {/* Оплата скорости */}
-      <div className="deal_item_btns">
-        {speed - initialSpeed > 0 && (
-          <button
-            className="deal_item_pay_btn"
-            onClick={() => setPay(true)}
-            style={{ cursor: "pointer" }}
-            disabled={isLoading}
-          >
-            +{" "}
-            {(1 * (speed - initialSpeed) * investPlan.speedPrice * deal.sum)
-              .toFixed(2)}{" "}
-            USD
-            <span> {t("Programs.pay")}</span>
-          </button>
-        )}
-
-
-
-
-      </div>
-
-      {/* <div className="input_strax">
+      <div className={styles.insure}>
         {deal.insuranceEndDate ? (
-          <label>{t("Programs.portfolio_is_insured")}</label>
+          <Checkbox
+            colorScheme="teal"
+            isChecked={Boolean(deal.insuranceEndDate)}
+            isDisabled={Boolean(deal.insuranceEndDate)}
+          >
+            {t("New.insure_term")}
+            <Moment format="DD/MM/YYYY">{deal.insuranceEndDate}</Moment>
+          </Checkbox>
         ) : (
-          <div
-            style={{
-              width: "90%",
-              backgroundColor: "#4169e1",
-            }}
-            className="deal_item_pay_btn"
-            onClick={(e) => {
-              e.preventDefault();
+          <button
+            className={`dark_green_button ${styles.speed_button}`}
+            disabled={
+              isLoading ||
+              (deal.isPromo === true &&
+                deal.sum * investPlan.insurancePrice >
+                  userData.value.balanceBusiness) ||
+              (deal.isPromo === false &&
+                deal.sum * investPlan.insurancePrice > userData.value.balance)
+            }
+            onClick={() => {
               setInsure(true);
             }}
           >
-            {t("Programs.insure_portfolio")}
-          </div>
+            {(deal.isPromo === true &&
+              deal.sum * investPlan.insurancePrice >
+                userData.value.balanceBusiness) ||
+            (deal.isPromo === false &&
+              deal.sum * investPlan.insurancePrice > userData.value.balance) ? (
+              <>{t("Programs.not_enough_money")}</>
+            ) : (
+              <>
+                {t("New.pay_insure")}
+                <Moment format="DD/MM/YYYY">
+                  {new Date().setMonth(+new Date().getMonth() + 1)}
+                </Moment>
+                {t("New.pay_auto_2")}
+                {(deal.sum * investPlan.insurancePrice).toFixed(2)} &nbsp; USD
+              </>
+            )}
+          </button>
         )}
-      </div> */}
-      {/* <div>deal.sum:{deal.sum}</div>
+      </div>
+
+      {/*      
+      <div>deal.sum:{deal.sum}</div>
       <div>deal.sumIncome:{deal.sumIncome}</div>
       <div>deal.speedPercent:{deal.speedPercent}</div>
       <div>deal.startDate:{deal.startDate}</div>
