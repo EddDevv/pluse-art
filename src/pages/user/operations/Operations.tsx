@@ -83,16 +83,17 @@ const itemsPerPage = 10;
 type PropType = {
   isWithdrawal?: boolean;
   refresh?: boolean;
+  isReplanish?: boolean;
 };
 
-const Operations = ({ isWithdrawal, refresh }: PropType) => {
+const Operations = ({ isWithdrawal, refresh, isReplanish }: PropType) => {
   const { t } = useTranslation();
   const { businessBalance } = useAppSelector((state) => state.allInfoUser);
   const { auth, userData } = useAppSelector((state) => state);
 
   const [directionForFilter, setDirectionForFilter] = useState("");
   const [articleForFilter, setArticleForFilter] = useState(
-    isWithdrawal ? "Вывод средств" : ""
+    isWithdrawal ? "Вывод средств" : isReplanish ? "Пополнение счета" : ""
   );
   const [account, setAccount] = useState("");
   const [dateFrom, setDateFrom] = useState("");
@@ -233,6 +234,11 @@ const Operations = ({ isWithdrawal, refresh }: PropType) => {
             <div className={styles.isWithdrawal}>
               <img src={Icon_item} alt="" />
               {t("New.withdrawal_history")}
+            </div>
+          ) : isReplanish ? (
+            <div className={styles.isWithdrawal}>
+              <img src={Icon_item} alt="" />
+              {t("New.refill_history")}
             </div>
           ) : (
             <div className="page_title">{t("User_layout.history")}</div>

@@ -20,6 +20,7 @@ import Market from "./pages/user/market/Market";
 import MyStocks from "./pages/user/myStocks/MyStocks";
 import BrokerDocuments from "./pages/user/brokerDocuments/BrokerDocuments";
 import Portfolio from "./pages/user/portfolio/Portfolio";
+import Refill from "./pages/user/refill/Refill";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -74,7 +75,6 @@ export const App = () => (
         <Route index element={<HomeMain />} />
       </Route>
 
-
       {/* **************КАБИНЕТ************************* */}
       <Route path="/user" element={<LayoutUser />}>
         <Route path="/user" element={<PrivateRoute />}>
@@ -107,8 +107,15 @@ export const App = () => (
           <Route index element={<Portfolio portfolioId={2} />} />
         </Route>
 
+        {/* для возврата с Freekasa */}
+        <Route path={`${ROUTES.refill}/success`} element={<PrivateRoute />}>
+          <Route index element={<Refill success={true} />} />
+        </Route>
+        <Route path={`${ROUTES.refill}/error`} element={<PrivateRoute />}>
+          <Route index element={<Refill success={false} />} />
+        </Route>
         <Route path={ROUTES.refill} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Refill />} />
         </Route>
         <Route path={ROUTES.withdrawal} element={<PrivateRoute />}>
           <Route index element={<Withdrawal />} />
@@ -129,7 +136,6 @@ export const App = () => (
         <Route path={ROUTES.pulse} element={<PrivateRoute />}>
           <Route index element={<Cabinet />} />
         </Route>
-
       </Route>
     </Routes>
   </ChakraProvider>

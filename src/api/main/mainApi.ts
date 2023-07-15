@@ -94,7 +94,7 @@ class CMainApi {
       if (resStat?.status >= 200 && resStat.status < 300) {
         store.dispatch(UsersStatisticAction(resStat.data));
       }
-      const resCrypto = await withoutTokenInstance.get(
+      const resCrypto = await instance.get(
         "api/Main/currency-rates"
       );
       if (resCrypto?.status >= 200 && resCrypto.status < 300) {
@@ -112,7 +112,10 @@ class CMainApi {
         store.dispatch(InvestPlans(resInvestmentPlans.data));
       }
       const resCurrencyRates = await MarketingApi.getCurrencyRates();
-      resCurrencyRates && store.dispatch(currencyRatesAction(resCurrencyRates));
+      if (resCurrencyRates) {
+        store.dispatch(currencyRatesAction(resCurrencyRates));
+      }
+
       const resNews = await withoutTokenInstance.get("api/News/last");
       if (resNews?.status >= 200 && resNews.status < 300) {
         store.dispatch(setNewsList(resNews.data));

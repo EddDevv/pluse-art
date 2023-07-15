@@ -56,7 +56,7 @@ const ModalMain: FC<IProps> = ({
       // scrollBehavior="inside"
       motionPreset="slideInRight"
       isCentered={width ? false : true}
-      size={width ? "full" : "lg"}
+      size={width ? width : "lg"}
     >
       <ModalOverlay backdropFilter="auto" backdropBlur="2px" />
       <ModalContent
