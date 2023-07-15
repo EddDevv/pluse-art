@@ -225,7 +225,8 @@ const Portfolio = ({ portfolioId }: PropsType) => {
 
         <div className={styles.deals_container}>
           {dealList.map((deal) =>
-            deal.status === StatusDeal.Active ? (
+            deal.status === StatusDeal.Active ||
+            deal.status === StatusDeal.Reinvest ? (
               <DealItem
                 key={deal.id}
                 deal={deal}
