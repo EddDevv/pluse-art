@@ -23,6 +23,7 @@ type IProps = {
   width?: string;
   color?: string;
   isOrange?: boolean;
+  isHideClose?: boolean;
 };
 
 const ModalMain: FC<IProps> = ({
@@ -35,6 +36,7 @@ const ModalMain: FC<IProps> = ({
   width,
   color,
   isOrange,
+  isHideClose,
 }) => {
   const { t } = useTranslation();
 
@@ -84,15 +86,17 @@ const ModalMain: FC<IProps> = ({
             gap: "10px",
           }}
         >
-          <button
-            onClick={() => handleClose()}
-            className={
-              isOrange ? "outline_black_button" : "outline_green_button"
-            }
-            style={{ width: "50%" }}
-          >
-            {t("New.close")}
-          </button>
+          {!isHideClose && (
+            <button
+              onClick={() => handleClose()}
+              className={
+                isOrange ? "outline_black_button" : "outline_green_button"
+              }
+              style={{ width: "50%" }}
+            >
+              {t("New.close")}
+            </button>
+          )}
           {handleSubmit && (
             <div style={{ position: "relative", width: "50%" }}>
               {isLoading && <LocalSpinnerAbsolute size="70px" />}

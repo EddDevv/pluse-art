@@ -424,16 +424,18 @@ export const DealItem = React.memo(function DealItem({
       />
 
       {/* *****************************************************Модалка пополнения портфеля */}
-      {/* <ModalReplanish
+      <ModalReplanish
         open={isOpenReplanish}
         setOpen={setIsOpenReplanish}
         deal={deal}
         investPlan={investPlan}
-        getMainInfo={() => { MainApi.getInitialMainReduxInfo() }}
+        getMainInfo={() => {
+          MainApi.getInitialMainReduxInfo();
+        }}
         setCurrentPage={setCurrentPage}
         refresh={refresh}
         setRefresh={setRefresh}
-      /> */}
+      />
       {/* *****************************************************Модалка оплаты страховки */}
 
       <ModalMain
@@ -455,8 +457,7 @@ export const DealItem = React.memo(function DealItem({
             {t("Programs.deal")} #{numberDeal}{" "}
           </div>
           <div>
-            {" "}
-            {t("Programs.from")}{" "}
+            {t("Programs.from")}
             <Moment format="DD/MM/YYYY">{deal.startDate}</Moment>
           </div>
         </div>
@@ -550,8 +551,9 @@ export const DealItem = React.memo(function DealItem({
             }}
             value={speed.toString()}
             colorScheme="teal"
+            width={"100%"}
           >
-            <Stack direction="row" gap={45}>
+            <div className={styles.stack}>
               {["1", "2", "3", "4", "5"].map((elem) => (
                 <Radio
                   value={elem}
@@ -572,7 +574,7 @@ export const DealItem = React.memo(function DealItem({
                   )}
                 </Radio>
               ))}
-            </Stack>
+            </div>
           </RadioGroup>
         </div>
 

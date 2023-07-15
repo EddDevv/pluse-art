@@ -303,6 +303,11 @@
   justify-content: space-between;
   width: 100%;
 }
+.stack {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
 .speed {
   color: #000;
@@ -338,9 +343,36 @@
   width: 100%;
   align-items: center;
 }
-.loadMore_row{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 30px;
+.loadMore_row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+.modal_content {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  text-align: justify;
+}
+
+.green_deal_info {
+  color: #008080;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 40px;
+  padding: 0 29px;
+}
+.resume{
+  padding: 40px 31px 0 31px;
+}
+.resume_button {
+  width: 100%;
+  min-height: 46px;
 }

@@ -4,13 +4,17 @@ import { useTranslation } from "react-i18next";
 import { DealType } from "../../../../assets/types/Portfolio";
 import { useText } from "../../../../hooks/useText";
 import { useTimer } from "../../../../hooks/useTimer";
+import styles from "../Portfolio.module.scss";
+import Moment from "react-moment";
+import { StatusDeal } from "../../../../assets/consts/consts";
+import { getNumWithoutZeroToFixedN } from "../../../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
+import ModalMain from "../../../../UIcomponents/mainModal/ModalMain";
 
 const day21 = 21 * 24 * 60 * 60 * 1000;
 
 type PropType = {
   deal: DealType;
   numberDeal: number;
-  isTimeout?: boolean;
   resumeDeal?: any;
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +24,6 @@ type PropType = {
 export const DealItemCancel = ({
   deal,
   numberDeal,
-  isTimeout,
   resumeDeal,
   refresh,
   setRefresh,
@@ -31,45 +34,12 @@ export const DealItemCancel = ({
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const [success, setSuccess] = useState(false);
-
-  // const { currencyRates } = useSelector((state: any) => state);
-  // const [rate, setRate] = useState(currencyRates.value[1].rate);
-
-  // const countE = (numberSTR) => {
-  //   const str = numberSTR.toString();
-  //   let counter = 0;
-  //   for (let i = 0; i < str.length; i++) {
-  //     if (str[i] === "0" || str[i] === ".") {
-  //       counter++;
-  //     } else {
-  //       return counter;
-  //     }
-  //   }
-  // };
-
   const resumeDealLocal = async () => {
     setIsLoading(true);
     await resumeDeal(deal.id, false, "Usdc");
     setCurrentPage(1);
     setRefresh(!refresh);
     setIsLoading(false);
-  };
-
-  // useEffect(() => {
-  //   if (success) {
-  //     setSuccess(false);
-  //     resumeDeal(deal.id, false, "Usdc");
-  //     setCurrentPage(1);
-  //     setRefresh(!refresh);
-  //     // console.log("Возобновлена", deal.id);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [success]);
-
-  const handleCancel = (e: any) => {
-    e.preventDefault();
-    setOpen(true);
   };
 
   const { day, hours, minute, seconds } = useTimer(
@@ -102,90 +72,111 @@ export const DealItemCancel = ({
   );
 
   return (
-    <div className="cancel_item deal_item ">
-      <div style={{ marginBottom: "0" }} className="deal_top">
-        {t("Programs.deal")} #{numberDeal}
-      </div>
-      {/* <ModalConfirm
-        open={open}
-        setOpen={setOpen}
-        // setSuccess={setSuccess}
-        submitHandler={resumeDealLocal}
-        isDate={true}
-        isLoading={isLoading}
-      /> */}
-      <div className="deal_top_row">
-        {!isTimeout && (
-          <div className="deal_top_row_left">
-            <div className="deal_top_row_left_top">{dayText}</div>
-            <div className="deal_top_row_left_numb">{day}</div>
+    <div className={styles.deal_box} style={{ background: "#EDEDED" }}>
+      <ModalMain
+        title={`${t("Programs.resume")} #${deal.id}`}
+        isOpen={open}
+        handleClose={() => setOpen(false)}
+        handleSubmit={resumeDealLocal}
+      />
+      <div className={styles.deal_top}>
+        <div className={styles.deal_top_left}>
+          <div>
+            {t("Programs.deal")} #{numberDeal}{" "}
+          </div>
+          <div>
+            {t("Programs.from")}
+            <Moment format="DD/MM/YYYY">{deal.startDate}</Moment>
+          </div>
+        </div>
+        {deal.status === StatusDeal.Term && (
+          <div className={styles.deal_timer}>
+            <div className={styles.timer_column}>
+              <div>{day} </div>
+              <span>{dayText} </span>
+            </div>
+            <div className={styles.timer_column}>
+              <div>{hours} </div>
+              <span>{hourText} </span>
+            </div>
+            <div className={styles.timer_column}>
+              <div>{minute} </div>
+              <span>{minText} </span>
+            </div>
+            <div className={styles.timer_column}>
+              <div>{seconds} </div>
+              <span>{secText} </span>
+            </div>
           </div>
         )}
-
-        <div className="cancel_timer deal_top_row_timer">
-          {isTimeout && (
-            <div className=" deal_top_row_timer_top deal_item_cloze ">
-              {t("Programs.deposit_returned")}
+        {deal.status === StatusDeal.Terminate && (
+          <div className={styles.deal_timer}>
+            <div className={styles.timer_column}>
+              <div>{+new Date(deal.endDate) - +new Date(deal.startDate)} </div>
+              <span>{t("Programs.days3")} </span>
             </div>
-          )}
-          {!isTimeout && (
-            <div className=" deal_top_row_timer_top ">
-              <span id="hours">{hours} </span>
-              <span id="minutes">{minute} </span>
-              <span id="seconds">{seconds} </span>
+            <div className={styles.timer_column}>
+              <div>{0} </div>
+              <span>{t("Programs.hours3")} </span>
             </div>
-          )}
-          {!isTimeout && (
-            <div className="deal_top_row_timer_bottom">
-              <span>{hourText}</span>
-              <span>{minText}</span>
-              <span>{secText}</span>
+            <div className={styles.timer_column}>
+              <div>{0} </div>
+              <span>{t("Programs.minutes3")} </span>
             </div>
-          )}
-        </div>
+            <div className={styles.timer_column}>
+              <div>{0} </div>
+              <span>{t("Programs.seconds3")} </span>
+            </div>
+          </div>
+        )}
       </div>
       <div
-        style={{ marginBottom: isTimeout ? "15px" : "" }}
-        className="text_vozvrat"
+        style={{ minHeight: "30px", textAlign: "right", paddingRight: "29px" }}
       >
-        <p>{isTimeout ? t("History.deal_closed") : t("History.return_in")}</p>
+        {deal.status === StatusDeal.Term && <div>{t("History.return_in")}</div>}
       </div>
-      <div className="deal_item_money">
-        <div className="deal_item_money_left">
-          {t("Programs.your")}
-          <br />
-          {t("Programs.earnings")}
+
+      <div className={styles.deal_income_box}>
+        <div>{t("New.your_income")}</div>
+        <div className={styles.income}>
+          {getNumWithoutZeroToFixedN(deal.sumIncome, 2)}
+          <b className={styles.usd}>&nbsp; USD</b>
         </div>
-        {/* <div className="deal_item_money_right">{deal.sumIncome.toFixed(countE(deal.sumIncome))}</div> */}
-        <div className="deal_item_money_right">{deal.sumIncome.toFixed(2)}</div>
       </div>
-      {!isTimeout && (
-        <div className="deal_item_range">
-          <div className="form_entry_in_program_bottom_range">
-            <form>
-              <div className="input_strax">
-                <label>{t("Programs.portfolio_is_insured")}</label>
-              </div>
-            </form>
-          </div>
+
+      <div className={styles.deal_sum_box}>
+        <div>{t("New.portfolio_sum")}</div>
+        <div className={styles.sum}>
+          {deal.sum}
+          <b className={styles.usd}>&nbsp; USD</b>
+        </div>
+      </div>
+
+      <div className={styles.green_deal_info}>
+        {t("History.deal_closed")} &nbsp;
+        {deal.endDate && (
+          <Moment format="DD/MM/YYYY" locale="ru">
+            {deal.endDate}
+          </Moment>
+        )}
+      </div>
+
+      {deal.status === StatusDeal.Term && (
+        <div className={styles.green_deal_info}>
+          {t("Programs.deposit_returned")}
         </div>
       )}
-      {!isTimeout && (
-        <div className="deal_item_btns">
-          <a
-            href="/"
-            onClick={handleCancel}
-            style={{ width: "100%" }}
-            className="deal_item_pay_btn"
+
+      {deal.status === StatusDeal.Term && (
+        <div className={styles.resume}>
+          <button
+            className={`dark_green_button ${styles.resume_button} `}
+            onClick={() => setOpen(true)}
           >
-            <span> {t("Programs.resume")}</span>
-          </a>
+            {t("Programs.resume")}
+          </button>
         </div>
       )}
-      {/* <div>deal.sum:{deal.sum}</div>
-      <div>deal.sumIncome:{deal.sumIncome}</div>
-      <div>deal.speedPercent:{deal.speedPercent}</div>
-      <div>rate:{rate}</div> */}
     </div>
   );
 };

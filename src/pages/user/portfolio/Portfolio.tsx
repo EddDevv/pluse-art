@@ -224,76 +224,34 @@ const Portfolio = ({ portfolioId }: PropsType) => {
         </div>
 
         <div className={styles.deals_container}>
-          {dealList.map((deal) => {
-            if (deal.status === StatusDeal.Active)
-              return (
-                <DealItem
-                  key={deal.id}
-                  deal={deal}
-                  numberDeal={deal.id}
-                  terminateDeal={terminateDeal}
-                  isLowRisk={false}
-                  maxSpeedCount={speedMaxEnum[portfolioId]}
-                  dealList={dealList}
-                  setDealList={setDealList}
-                  investPlan={value[portfolioId]}
-                  refresh={refresh}
-                  setRefresh={setRefresh}
-                  setCurrentPage={setCurrentPage}
-                />
-              );
-            else if (deal.status === StatusDeal.Term) {
-              const delta = +new Date() - +new Date(deal?.statusChangedDate);
-              if (delta < 21 * 24 * 60 * 60 * 1000) {
-                return (
-                  <DealItemCancel
-                    key={deal.id}
-                    deal={deal}
-                    numberDeal={deal.id}
-                    resumeDeal={resumeDeal}
-                    refresh={refresh}
-                    setRefresh={setRefresh}
-                    setCurrentPage={setCurrentPage}
-                  />
-                );
-              } else {
-                return (
-                  <DealItemCancel
-                    key={deal.id}
-                    deal={deal}
-                    numberDeal={deal.id}
-                    isTimeout={true}
-                    refresh={refresh}
-                    setRefresh={setRefresh}
-                    setCurrentPage={setCurrentPage}
-                  />
-                );
-              }
-            } else if (deal.status === StatusDeal.Terminate) {
-              return (
-                <DealItemCancel
-                  key={deal.id}
-                  deal={deal}
-                  numberDeal={deal.id}
-                  isTimeout={true}
-                  refresh={refresh}
-                  setRefresh={setRefresh}
-                  setCurrentPage={setCurrentPage}
-                />
-              );
-            }
-            return (
-              <DealItemCancel
+          {dealList.map((deal) =>
+            deal.status === StatusDeal.Active ? (
+              <DealItem
                 key={deal.id}
                 deal={deal}
                 numberDeal={deal.id}
-                isTimeout={true}
+                terminateDeal={terminateDeal}
+                isLowRisk={false}
+                maxSpeedCount={speedMaxEnum[portfolioId]}
+                dealList={dealList}
+                setDealList={setDealList}
+                investPlan={value[portfolioId]}
                 refresh={refresh}
                 setRefresh={setRefresh}
                 setCurrentPage={setCurrentPage}
               />
-            );
-          })}
+            ) : (
+              <DealItemCancel
+                key={deal.id}
+                deal={deal}
+                numberDeal={deal.id}
+                resumeDeal={resumeDeal}
+                refresh={refresh}
+                setRefresh={setRefresh}
+                setCurrentPage={setCurrentPage}
+              />
+            )
+          )}
         </div>
         {currentPage * pageSize < totalCount && (
           <div className={styles.loadMore_row}>

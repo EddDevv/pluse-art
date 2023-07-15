@@ -6,9 +6,10 @@ import { DealType } from "../../../../assets/types/Portfolio";
 import { InvestPlanType } from "../../../../store/investingPlans/reducer";
 import { useAppSelector } from "../../../../store";
 import instance from "../../../../api/instance";
-import { Fade } from "@chakra-ui/react";
 import { Loader } from "../../../../api/Loader";
 import { getNumWithoutZeroToFixedN } from "../../../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
+import styles from "../Portfolio.module.scss";
+import ModalMain from "../../../../UIcomponents/mainModal/ModalMain";
 
 type PropType = {
   open: boolean;
@@ -119,183 +120,142 @@ export const ModalReplanish = ({
     }
   };
 
+  const handleClose = () => {
+    setSumReplanish("");
+    setIsCalculate(false);
+    setOpen(false);
+  };
+
   return (
-    <Fade in={open}>
-      <div className="modal__wrapper">
-        <div className="modal__text priceModal_noPadding">
-          <div
-            onClick={() => {
-              setSumReplanish("");
-              setIsCalculate(false);
-              setOpen(false);
-            }}
-            className="close_menu_btn close_window"
-          >
-            <span className="before arrow_color" />
-            <span className="after arrow_color" />
-          </div>
+    <ModalMain
+      isOpen={open}
+      handleClose={handleClose}
+      title={` ${t("Programs.replenishment_of_portfolio")} #${deal?.id} (${t(
+        "Programs.current_sum"
+      )}
+      ${deal?.sum} USD)`}
+      isHideClose={true}
+    >
+      <div className={styles.modal_content}>
+        <input
+          className="gray_input_w100"
+          placeholder={t("Programs.enter_replanish_sum")}
+          value={sumReplanish}
+          onChange={(e) => {
+            setIsCalculate(false);
+            if (isFinite(+e.target.value)) {
+              setSumReplanish(e.target.value);
+            }
+          }}
+        />
 
-          <div className="text__wrapper" style={{ marginTop: "20px" }}>
-            <div className="balance_sidebar_title texp_price_modal">
-              {t("Programs.replenishment_of_portfolio")} №{deal?.id} (
-              {t("Programs.current_sum")}
-              {deal?.sum} USD )
-            </div>
-            <div
-              className="balance_sidebar_total texp_priceValue_modal"
-              style={{ marginTop: "20px", fontSize: 12, width: "70%" }}
-            >
-              <input
-                id="outlined-basic"
-                className="gray_input"
-                placeholder={t("Programs.enter_replanish_sum")}
-                value={sumReplanish}
-                onChange={(e) => {
-                  setIsCalculate(false);
-                  if (isFinite(+e.target.value)) {
-                    setSumReplanish(e.target.value);
-                  }
-                }}
-              />
-            </div>
-
-            {isCalculate ? (
+        {isCalculate ? (
+          <>
+            {newInvestPlasForSelect.length > 1 && (
               <>
-                {newInvestPlasForSelect.length > 1 && (
-                  <>
-                    <div
-                      className="balance_sidebar_total texp_priceValue_modal"
-                      style={{ color: "#6D08F3" }}
-                    >
-                      {t("DopItem2.replanish_new_program")}
-                    </div>
+                <div>{t("DopItem2.replanish_new_program")}</div>
 
-                    <select
-                      value={newInvestPlanId}
-                      onChange={(e) => {
-                        setNewInvestPlanId(+e.target.value);
-                      }}
-                      className="select_filter "
-                      name="filter"
-                      style={{ marginBottom: "20px" }}
-                    >
-                      {newInvestPlasForSelect?.length > 0 &&
-                        newInvestPlasForSelect.map((el) => (
-                          <option key={el.investPlan} value={el.id}>
-                            {el.name}{" "}
-                            {el.id === investPlan.id &&
-                              t("DopItem2.current_portfel")}
-                          </option>
-                        ))}
-                    </select>
-
-                    {newInvestPlanId && newInvestPlanId !== investPlan.id && (
-                      <div
-                        className="balance_sidebar_total texp_priceValue_modal"
-                        style={{
-                          color: "#6D08F3",
-                        }}
-                      >
-                        {t("DopItem2.replanish_description")}
-                        <div style={{ fontWeight: "bold" }}>
-                          {t("Main.portfolio")}: &nbsp;
-                          {
-                            // Programs.find((elem) => elem.id === investProgramId)
-                            //   ?.name
-
-                            newInvestPlasForSelect.find(
-                              (el) => el.id === newInvestPlanId
-                            )?.name
-                          }
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-                {newInvestPlanId && newInvestPlanId === investPlan.id && (
-                  <>
-                    <div
-                      className="balance_sidebar_total texp_priceValue_modal"
-                      style={{ color: "#6D08F3" }}
-                    >
-                      {t("Programs.sum_for_insurance")}
-                      {insurancePrice.toFixed(2)}
-                    </div>
-                    <div
-                      className="balance_sidebar_total texp_priceValue_modal"
-                      style={{ color: "#6D08F3" }}
-                    >
-                      {t("DopItem2.sum_for_auto")}
-                      {speedPrice.toFixed(2)}
-                    </div>
-                  </>
-                )}
-
-                <button
-                  onClick={handleReplanish}
-                  className="outline_green_button"
-                  style={{
-                    minWidth: "70%",
-                    fontSize: 18,
-                    fontWeight: 700,
-                    padding: "20px",
-                    margin: "40px",
+                <select
+                  value={newInvestPlanId}
+                  onChange={(e) => {
+                    setNewInvestPlanId(+e.target.value);
                   }}
-                  disabled={
-                    isLoading ||
-
-                    (deal.isPromo === true &&
-                      +sumReplanish + speedPrice + insurancePrice >
-                      userData.value.balanceBusiness) ||
-                    (deal.isPromo === false &&
-                      +sumReplanish + speedPrice + insurancePrice >
-                      userData.value.balance)
-                  }
+                  className="gray_input_w100"
                 >
-                  <div className="loader_for_button">
-                    <Loader loading={isLoading} />
-                  </div>
-                  {t("Programs.pay")}{" "}
-                  {newInvestPlanId && newInvestPlanId === investPlan.id
-                    ? (+sumReplanish + speedPrice + insurancePrice).toFixed(2)
-                    : (+sumReplanish).toFixed(2)}
-                </button>
+                  {newInvestPlasForSelect?.length > 0 &&
+                    newInvestPlasForSelect.map((el) => (
+                      <option key={el.investPlan} value={el.id}>
+                        {el.name}{" "}
+                        {el.id === investPlan.id &&
+                          t("DopItem2.current_portfel")}
+                      </option>
+                    ))}
+                </select>
 
-                {((deal.isPromo === true &&
-                  +sumReplanish + speedPrice + insurancePrice >
-                  userData.value.balanceBusiness) ||
-                  (deal.isPromo === false &&
-                    +sumReplanish + speedPrice + insurancePrice >
-                    userData.value.balance)) && (
-                    <div className="required">
-                      {t("Programs.not_enough_money")}:{" "}
-                      {deal.isPromo === true
-                        ? getNumWithoutZeroToFixedN(
-                          +userData.value.balanceBusiness, 2
-                        )
-                        : getNumWithoutZeroToFixedN(
-                          +userData.value.balance, 2
-                        )}
+                {newInvestPlanId && newInvestPlanId !== investPlan.id && (
+                  <div>
+                    {t("DopItem2.replanish_description")}
+                    <div style={{ fontWeight: "bold" }}>
+                      {t("Main.portfolio")}: &nbsp;
+                      {
+                        newInvestPlasForSelect.find(
+                          (el) => el.id === newInvestPlanId
+                        )?.name
+                      }
                     </div>
-                  )}
-              </>
-            ) : (
-              sumReplanish && (
-                <button
-                  onClick={handleCalculateSum}
-                  className="dark_green_button"
-                  disabled={isLoading}
-                >
-                  <div className="loader_for_button">
-                    <Loader loading={isLoading} />
                   </div>
-                  {t("DopItem2.calculate")}
-                </button>
-              )
+                )}
+              </>
             )}
-          </div>
-        </div>
+            {newInvestPlanId && newInvestPlanId === investPlan.id && (
+              <>
+                <div>
+                  {t("Programs.sum_for_insurance")}
+                  {insurancePrice.toFixed(2)}
+                </div>
+                <div>
+                  {t("DopItem2.sum_for_auto")}
+                  {speedPrice.toFixed(2)}
+                </div>
+              </>
+            )}
+
+            <button
+              onClick={handleReplanish}
+              className="dark_green_button"
+              style={{ width: "100%" }}
+              disabled={
+                isLoading ||
+                (deal.isPromo === true &&
+                  +sumReplanish + speedPrice + insurancePrice >
+                    userData.value.balanceBusiness) ||
+                (deal.isPromo === false &&
+                  +sumReplanish + speedPrice + insurancePrice >
+                    userData.value.balance)
+              }
+            >
+              <div className="loader_for_button">
+                <Loader loading={isLoading} />
+              </div>
+              {t("Programs.pay")} &nbsp;
+              {newInvestPlanId && newInvestPlanId === investPlan.id
+                ? (+sumReplanish + speedPrice + insurancePrice).toFixed(2)
+                : (+sumReplanish).toFixed(2)}{" "}
+              &nbsp; USD
+            </button>
+
+            {((deal.isPromo === true &&
+              +sumReplanish + speedPrice + insurancePrice >
+                userData.value.balanceBusiness) ||
+              (deal.isPromo === false &&
+                +sumReplanish + speedPrice + insurancePrice >
+                  userData.value.balance)) && (
+              <div className="required">
+                {t("Programs.not_enough_money")}:{" "}
+                {deal.isPromo === true
+                  ? getNumWithoutZeroToFixedN(
+                      +userData.value.balanceBusiness,
+                      2
+                    )
+                  : getNumWithoutZeroToFixedN(+userData.value.balance, 2)}
+              </div>
+            )}
+          </>
+        ) : (
+          sumReplanish && (
+            <button
+              onClick={handleCalculateSum}
+              className="dark_green_button"
+              disabled={isLoading}
+            >
+              <div className="loader_for_button">
+                <Loader loading={isLoading} />
+              </div>
+              {t("DopItem2.calculate")}
+            </button>
+          )
+        )}
       </div>
-    </Fade>
+    </ModalMain>
   );
 };
