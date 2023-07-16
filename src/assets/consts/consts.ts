@@ -29,7 +29,8 @@ export enum ROUTES {
     refProgram = "/user/refprogram",
     statistics = "/user/statistics",
     structure = "/user/structure",
-    chats = "/user/chats"
+    chats = "/user/chats",
+    career = "/user/career"
 
 }
 
@@ -81,6 +82,7 @@ export const menuUserSubItems = [
             { name: "stat", to: ROUTES.statistics },
             { name: "structure_ref", to: ROUTES.structure },
             { name: "chats", to: ROUTES.chats },
+            { name: "career", to: ROUTES.career },
 
         ]
     },

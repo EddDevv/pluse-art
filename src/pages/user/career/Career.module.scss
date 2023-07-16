@@ -1,0 +1,78 @@
+.paper {
+  background: #fff;
+  margin: 22px 0;
+  box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
+  padding: 31px 29px;
+  color: var(--gray-2, #4f4f4f);
+  font-size: 12px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background-image: url("../../../assets/images/PortfBG1.png");
+  background-size: auto;
+  background-position: left top;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+  @media screen and (max-width: 760px) {
+    padding: 20px;
+  }
+}
+
+.title_flex {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 40px 20px 0px 0px;
+  color: #008080;
+  font-family: Inter;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+
+  @media screen and (max-width: 760px) {
+    margin-bottom: 20px;
+  }
+}
+
+.flex_end {
+  width: 60%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: var(--gray-1, #333);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  position: relative;
+  top: -50px;
+  text-align: justify;
+}
+
+.main {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 160%; /* 22.4px */
+}
+.main_green {
+  color: #005a5a;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 30px 0;
+}

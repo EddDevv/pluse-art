@@ -23,6 +23,7 @@ import Portfolio from "./pages/user/portfolio/Portfolio";
 import Refill from "./pages/user/refill/Refill";
 import RefProgram from "./pages/user/refProgram/RefProgram";
 import Statistic from "./pages/user/statistic/Statistic";
+import Career from "./pages/user/career/Career";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -137,6 +138,9 @@ export const App = () => (
         </Route>
         <Route path={ROUTES.chats} element={<PrivateRoute />}>
           <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.career} element={<PrivateRoute />}>
+          <Route index element={<Career />} />
         </Route>
 
         <Route path={ROUTES.cabinet} element={<PrivateRoute />}>
