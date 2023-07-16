@@ -24,6 +24,7 @@ import Refill from "./pages/user/refill/Refill";
 import RefProgram from "./pages/user/refProgram/RefProgram";
 import Statistic from "./pages/user/statistic/Statistic";
 import Career from "./pages/user/career/Career";
+import Settings from "./pages/user/settings/Settings";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -147,7 +148,7 @@ export const App = () => (
           <Route index element={<Cabinet />} />
         </Route>
         <Route path={ROUTES.settings} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Settings />} />
         </Route>
         <Route path={ROUTES.charity} element={<PrivateRoute />}>
           <Route index element={<Cabinet />} />

@@ -144,7 +144,7 @@ const RefProgram = () => {
     <div className="page_container">
       <div className={`${styles.paper}`}>
         <div className={styles.title_flex}>
-          <div className={styles.title}>{t("New.program")}</div>
+          <div className="page_title">{t("New.program")}</div>
         </div>
 
         <div className={styles.flex_end}>

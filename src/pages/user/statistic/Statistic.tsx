@@ -8,6 +8,7 @@ import { useText } from "../../../hooks/useText";
 import People from "../../../assets/images/People.png";
 import Moment from "react-moment";
 import { Spacer } from "@chakra-ui/react";
+import instance from "../../../api/instance";
 
 const rows2 = [
   {
@@ -145,6 +146,11 @@ const Statistic = () => {
   }, [window.location.href]);
   const getStat = async () => {
     const resGetStat: any = await MarketingApi.getStat();
+    const resGetStat1: any = await instance.get("api/Stat/income-sum");
+    const resGetStat2: any = await instance.get("api/Stat/contracts-stat");
+    const resGetStat3: any = await instance.get("api/Stat/withdrawal-sum");
+    const resGetStat4: any = await instance.get("api/Stat/reinvest-sum");
+
     if (resGetStat.status >= 200 && resGetStat.status < 300) {
       setStat(resGetStat.data);
     } else {
@@ -201,7 +207,7 @@ const Statistic = () => {
     <div className="page_container">
       <div className={`${styles.paper}`}>
         <div className={styles.title_flex}>
-          <div className={styles.title}>{t("New.stat")}</div>
+          <div className="page_title">{t("New.stat")}</div>
         </div>
 
         <div className={styles.flex_end}>

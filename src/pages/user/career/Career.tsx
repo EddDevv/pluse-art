@@ -15,7 +15,7 @@ const Career = () => {
     <div className="page_container">
       <div className={`${styles.paper}`}>
         <div className={styles.title_flex}>
-          <div className={styles.title}>{t("New.career")}</div>
+          <div className="page_title">{t("New.career")}</div>
         </div>
 
         <div style={{ display: "flex" }}>

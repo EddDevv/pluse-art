@@ -1,0 +1,61 @@
+.page_container {
+  background: #fff;
+  box-shadow: 0px 4px 50px 0px rgba(194, 225, 225, 0.47);
+  width: 100%;
+  min-height: 230px;
+  padding: 36px;
+  display: flex;
+  margin-bottom: 20px;
+
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+.box1 {
+  display: flex;
+  width: 45%;
+  flex-direction: column;
+  gap: 15px;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+.column {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 15px;
+}
+.flex {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.name {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.email {
+  color: var(--gray-2, #4f4f4f);
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+.email_val {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
