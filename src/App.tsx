@@ -21,6 +21,7 @@ import MyStocks from "./pages/user/myStocks/MyStocks";
 import BrokerDocuments from "./pages/user/brokerDocuments/BrokerDocuments";
 import Portfolio from "./pages/user/portfolio/Portfolio";
 import Refill from "./pages/user/refill/Refill";
+import RefProgram from "./pages/user/refProgram/RefProgram";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -122,6 +123,19 @@ export const App = () => (
         </Route>
         <Route path={ROUTES.operations} element={<PrivateRoute />}>
           <Route index element={<Operations />} />
+        </Route>
+
+        <Route path={ROUTES.refProgram} element={<PrivateRoute />}>
+          <Route index element={<RefProgram />} />
+        </Route>
+        <Route path={ROUTES.statistics} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.structure} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
+        </Route>
+        <Route path={ROUTES.chats} element={<PrivateRoute />}>
+          <Route index element={<Cabinet />} />
         </Route>
 
         <Route path={ROUTES.cabinet} element={<PrivateRoute />}>

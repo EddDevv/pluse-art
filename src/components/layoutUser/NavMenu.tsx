@@ -3,11 +3,13 @@ import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { menuUserSubItems } from "../../assets/consts/consts";
 import NavSubMenu from "./NavSubMenu";
+import { useTranslation } from "react-i18next";
 
 type Propstype = {
   onClose?: any;
 };
 const NavMenu: FC<Propstype> = ({ onClose }: Propstype) => {
+  const { t } = useTranslation();
   return (
     <>
       <div className={styles.lk}>Личный кабинет</div>
@@ -30,7 +32,9 @@ const NavMenu: FC<Propstype> = ({ onClose }: Propstype) => {
                   }
                 }}
               >
-                <div className={styles.collapse_item}>{elem.title}</div>
+                <div className={styles.collapse_item}>
+                  {t(`New.${elem.title}`)}
+                </div>
               </NavLink>
             )}
           </div>

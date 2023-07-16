@@ -24,7 +24,12 @@ export enum ROUTES {
 
     refill = "/user/refill",
     withdrawal = "/user/withdrawal",
-    operations = "/user/operations"
+    operations = "/user/operations",
+
+    refProgram = "/user/refprogram",
+    statistics = "/user/statistics",
+    structure = "/user/structure",
+    chats = "/user/chats"
 
 }
 
@@ -49,31 +54,39 @@ export const menuUserItems = [
 
 export const menuUserSubItems = [
     {
-        id: 1, title: "Брокерский счет", sub: [
-            { name: "Рынок акций", to: ROUTES.market },
-            { name: "Ваши акции", to: ROUTES.stocks },
-            { name: "Тарифы", to: ROUTES.tarif },
-            { name: "Документы", to: ROUTES.documents },
+        id: 1, title: "broker_account", sub: [
+            { name: "stock_market", to: ROUTES.market },
+            { name: "you_stocks", to: ROUTES.stocks },
+            { name: "tarifs", to: ROUTES.tarif },
+            { name: "documents", to: ROUTES.documents },
         ]
     },
     {
-        id: 2, title: "Портфели", sub: [
-            { name: "Консервативный", to: ROUTES.conservative },
-            { name: "Умеренный", to: ROUTES.moderate },
-            { name: "Агрессивный", to: ROUTES.agressive },
+        id: 2, title: "profiles", sub: [
+            { name: "portfel_1", to: ROUTES.conservative },
+            { name: "portfel_2", to: ROUTES.moderate },
+            { name: "portfel_3", to: ROUTES.agressive },
         ]
     },
     {
-        id: 3, title: "Финансы", sub: [
-            { name: "Пополнение счета", to: ROUTES.refill },
-            { name: "Вывод средств", to: ROUTES.withdrawal },
-            { name: "История операций", to: ROUTES.operations },
+        id: 3, title: "finance", sub: [
+            { name: "refill", to: ROUTES.refill },
+            { name: "withdrawal", to: ROUTES.withdrawal },
+            { name: "history", to: ROUTES.operations },
         ]
     },
-    { id: 4, title: "Кабинет партнера", to: ROUTES.cabinet },
-    { id: 5, title: "Благотворительность", to: ROUTES.charity },
-    { id: 6, title: "Настройки профиля", to: ROUTES.settings },
-    { id: 7, title: "PULSE APT", to: ROUTES.pulse },
+    {
+        id: 4, title: "cabinet_of_partner", sub: [
+            { name: "program", to: ROUTES.refProgram },
+            { name: "stat", to: ROUTES.statistics },
+            { name: "structure_ref", to: ROUTES.structure },
+            { name: "chats", to: ROUTES.chats },
+
+        ]
+    },
+    { id: 5, title: "charity", to: ROUTES.charity },
+    { id: 6, title: "settings", to: ROUTES.settings },
+    { id: 7, title: "platform", to: ROUTES.pulse },
 ];
 
 export const StatusDeal = {
