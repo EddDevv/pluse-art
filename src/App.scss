@@ -405,6 +405,15 @@ body {
   }
 }
 
+.table_item_25 {
+  @extend %table_item;
+  width: 25%;
+
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+
 .table_item_30 {
   @extend %table_item;
   width: 30%;

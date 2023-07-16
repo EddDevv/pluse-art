@@ -22,6 +22,7 @@ import BrokerDocuments from "./pages/user/brokerDocuments/BrokerDocuments";
 import Portfolio from "./pages/user/portfolio/Portfolio";
 import Refill from "./pages/user/refill/Refill";
 import RefProgram from "./pages/user/refProgram/RefProgram";
+import Statistic from "./pages/user/statistic/Statistic";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -129,7 +130,7 @@ export const App = () => (
           <Route index element={<RefProgram />} />
         </Route>
         <Route path={ROUTES.statistics} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Statistic />} />
         </Route>
         <Route path={ROUTES.structure} element={<PrivateRoute />}>
           <Route index element={<Cabinet />} />
