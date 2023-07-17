@@ -5,7 +5,7 @@
   min-height: 230px;
   padding: 36px;
   display: flex;
-  margin-bottom: 20px;
+  margin: 20px 0;
 
   color: #000;
   font-family: Inter;
@@ -19,6 +19,16 @@
   width: 45%;
   flex-direction: column;
   gap: 15px;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+.box2 {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
   @media screen and (max-width: 760px) {
     width: 100%;
   }
@@ -55,6 +65,61 @@
   color: #000;
   font-family: Inter;
   font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.perc_text {
+  color: var(--gray-2, #4f4f4f);
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+.perc_val {
+  color: #005a5a;
+  text-align: center;
+  font-family: Inter;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.box3 {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  gap: 15px;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+}
+.y_balance {
+  color: var(--gray-2, #4f4f4f);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+.balance {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.agent {
+  display: flex;
+  gap: 20px;
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;

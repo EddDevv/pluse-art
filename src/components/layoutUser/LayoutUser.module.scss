@@ -106,18 +106,21 @@
   display: flex;
   gap: 21px;
   min-height: 98px;
-  flex-wrap: wrap;
+  @media screen and (max-width: 760px) {
+   flex-direction: column;
+  }
+  // flex-wrap: wrap;
 }
 
 .card_container {
   background: #fff;
   box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
-  width: 32%;
+  width: 33%;
   min-width: 260px;
   min-height: 90px;
   padding: 17px;
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 760px) {
     width: 100%;
   }
 }
@@ -209,7 +212,7 @@
 
 // ***********************************sidebar******************************
 .navbar_container {
-  min-width: 200px;
+  min-width: 380px;
   width: 100%;
   max-width: 380px;
   min-height: 900px;

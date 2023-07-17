@@ -10,12 +10,16 @@ import { BiMessageDetail } from "react-icons/bi";
 import { MdExitToApp } from "react-icons/md";
 import { menuUserItems } from "../../assets/consts/consts";
 import NavMenu from "./NavMenu";
+import { getNumWithoutZeroToFixedN } from "../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
+import { useTranslation } from "react-i18next";
 
 type Propstype = {
   onClose?: any;
 };
 
 const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
+  const { t } = useTranslation();
+
   const { auth, userData, allInfoUser, dopInfo } = useAppSelector(
     (state) => state
   );
@@ -38,7 +42,7 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
           <div className={styles.orange_color}>ART</div>
         </div>
       </NavLink>
-      <div className={styles.hi}>Добрый день</div>
+      <div className={styles.hi}>{t("User_layout.good_day")}</div>
       <div className={styles.hi_name}>
         <Avatar
           name={userData.value.userInfo?.fullName ?? "NN"}
@@ -65,9 +69,13 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
       </div>
 
       <div className={styles.balance}>
-        <div>Ваш баланс:</div>
+        <div>{t("New.y_balance")}</div>
         <div className={styles.balance_amount}>
-          {allInfoUser.value.balance} &nbsp; $
+          {getNumWithoutZeroToFixedN(
+            allInfoUser.value.balance,
+            2
+          ).toLocaleString()}{" "}
+          &nbsp; USD
         </div>
       </div>
 
@@ -92,7 +100,7 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
       <div className={styles.image_for_balance}>
         <div className={styles.balance_amount}>{dopInfo.fund} &nbsp; USD</div>
       </div>
-      <div className={styles.balance_title}>баланс инвестиционного фонда</div>
+      <div className={styles.balance_title}>{t("New.inv_balance")}</div>
     </div>
   );
 };

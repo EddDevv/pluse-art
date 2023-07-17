@@ -10,89 +10,6 @@ import Moment from "react-moment";
 import { Spacer } from "@chakra-ui/react";
 import instance from "../../../api/instance";
 
-const rows2 = [
-  {
-    id: 1,
-    portfolio: "500",
-    totalInvestment: "5000",
-    selfInvestment: "---",
-    income: "10%",
-    points: "100%",
-  },
-  {
-    id: 2,
-    portfolio: "2000",
-    totalInvestment: "20 000",
-    selfInvestment: "---",
-    income: "10%",
-    points: "80%",
-  },
-  {
-    id: 3,
-    portfolio: "4000",
-    totalInvestment: "40 000",
-    selfInvestment: "---",
-    income: "5%",
-    points: "60%",
-  },
-  {
-    id: 4,
-    portfolio: "7000",
-    totalInvestment: "70 000",
-    selfInvestment: "---",
-    income: "4%",
-    points: "50%",
-  },
-  {
-    id: 5,
-    portfolio: "10 000",
-    totalInvestment: "100 000",
-    selfInvestment: "---",
-    income: "3%",
-    points: "40%",
-  },
-  {
-    id: 6,
-    portfolio: "15 000",
-    totalInvestment: "250 000",
-    selfInvestment: "10 000",
-    income: "3%",
-    points: "30%",
-  },
-  {
-    id: 7,
-    portfolio: "25 000",
-    totalInvestment: "500 000",
-    selfInvestment: "25 000",
-    income: "3%",
-    points: "20%",
-  },
-  {
-    id: 8,
-    portfolio: "50 000",
-    totalInvestment: "1 000 000",
-    selfInvestment: "50 000",
-    income: "3%",
-    points: "15%",
-  },
-  {
-    id: 9,
-    portfolio: "75 000",
-    totalInvestment: "3 000 000",
-    selfInvestment: "100 000",
-    income: "3%",
-    points: "10%",
-  },
-  {
-    id: 10,
-    portfolio: "100 000",
-    totalInvestment: "5 000 000",
-    selfInvestment: "200 000",
-    income: "3%",
-    points: "5%",
-  },
-];
-
 type RowType = {
   groupVolumeByLevels: number;
   groupVolumeLevel1: number;
@@ -146,10 +63,10 @@ const Statistic = () => {
   }, [window.location.href]);
   const getStat = async () => {
     const resGetStat: any = await MarketingApi.getStat();
-    const resGetStat1: any = await instance.get("api/Stat/income-sum");
-    const resGetStat2: any = await instance.get("api/Stat/contracts-stat");
-    const resGetStat3: any = await instance.get("api/Stat/withdrawal-sum");
-    const resGetStat4: any = await instance.get("api/Stat/reinvest-sum");
+    // const resGetStat1: any = await instance.get("api/Stat/income-sum");
+    // const resGetStat2: any = await instance.get("api/Stat/contracts-stat");
+    // const resGetStat3: any = await instance.get("api/Stat/withdrawal-sum");
+    // const resGetStat4: any = await instance.get("api/Stat/reinvest-sum");
 
     if (resGetStat.status >= 200 && resGetStat.status < 300) {
       setStat(resGetStat.data);
