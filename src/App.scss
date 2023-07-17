@@ -88,7 +88,7 @@ body {
   width: 100%;
 }
 
-.dark_green_button {
+%dark_green_button {
   // @extend %button;
   border: 1px solid #80c0c0;
   background: $GREEN;
@@ -109,6 +109,13 @@ body {
     border: 1px solid $GRAY_4;
     cursor: not-allowed;
   }
+}
+.dark_green_button {
+  @extend %dark_green_button;
+}
+.dark_green_button_2 {
+  @extend %dark_green_button;
+  min-height: 46px;
 }
 
 .orange_button_s {
@@ -143,12 +150,13 @@ body {
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
   border: 1px solid $GREEN;
   min-height: 46px;
   padding: 5px;
   min-width: 150px;
+  color: #005a5a;
 
   &:disabled {
     opacity: 0.5;
@@ -603,4 +611,8 @@ body {
     // background: #f743e2;
     color: #13bba4;
   }
+}
+
+.loader_for_button {
+  position: relative;
 }
