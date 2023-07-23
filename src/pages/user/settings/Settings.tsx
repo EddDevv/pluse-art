@@ -39,9 +39,9 @@ const set_items = [
     id: 3,
     name: "security",
     icon: <AiOutlineSecurityScan />,
-    child: <Documents />,
+    child: <Security />,
   },
-  { id: 4, name: "doc", icon: <BsBook />, child: <Security /> },
+  { id: 4, name: "doc", icon: <BsBook />, child: <Documents /> },
 ];
 
 const Settings = () => {
