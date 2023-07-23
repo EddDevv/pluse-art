@@ -9,6 +9,7 @@ import instance from "../../../../api/instance";
 import { toast } from "react-toastify";
 import { CountryDropdown } from "react-country-region-selector";
 import { Loader } from "../../../../api/Loader";
+import PhoneInput from "react-phone-input-2";
 
 const MainInfo = () => {
   const { t } = useTranslation();
@@ -34,6 +35,19 @@ const MainInfo = () => {
   const ok = useInputV(allInfoUser?.value?.facebook ?? "");
 
   const inn = useInputV(allInfoUser?.value?.inn ?? "");
+
+  const [phoneNumber, setPhoneNumber] = useState(
+    allInfoUser?.value?.phoneNumber ?? ""
+  );
+
+  const email = useInputV(allInfoUser?.value?.email ?? "", {
+    isEmpty: true,
+    isEmail: true,
+  });
+
+  useEffect(() => {
+    setPhoneNumber(allInfoUser?.value?.phoneNumber ?? "");
+  }, [allInfoUser]);
 
   useEffect(() => {
     handleReset();
@@ -78,7 +92,53 @@ const MainInfo = () => {
     ok.setDirty(false);
     inn.change(allInfoUser?.value?.inn ?? "");
     inn.setDirty(false);
+
+    email.change(allInfoUser.value.email);
+    email.setDirty(false);
+    setPhoneNumber(allInfoUser?.value?.phoneNumber);
     setIsLoading(false);
+  };
+
+  const handleUpdatePhoneMail = async () => {
+    setIsLoading(true);
+    if (
+      phoneNumber.length > 7 &&
+      phoneNumber !== allInfoUser?.value?.phoneNumber
+    ) {
+      const payload = {
+        phone: phoneNumber,
+      };
+
+      try {
+        await instance.post(`api/Profile/change-phone`, payload);
+        toast.success(t("SettingsPage.save_tel"));
+      } catch (error: any) {
+        console.error(error);
+        if (error?.response?.data) {
+          toast.error(error?.response?.data);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    if (email.value.length > 0 && email.value !== allInfoUser?.value?.email) {
+      const emailPayload = {
+        email: email.value,
+      };
+
+      try {
+        await instance.post(`api/Profile/change-email`, emailPayload);
+        toast.success(t("SettingsPage.save_email"));
+      } catch (error: any) {
+        console.error(error);
+        if (error?.response?.data) {
+          toast.error(error?.response?.data);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   const updateMainInfo = async () => {
@@ -105,6 +165,7 @@ const MainInfo = () => {
         toast.success(t("New.data_updated"));
         await MainApi.getInitialMainReduxInfo();
       }
+      await handleUpdatePhoneMail();
     } catch (e) {
       console.error(e);
       toast.error(t("New.data_update_error"));
@@ -158,6 +219,41 @@ const MainInfo = () => {
               className="gray_input"
             />
           </div>
+
+          <div className={styles.input_row}>
+            <div className={styles.label}>{t("SettingsPage.tel")}</div>
+            <PhoneInput
+              inputProps={{
+                name: "phone",
+              }}
+              containerClass={styles.country}
+              inputClass={`gray_input ${styles.phone}`}
+              placeholder="Phone number"
+              country={"ru"}
+              value={phoneNumber}
+              onChange={(tel) => {
+                setPhoneNumber(tel);
+              }}
+            />
+          </div>
+
+          <div className={styles.input_row}>
+            <div className={styles.label}>{t("SettingsPage.email")}</div>
+            <input
+              type="text"
+              className="gray_input"
+              onBlur={(e) => email.onBlur(e)}
+              onChange={(e) => {
+                email.onChange(e);
+              }}
+              value={email.value}
+            />
+            {email.isDirty && email.emailError && (
+              <span className="error_message">
+                {t("SettingsPage.wrong_format")}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* ************************************************ */}
@@ -174,9 +270,10 @@ const MainInfo = () => {
 
           <div className={styles.input_row}>
             <div className={styles.label}>{t("SettingsPage.country")}</div>
+            {/* <div style={{ width: "70%" }}> */}
             <CountryDropdown
               value={country}
-              classes="gray_input"
+              classes={`gray_input ${styles.country}`}
               onChange={(val) => {
                 // console.log(val);
                 setCountry(val);
@@ -184,6 +281,7 @@ const MainInfo = () => {
               // priorityOptions={["Russian Federation", "Kyrgyzstan"]}
               // whitelist={["Russian Federation", "Kyrgyzstan"]}
             />
+            {/* </div> */}
           </div>
           <div className={styles.input_row}>
             <div className={styles.label}>{t("SettingsPage.region")}</div>
