@@ -244,7 +244,7 @@ const MainInfo = () => {
               onChange={(e) => lastName.onChange(e)}
               value={lastName.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -254,7 +254,7 @@ const MainInfo = () => {
               onChange={(e) => firstName.onChange(e)}
               value={firstName.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -264,7 +264,7 @@ const MainInfo = () => {
               onChange={(e) => middleName.onChange(e)}
               value={middleName.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -274,7 +274,7 @@ const MainInfo = () => {
               onChange={(e) => inn.onChange(e)}
               value={inn.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -299,7 +299,7 @@ const MainInfo = () => {
             <div className={styles.label}>{t("SettingsPage.email")}</div>
             <input
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
               onBlur={(e) => email.onBlur(e)}
               onChange={(e) => {
                 email.onChange(e);
@@ -322,7 +322,7 @@ const MainInfo = () => {
               onChange={(e) => birthDate.onChange(e)}
               value={birthDate.value}
               type="date"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -347,7 +347,7 @@ const MainInfo = () => {
               onChange={(e) => city.onChange(e)}
               value={city.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -357,7 +357,7 @@ const MainInfo = () => {
               onChange={(e) => telegram.onChange(e)}
               value={telegram.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -368,7 +368,7 @@ const MainInfo = () => {
               onChange={(e) => vkontakte.onChange(e)}
               value={vkontakte.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
 
@@ -379,7 +379,7 @@ const MainInfo = () => {
               onChange={(e) => ok.onChange(e)}
               value={ok.value}
               type="text"
-              className="gray_input"
+              className={`gray_input ${styles.w70}`}
             />
           </div>
         </div>
@@ -543,7 +543,6 @@ const MainInfo = () => {
 
       {/* buttons */}
       <div className={styles.button_flex}>
-        {isValid.toString()}
         <button
           className="outline_green_button_2"
           onClick={() => {
