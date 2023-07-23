@@ -10,6 +10,15 @@ import { toast } from "react-toastify";
 import { CountryDropdown } from "react-country-region-selector";
 import { Loader } from "../../../../api/Loader";
 import PhoneInput from "react-phone-input-2";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type PassportForm = {
+  passportSerial: string;
+  passportNumber: string;
+  passportIssuer: string;
+  passportIssueDate1: string;
+  addressReg: string;
+};
 
 const MainInfo = () => {
   const { t } = useTranslation();
@@ -28,37 +37,38 @@ const MainInfo = () => {
   const [country, setCountry] = useState(
     allInfoUser?.value?.country ?? "Россия"
   );
-
   const city = useInputV(allInfoUser?.value?.city ?? "");
   const telegram = useInputV(allInfoUser?.value?.telegram ?? "");
   const vkontakte = useInputV(allInfoUser?.value?.vkontakte ?? "");
   const ok = useInputV(allInfoUser?.value?.facebook ?? "");
-
   const inn = useInputV(allInfoUser?.value?.inn ?? "");
 
   const [phoneNumber, setPhoneNumber] = useState(
     allInfoUser?.value?.phoneNumber ?? ""
   );
-
   const email = useInputV(allInfoUser?.value?.email ?? "", {
     isEmpty: true,
     isEmail: true,
   });
 
-  useEffect(() => {
-    setPhoneNumber(allInfoUser?.value?.phoneNumber ?? "");
-  }, [allInfoUser]);
+  const [passportDate, setPassportDate] = useState("2012-12-12");
 
-  useEffect(() => {
-    handleReset();
-  }, [allInfoUser]);
-
-  const [openSnack, setOpenSnack] = useState({
-    status: false,
-    text: "",
-    color: "error",
+  // Initialize react hook form
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<PassportForm>({
+    mode: "all",
+    // defaultValues: {
+    //   passportSerial: "",
+    //   passportNumber: "",
+    //   passportIssuer: "",
+    //   passportIssueDate: "",
+    //   addressReg: "",
+    // },
   });
-  const [counter, setCounter] = useState(0);
 
   const handleReset = () => {
     // firstName.onReset();
@@ -97,7 +107,27 @@ const MainInfo = () => {
     email.setDirty(false);
     setPhoneNumber(allInfoUser?.value?.phoneNumber);
     setIsLoading(false);
+
+    reset(allInfoUser.value);
+    // console.log(allInfoUser.value?.passportIssueDate?.split("T")?.[0]);
+    allInfoUser.value?.passportIssueDate &&
+      setPassportDate(allInfoUser.value?.passportIssueDate?.split("T")?.[0]);
   };
+
+  useEffect(() => {
+    setPhoneNumber(allInfoUser?.value?.phoneNumber ?? "");
+  }, [allInfoUser]);
+
+  useEffect(() => {
+    handleReset();
+  }, [allInfoUser]);
+
+  const [openSnack, setOpenSnack] = useState({
+    status: false,
+    text: "",
+    color: "error",
+  });
+  const [counter, setCounter] = useState(0);
 
   const handleUpdatePhoneMail = async () => {
     setIsLoading(true);
@@ -163,9 +193,9 @@ const MainInfo = () => {
       const res = await instance.put("api/Profile/update", payload);
       if (res.status >= 200 && res.status < 300) {
         toast.success(t("New.data_updated"));
-        await MainApi.getInitialMainReduxInfo();
       }
       await handleUpdatePhoneMail();
+      await MainApi.getInitialMainReduxInfo();
     } catch (e) {
       console.error(e);
       toast.error(t("New.data_update_error"));
@@ -174,8 +204,36 @@ const MainInfo = () => {
     }
   };
 
+  const onSubmitPassportData: SubmitHandler<PassportForm> = async (data) => {
+    setIsLoading(true);
+
+    const fetchData = {
+      passportSerial: data.passportSerial,
+      passportNumber: data.passportNumber,
+      passportIssuer: data.passportIssuer,
+      passportIssueDate: passportDate,
+      addressReg: data.addressReg,
+    };
+
+    try {
+      const res = await instance.put("/api/Profile/update-passport", fetchData);
+      if (res.status >= 200 && res.status < 300) {
+        toast.success(t("SettingsPage.passport_success"));
+        await MainApi.getInitialMainReduxInfo();
+        handleReset();
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error(t("SettingsPage.passport_error"));
+    } finally {
+      setIsLoading(false);
+      reset();
+    }
+  };
+
   return (
     <div className={styles.collapse}>
+      {/* *****COMMON*************************************** */}
       <div className={styles.green_header}>{t("New.common_data")}</div>
 
       <div className={styles.flex}>
@@ -336,6 +394,173 @@ const MainInfo = () => {
           className="dark_green_button_2"
           disabled={isLoading}
           onClick={updateMainInfo}
+        >
+          <div className="loader_for_button">
+            <Loader loading={isLoading} />
+          </div>
+          {t("SettingsPage.save")}
+        </button>
+      </div>
+
+      {/* *****PASSSPORT*************************************** */}
+
+      <div className={styles.green_header}> {t("New.passport_data")}</div>
+
+      <div className={styles.flex}>
+        <div className={styles.half}>
+          <div className={styles.input_row}>
+            <div className={styles.label}>
+              {t("SettingsPage.passport_serial")}
+            </div>
+            <div className={styles.input70}>
+              <input
+                type="text"
+                className="gray_input"
+                {...register("passportSerial", {
+                  required: t("SettingsPage.requared").toString(),
+                  minLength: {
+                    value: 2,
+                    message: t("SettingsPage.min2").toString(),
+                  },
+                  maxLength: {
+                    value: 12,
+                    message: t("SettingsPage.max12").toString(),
+                  },
+                })}
+              />
+              {errors?.passportSerial && (
+                <div className="required">
+                  {errors.passportSerial.message || "Error!"}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.input_row}>
+            <div className={styles.label}>{t("DopItems.number")}</div>
+            <div className={styles.input70}>
+              <input
+                type="text"
+                className="gray_input"
+                {...register("passportNumber", {
+                  required: t("SettingsPage.requared").toString(),
+                  minLength: {
+                    value: 4,
+                    message: t("SettingsPage.min4").toString(),
+                  },
+                  maxLength: {
+                    value: 12,
+                    message: t("SettingsPage.max12").toString(),
+                  },
+                })}
+              />
+              {errors?.passportNumber && (
+                <div className="required">
+                  {errors.passportNumber.message || "Error!"}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className={styles.half}>
+          <div className={styles.input_row}>
+            <div className={styles.label}>
+              {t("SettingsPage.passport_date")}
+            </div>
+            <div className={styles.input70}>
+              <input
+                type="date"
+                className="gray_input"
+                value={passportDate}
+                {...register("passportIssueDate1", {
+                  // required: t("SettingsPage.requared").toString(),
+                  onChange: (e) => setPassportDate(e.target.value),
+                })}
+              />
+              {errors?.passportIssueDate1 && (
+                <div className="required">
+                  {errors.passportIssueDate1.message || "Error!"}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.input_row_upper}>
+        <div className={styles.label15}>{t("SettingsPage.passport_by")}</div>
+        <div className={styles.input85}>
+          <input
+            type="text"
+            className="gray_input"
+            {...register("passportIssuer", {
+              required: t("SettingsPage.requared").toString(),
+              minLength: {
+                value: 10,
+                message: t("SettingsPage.min10").toString(),
+              },
+              maxLength: {
+                value: 120,
+                message: t("SettingsPage.max120").toString(),
+              },
+            })}
+          />
+          {errors?.passportIssuer && (
+            <div className="required">
+              {errors.passportIssuer.message || "Error!"}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.input_row_upper}>
+        <div className={styles.label15}>
+          {t("SettingsPage.passport_address")}
+        </div>
+        <div className={styles.input85}>
+          <input
+            type="text"
+            className="gray_input"
+            {...register("addressReg", {
+              required: t("SettingsPage.requared").toString(),
+              minLength: {
+                value: 10,
+                message: t("SettingsPage.min10").toString(),
+              },
+              maxLength: {
+                value: 120,
+                message: t("SettingsPage.max120").toString(),
+              },
+            })}
+          />
+          {errors?.addressReg && (
+            <div className="required">
+              {errors.addressReg.message || "Error!"}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* buttons */}
+      <div className={styles.button_flex}>
+        {isValid.toString()}
+        <button
+          className="outline_green_button_2"
+          onClick={() => {
+            reset(allInfoUser.value);
+            // console.log(allInfoUser.value?.passportIssueDate?.split("T")?.[0]);
+            setPassportDate(
+              allInfoUser.value?.passportIssueDate?.split("T")?.[0]
+            );
+            // handleReset();
+          }}
+        >
+          {t("SettingsPage.cancel")}
+        </button>
+        <button
+          className="dark_green_button_2"
+          disabled={!isValid || isLoading}
+          onClick={handleSubmit(onSubmitPassportData)}
         >
           <div className="loader_for_button">
             <Loader loading={isLoading} />
