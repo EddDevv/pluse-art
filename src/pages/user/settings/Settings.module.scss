@@ -248,3 +248,23 @@
   line-height: 140%; /* 22.4px */
   text-decoration-line: underline;
 }
+.dock_blanck {
+  width: 120px;
+  height: 170px;
+  background: #d9d9d9;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+.delete {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+}
