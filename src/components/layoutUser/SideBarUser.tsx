@@ -4,7 +4,7 @@ import { useAppSelector } from "../../store";
 import styles from "./LayoutUser.module.scss";
 import React, { FC } from "react";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AiOutlineGift } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { MdExitToApp } from "react-icons/md";
@@ -12,6 +12,7 @@ import { menuUserItems } from "../../assets/consts/consts";
 import NavMenu from "./NavMenu";
 import { getNumWithoutZeroToFixedN } from "../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 import { useTranslation } from "react-i18next";
+import { AuthApi } from "../../api/auth/auth";
 
 type Propstype = {
   onClose?: any;
@@ -19,10 +20,17 @@ type Propstype = {
 
 const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { auth, userData, allInfoUser, dopInfo } = useAppSelector(
     (state) => state
   );
+
+  const handleLogout = async (e: any) => {
+    e.preventDefault();
+    await AuthApi.logOutApi();
+    navigate("/login");
+  };
 
   return (
     <div className={styles.navbar_container}>
@@ -64,7 +72,7 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
         </div>
         <div className={styles.icon_block}>RU</div>
         <div className={styles.icon_block}>
-          <MdExitToApp size={24} color="#4F4F4F" />
+          <MdExitToApp size={24} color="#4F4F4F"  onClick={handleLogout}/>
         </div>
       </div>
 

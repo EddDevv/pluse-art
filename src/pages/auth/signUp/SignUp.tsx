@@ -5,6 +5,8 @@ import { upAnimation } from "../../../utils/animation/animations";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import ReCAPTCHA from "react-google-recaptcha";
+
 // import {
 //   addCaptchaErrorCount,
 //   registerUser,
@@ -42,6 +44,7 @@ type SignUpForm = {
   phoneNumber: any;
   inviterId: string;
 };
+const CKeyV2 = "6Ld3c04nAAAAALyMtrPZ_mT4wtLBf2NHNummb5Hh";
 
 const SignUp: FC = () => {
   const { id } = useParams();
@@ -79,6 +82,8 @@ const SignUp: FC = () => {
   const [captchaDispatch, setCaptchaDispatch] = useState(false);
   const [isPhoneBlur, setIsPhoneBlur] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
+
+  const [isCapchaSuccess, setIsCapchaSuccess] = useState(false);
 
   // Initialize React hook form
   const {
@@ -262,6 +267,11 @@ const SignUp: FC = () => {
   useEffect(() => {
     successCaptcha && captchaDispatch && successHandler();
   }, [successCaptcha]);
+
+  const onCapchaChange = (value: any) => {
+    console.log("Captcha value:", value);
+    value && setIsCapchaSuccess(true);
+  };
 
   return (
     <>
@@ -569,6 +579,8 @@ const SignUp: FC = () => {
                   </div>
                 </div>
 
+                <ReCAPTCHA sitekey={CKeyV2} onChange={onCapchaChange} />
+
                 <button
                   className="main_button_mt40_w50"
                   onClick={handleSubmit(onSubmit)}
@@ -578,7 +590,8 @@ const SignUp: FC = () => {
                     visibleCaptcha ||
                     isLoginRegistered ||
                     isEmailRegistered ||
-                    isInviterNotFound
+                    isInviterNotFound ||
+                    !isCapchaSuccess
                   }
                 >
                   Зарегистрироваться

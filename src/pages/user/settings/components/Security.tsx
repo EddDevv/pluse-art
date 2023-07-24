@@ -220,6 +220,41 @@ const Security = () => {
       resetGaData();
     }
   };
+
+  // telegram
+  const { isTelegramBinded } = useAppSelector(
+    (state) => state.userData.value.userInfo
+  );
+  const [gaResCodeTele, setGaResCodeTele] = useState("");
+
+  // ПОЛУЧЕНИЕ GA QR и КОДА
+  const getGADataHandlerTele = async () => {
+    try {
+      const response = await instance.get("api/PulseArtBot/code");
+      if (response.status < 300 && response.status >= 200) {
+        setGaResCodeTele(response.data);
+      }
+    } catch (e: any) {
+      if (e?.response?.data) {
+        toast.error(e?.response?.data);
+      } else if (e?.response) {
+        toast.error(e?.response);
+      } else {
+        toast.error(t("SettingsPage.error"));
+      }
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getGADataHandlerTele();
+
+    return () => {
+      refreshUserData();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTelegramBinded]);
+
   return (
     <div className={styles.collapse}>
       {/* ******************password ************************************** */}
@@ -448,9 +483,55 @@ const Security = () => {
         </div>
       </>
 
+      {/* ******************TELEGRAM************************************** */}
+      <div className={styles.green_header}>Telegram Bot</div>
+      {isTelegramBinded === true ? (
+        <div className={styles.text}>{t("DopItem2.telegram_true")}</div>
+      ) : (
+        <>
+          <div className={styles.text}>{t("New.telegram_desc")}</div>
+          <div className={styles.flex}>
+            <div className={styles.half}>
+              <div className={styles.input_row}>
+                <div className={styles.label_120}>{t("New.copy_code")}</div>
+                <input
+                  value={gaResCodeTele}
+                  readOnly
+                  className={`gray_input ${styles.w100}`}
+                />
+                <IconButton
+                  onClick={() => {
+                    window.navigator.clipboard.writeText(gaResCodeTele);
+                    toast.success(t("SettingsPage.copy"));
+                  }}
+                  color="secondary"
+                  aria-label="copy"
+                >
+                  <CopyIcon color={"teal"} />
+                </IconButton>
+              </div>
+            </div>
+
+            <div className={styles.half}>
+              <div className={styles.input_row}>
+                <div className={styles.label_120}>{t("New.go_to_link")}</div>
+                <a
+                  href="https://t.me/pulseartbot"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.telelink}
+                >
+                  https://t.me/pulseartbot
+                </a>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* ******************HIDDEN************************************** */}
 
-      <div className={styles.check_flex}>
+      <div className={styles.check_flex} style={{marginTop: "30px"}}>
         <Checkbox
           colorScheme="teal"
           checked={allInfoUser.value.isHidden === true}

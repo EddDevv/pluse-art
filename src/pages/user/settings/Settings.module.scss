@@ -231,3 +231,20 @@
   font-weight: 500;
   line-height: normal;
 }
+.text {
+  color: var(--gray-2, #4f4f4f);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+.telelink {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 22.4px */
+  text-decoration-line: underline;
+}
