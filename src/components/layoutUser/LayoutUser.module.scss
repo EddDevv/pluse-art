@@ -106,8 +106,11 @@
   display: flex;
   gap: 21px;
   min-height: 98px;
+  @media screen and (max-width: 1200px) {
+    flex-wrap: wrap;
+  }
   @media screen and (max-width: 760px) {
-   flex-direction: column;
+    flex-direction: column;
   }
   // flex-wrap: wrap;
 }

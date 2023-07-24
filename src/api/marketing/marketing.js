@@ -230,7 +230,7 @@ class CMarketingApi {
       // );
       const response = await instance.get(`api/Partners/sublevel/${nodeId}`);
       // console.log(`api/Partners/sublevel/${nodeId}`, response);
-      return response.data;
+      return response;
     } catch (error) {
       console.error(error);
       if (error.response) {

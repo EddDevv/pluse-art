@@ -1,0 +1,82 @@
+.container {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #c7c7c7;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 30px;
+  gap: 10px;
+  font-family: "Raleway";
+  font-style: normal;
+}
+
+.table_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d9d9d9;
+  // border-left: 1px solid #d9d9d9;
+  // border-left: 1px solid linear-gradient(#f6b73c, #4d9f0c);
+  border-radius: 10px;
+  padding: 7px;
+  @media screen and (max-width: 1050px) {
+    flex-wrap: wrap;
+  }
+}
+.open_close {
+  width: 10%;
+}
+.table_column_login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  @media screen and (max-width: 1050px) {
+    width: 35%;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
+}
+.table_column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  @media screen and (max-width: 1050px) {
+    width: 48%;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
+}
+
+.cell_name {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #969696;
+}
+.cell_login {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #284c63;
+}
+.cell_date {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #284c63;
+}
+.cell_sum {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #64aeca;
+}
+
+.relative {
+  position: relative;
+}
