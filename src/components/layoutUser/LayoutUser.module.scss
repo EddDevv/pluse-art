@@ -19,14 +19,14 @@
   flex-direction: column;
   justify-content: start;
   max-width: 380px;
-  min-width: 250px;
+  min-width: 280px;
   @media screen and (max-width: 760px) {
     display: none;
   }
 }
 
 .layout_user {
-  // width: 100%;
+  // width: 70%;
   flex-grow: 1;
   padding: 20px 36px;
   @media screen and (max-width: 760px) {
@@ -123,7 +123,7 @@
   min-height: 90px;
   padding: 17px;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 920px) {
     width: 100%;
   }
 }
@@ -215,7 +215,7 @@
 
 // ***********************************sidebar******************************
 .navbar_container {
-  min-width: 380px;
+  // min-width: 380px;
   width: 100%;
   max-width: 380px;
   min-height: 900px;
@@ -225,10 +225,14 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  @media screen and (max-width: 1200px) {
+    padding: 10px;
+    min-width: 280px;
+  }
   @media screen and (max-width: 760px) {
     background: transparent;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0);
-    padding: 10px;
+    padding: 10px 10px 10px 30px;
   }
 }
 
