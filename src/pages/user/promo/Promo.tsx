@@ -14,6 +14,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setContestsListActive } from "../../../store/contest/actions";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
+import { Gift } from "../../../assets/icons/Gift";
 
 const Promo = () => {
   const { t } = useTranslation();
@@ -109,6 +110,7 @@ const Promo = () => {
       />
       <div className={`${styles.paper}`}>
         <div className={styles.title_flex}>
+          <Gift />
           <div className="page_title">
             {t("New.promo")} {new Date().getFullYear()}
           </div>
@@ -140,7 +142,11 @@ const Promo = () => {
                   <div className={styles.promo_desc}>
                     <div>{t("New.term")}</div>
                     <span>
-                      <Moment format="DD MMMM YYYY" locale="ru">
+                      <Moment format="DD/MM/YYYY" locale="ru">
+                        {elem.startDate}
+                      </Moment>
+                      -
+                      <Moment format="DD/MM/YYYY" locale="ru">
                         {elem.finishDate}
                       </Moment>
                     </span>
