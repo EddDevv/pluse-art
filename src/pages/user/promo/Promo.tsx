@@ -100,6 +100,69 @@ const Promo = () => {
     }
   };
 
+  const Item = ({ elem, isPast }: { elem: ContestType; isPast?: boolean }) => {
+    return (
+      <div className={styles.item} key={elem.id}>
+        <div className={styles.data}>
+          {t("New.promo_added")}
+          <Moment format="DD MMMM YYYY" locale="ru">
+            {elem.startDate}
+          </Moment>
+        </div>
+        <div className={styles.flex}>
+          <div className={styles.image}>
+            <img src={`${BASEAPPURL}assets/Img/${elem.image}`} alt="" />
+          </div>
+
+          <div className={styles.info_column}>
+            <div className={styles.promo_title}>{elem.caption}</div>
+            <div
+              className={isPast ? styles.promo_desc_past : styles.promo_desc}
+            >
+              <div>{t("New.term")}</div>
+              <span>
+                {isPast ? (
+                  t("New.past")
+                ) : (
+                  <Moment format="DD/MM/YYYY" locale="ru">
+                    {elem.startDate}
+                  </Moment>
+                )}
+                -
+                <Moment format="DD/MM/YYYY" locale="ru">
+                  {elem.finishDate}
+                </Moment>
+              </span>
+            </div>
+            <div
+              className={isPast ? styles.promo_desc_past : styles.promo_desc}
+            >
+              <div>{t("New.cost")}</div>
+              <span>{elem.participationCost}</span>
+            </div>
+
+            <Spacer />
+            <div className={styles.promo_desc} style={{ alignItems: "end" }}>
+              <div>
+                {t("Platform.participate_list")} {elem.participantsCount}
+              </div>
+              <button
+                className="dark_orange_button"
+                onClick={() => {
+                  setChosen(elem);
+                  setPay(true);
+                }}
+                disabled
+              >
+                {isPast? t("Platform.draw_is_ended"): t("Platform.participate")}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="page_container">
       <ModalMain
@@ -124,60 +187,11 @@ const Promo = () => {
         </div>
 
         <div className={styles.main}>
+          {contests?.active.map((elem) => (
+            <Item elem={elem} key={elem.id} />
+          ))}
           {contests?.past.map((elem) => (
-            <div className={styles.item} key={elem.id}>
-              <div className={styles.data}>
-                {t("New.promo_added")}
-                <Moment format="DD MMMM YYYY" locale="ru">
-                  {elem.startDate}
-                </Moment>
-              </div>
-              <div className={styles.flex}>
-                <div className={styles.image}>
-                  <img src={`${BASEAPPURL}assets/Img/${elem.image}`} alt="" />
-                </div>
-
-                <div className={styles.info_column}>
-                  <div className={styles.promo_title}>{elem.caption}</div>
-                  <div className={styles.promo_desc}>
-                    <div>{t("New.term")}</div>
-                    <span>
-                      <Moment format="DD/MM/YYYY" locale="ru">
-                        {elem.startDate}
-                      </Moment>
-                      -
-                      <Moment format="DD/MM/YYYY" locale="ru">
-                        {elem.finishDate}
-                      </Moment>
-                    </span>
-                  </div>
-                  <div className={styles.promo_desc}>
-                    <div>{t("New.cost")}</div>
-                    <span>{elem.participationCost}</span>
-                  </div>
-
-                  <Spacer />
-                  <div
-                    className={styles.promo_desc}
-                    style={{ alignItems: "end" }}
-                  >
-                    <div>
-                      {t("Platform.participate_list")} {elem.participantsCount}
-                    </div>
-                    <button
-                      className="dark_orange_button"
-                      onClick={() => {
-                        setChosen(elem);
-                        setPay(true);
-                      }}
-                      disabled
-                    >
-                      {t("Platform.participate")}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Item elem={elem} key={elem.id} isPast={true} />
           ))}
         </div>
       </div>

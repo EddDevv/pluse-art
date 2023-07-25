@@ -83,7 +83,6 @@
   font-style: normal;
   font-weight: 300;
   line-height: 150%; /* 18px */
-  
 }
 .flex {
   width: 100%;
@@ -121,6 +120,26 @@
   line-height: normal;
   span {
     color: #000;
+    text-align: right;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 22.4px */
+  }
+}
+.promo_desc_past {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--gray-1, #333);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  span {
+    color: var(--gray-3, #828282);
     text-align: right;
     font-family: Inter;
     font-size: 16px;
