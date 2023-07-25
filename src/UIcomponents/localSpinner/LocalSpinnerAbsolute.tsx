@@ -3,11 +3,19 @@ import { ColorRing } from "react-loader-spinner";
 
 interface ISpinnerProps {
   size: string;
+  top?: string;
 }
 
-export const LocalSpinnerAbsolute: FC<ISpinnerProps> = ({ size }) => {
+export const LocalSpinnerAbsolute: FC<ISpinnerProps> = ({ size, top }) => {
   return (
-    <div style={{ position: "absolute", top: "-20px", left: "45%" }}>
+    <div
+      style={{
+        position: "absolute",
+        top: top ? top : "-20px",
+        left: "45%",
+        zIndex: "1000",
+      }}
+    >
       <ColorRing
         visible={true}
         height={size}

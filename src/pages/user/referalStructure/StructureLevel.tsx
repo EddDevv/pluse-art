@@ -1,10 +1,7 @@
 import styles from "./ReferalStructure.module.scss";
 import React, { useEffect, useState } from "react";
-import { takeCountReferrals } from "./ReferalStructure";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import {
-  Button,
-  Center,
   Collapse,
   Skeleton,
   useMediaQuery,
@@ -13,35 +10,37 @@ import { LocalSpinnerAbsolute } from "../../../UIcomponents/localSpinner/LocalSp
 import instance from "../../../api/instance";
 import { MarketingApi } from "../../../api/marketing/marketing";
 import { StructureItemType } from "../../../assets/types/Structure";
+import { useTranslation } from "react-i18next";
 
 type PropsType = {
   userId: number;
   // referrals: IStructureItem[];
   // totalCount: number;
   level: number;
-  isPageReset: boolean;
-  onlyActivated: boolean;
+  // isPageReset: boolean;
+  // onlyActivated: boolean;
 };
 
-const itemsPerPage = 1;
+// const itemsPerPage = 1;
 
 const StructureLevel = (props: PropsType) => {
+  const { t } = useTranslation();
   const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
 
   const [referals, setReferals] = useState<StructureItemType[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(1);
+  // const [totalCount, setTotalCount] = useState(0);
+  // const [page, setPage] = useState(1);
   const [userLogin, setUserLogin] = useState<number | string>("");
   const [isPageReset, setIsPageReset] = useState(false);
   const [level, setLevel] = useState(props?.level + 1);
   const [loading, setLoading] = useState(false);
 
-  // Reset page when parent open or close
-  useEffect(() => {
-    if (props.isPageReset) {
-      setPage(1);
-    }
-  }, [props.isPageReset]);
+  // // Reset page when parent open or close
+  // useEffect(() => {
+  //   if (props.isPageReset) {
+  //     setPage(1);
+  //   }
+  // }, [props.isPageReset]);
 
   const getReferalsInit = async () => {
     try {
@@ -61,7 +60,6 @@ const StructureLevel = (props: PropsType) => {
           }
         });
         setReferals(tempArray);
-        // console.log("res?.data /api/Binary/structure", res?.data);
       }
     } catch (e) {
       console.error(e);
@@ -96,7 +94,7 @@ const StructureLevel = (props: PropsType) => {
         tempReferrals[i].isOpen = false;
       }
       setReferals(tempReferrals);
-      setTotalCount(response?.data?.totalCount);
+      // setTotalCount(response?.data?.totalCount);
 
       // }
     } catch (error) {
@@ -127,51 +125,42 @@ const StructureLevel = (props: PropsType) => {
     setLoading(false);
   };
 
-  const loadMoreHandler = async () => {
-    setLoading(true);
-    // const data = {
-    //   parentLogin: props.login,
-    //   take: takeCountReferrals,
-    //   skip: takeCountReferrals * page,
-    //   onlyActivated: props.onlyActivated,
-    // };
-
-    try {
-      // const config = {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // };
-      // const response = await instance.post(
-      //   "/api/User/structure",
-      //   data,
-      //   config
-      // );
-      // const addingReferrals = response.data.items;
-      // for (let i = 0; i < addingReferrals?.length; i++) {
-      //   addingReferrals[i].isOpen = false;
-      // }
-      // setReferrals([...referrals, ...addingReferrals]);
-      // setPage(page + 1);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className={styles.relative}>
-      {loading && <LocalSpinnerAbsolute size="100" />}
+      {loading && <LocalSpinnerAbsolute size="50"  />}
       {referals?.length > 0 ? (
         referals?.map((elem) => (
           <Skeleton key={elem.id} isLoaded={!loading}>
             <div
-              className={styles.table_row}
+              className={level === 1 ? styles.level1_row : styles.level_row}
               style={{
-                marginLeft: level < 5 ? `${(level - 1) * 20}px` : "100px",
+                marginLeft: level < 5 ? `${(level - 1) * 40}px` : "200px",
               }}
             >
+              <div className={styles.level}>
+                <div>{level}</div>
+                <div>{t("New.line")}</div>
+              </div>
+
+              <div className={styles.table_column}>
+                <div className={styles.cell_name}>{t("History.login")}</div>
+                <div className={styles.cell_login} style={{color: elem?.isActivated?"teal":"gray"}}>{elem.login}</div>
+              </div>
+
+              <div className={styles.table_column}>
+                <div className={styles.cell_name}>{t("Statistics.activation_date")}</div>
+                <div className={styles.cell_date}>
+                  {elem.creationDate.split("T")[0]}
+                </div>
+              </div>
+
+              <div className={styles.table_column}>
+                <div className={styles.cell_name}>Email</div>
+                <div className={styles.cell_date}>
+                  {elem.email ? elem.email : "no"}
+                </div>
+              </div>
+
               <div className={styles.open_close}>
                 {
                   // elem .refCount === 0 ? (
@@ -192,46 +181,14 @@ const StructureLevel = (props: PropsType) => {
                   )
                 }
               </div>
-              <div className={styles.table_column_login}>
-                <div className={styles.cell_name}>Логин</div>
-                <div className={styles.cell_login}>{elem.login}</div>
-              </div>
-
-              <div className={styles.table_column}>
-                <div className={styles.cell_name}>Зарегистрирован</div>
-                <div className={styles.cell_date}>
-                  {elem.creationDate.split("T")[0]}
-                </div>
-              </div>
-
-              <div className={styles.table_column}>
-                <div className={styles.cell_name}>Email</div>
-                <div className={styles.cell_date}>
-                  {elem.email ? elem.email : "no"}
-                </div>
-              </div>
-
-              <div className={styles.table_column}>
-                <div className={styles.cell_name}>Оборот</div>
-                <div className={styles.cell_login}>
-                  {/* {elem.marketingStatus.accumulatedVolume} */}
-                </div>
-              </div>
-
-              <div className={styles.table_column}>
-                <div className={styles.cell_name}>Ранг</div>
-                <div className={styles.cell_sum}>
-                  {/* {elem.marketingStatus.rank} */}
-                </div>
-              </div>
             </div>
 
             <Collapse in={elem.isOpen} animateOpacity>
               {elem.isOpen && (
                 <StructureLevel
-                  onlyActivated={props.onlyActivated}
-                  userId={+userLogin}
-                  isPageReset={isPageReset}
+                  // onlyActivated={props.onlyActivated}
+                  userId={+elem.id}
+                  // isPageReset={isPageReset}
                   level={level}
                 />
               )}
@@ -241,7 +198,7 @@ const StructureLevel = (props: PropsType) => {
       ) : (
         <div style={{ textAlign: "center" }}>Нет рефералов</div>
       )}
-      {totalCount > referals.length && (
+      {/* {totalCount > referals.length && (
         <Center w="100%" m={4}>
           <Button
             onClick={() => loadMoreHandler()}
@@ -256,7 +213,7 @@ const StructureLevel = (props: PropsType) => {
             Показать еще
           </Button>
         </Center>
-      )}
+      )} */}
     </div>
   );
 };

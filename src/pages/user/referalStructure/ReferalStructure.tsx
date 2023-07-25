@@ -21,9 +21,9 @@ const ReferalStructure = () => {
       <div className={styles.table}>
         <StructureLevel
           userId={allInfoUser?.value?.id}
-          level={1}
-          onlyActivated={onlyActivated}
-          isPageReset={isPageReset}
+          level={0}
+          // onlyActivated={onlyActivated}
+          // isPageReset={isPageReset}
         />
       </div>
     </div>
