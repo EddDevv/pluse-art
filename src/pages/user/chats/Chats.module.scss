@@ -1,6 +1,6 @@
 .paper {
   margin: 31px 0;
-//   padding: 31px 29px;
+  //   padding: 31px 29px;
 
   @media screen and (max-width: 760px) {
     // padding: 20px;
@@ -11,10 +11,103 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 50px;
-  min-height: 100px;
+  margin-bottom: 30px;
+  min-height: 40px;
 
   @media screen and (max-width: 760px) {
     margin-bottom: 20px;
   }
+}
+
+.chats_column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+%chact_block {
+  width: 100%;
+  min-height: 80px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  color: var(--gray-2, #4f4f4f);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 22.4px */
+}
+.chact_block {
+  @extend %chact_block;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(194, 225, 225, 0.47);
+}
+.chact_block_gray {
+  @extend %chact_block;
+  background: #f3f9f9;
+}
+.inner {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+.login_time {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--gray-2, #4f4f4f);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 19.6px */
+}
+.time {
+  color: var(--gray-2, #4f4f4f);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 140%; /* 19.6px */
+}
+.link_back {
+  color: var(--gray-2, #4f4f4f);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+  padding-bottom: 20px;
+}
+.chat_column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 30px;
+  padding: 30px 30px;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(194, 225, 225, 0.47);
+}
+.message_flex {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 30px;
+}
+.textarea {
+  padding: 30px;
+  min-height: 130px;
+}
+.button_flex {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
 }

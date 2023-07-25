@@ -30,6 +30,7 @@ export enum ROUTES {
     statistics = "/user/statistics",
     structure = "/user/structure",
     chats = "/user/chats",
+    chat = "/user/chat/",
     career = "/user/career"
 
 }
@@ -113,4 +114,13 @@ export enum AccountsForRdEnum {
     Bitcoin = "Bitcoin",
     Ethereum = "Ethereum",
     Litecoin = "Litecoin",
+}
+
+export const UserIds = [
+    { id: "61", name: "techSupport" },
+    { id: "350169", name: "manager" },
+]
+export enum UserIdsEnum {
+    manager = "350169",
+    techSupport = "61"
 }

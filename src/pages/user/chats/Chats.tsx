@@ -8,8 +8,12 @@ import { useAppSelector } from "../../../store";
 import styles from "./Chats.module.scss";
 import { ChatType } from "../../../assets/types/Chat";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
-import { IconButton, Tooltip } from "@chakra-ui/react";
+import { IconButton, Spacer } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { LetterClosed } from "../../../assets/icons/LetterClosed";
+import { LetterOpen } from "../../../assets/icons/LetterOpen";
+import { ROUTES, UserIdsEnum } from "../../../assets/consts/consts";
+import MessageModal from "./MessageModal";
 
 const Chats = () => {
   const { t } = useTranslation();
@@ -24,6 +28,8 @@ const Chats = () => {
 
   const [chosenChat, setChosenChat] = useState<ChatType | null>(null);
   const [isOpenDeleteChatModal, setIsOpenDeleteChatModal] = useState(false);
+
+  const [isOpenMesToSupport, setIsOpenMesToSuppor] = useState(false);
 
   const getChats = async () => {
     try {
@@ -48,7 +54,7 @@ const Chats = () => {
   }, [refresh, currentPage]);
 
   const handleOpen = ({ id, name }: any) => {
-    push(`/messages${id}/${name}`);
+    push(`${ROUTES.chat}${id}/${name}`);
   };
 
   const handleDelete = async () => {
@@ -73,6 +79,13 @@ const Chats = () => {
 
   return (
     <div className={styles.paper}>
+      <MessageModal
+        id={UserIdsEnum.techSupport}
+        isOpen={isOpenMesToSupport}
+        setIsOpen={setIsOpenMesToSuppor}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
       <ModalMain
         isOpen={isOpenDeleteChatModal}
         title={`${t("DopItems.confirm_chat_deleting")} ${
@@ -86,83 +99,93 @@ const Chats = () => {
       />
       <div className={styles.title_flex}>
         <div className="page_title">{t("Platform.chats_list")} </div>
-        <button className="dark_green_button" style={{alignSelf: "start"}}>
+        <button
+          className="dark_green_button"
+          style={{ alignSelf: "start" }}
+          onClick={() => setIsOpenMesToSuppor(true)}
+        >
           {t("User_layout.write_to_tech")}
         </button>
       </div>
-      <div className="main_for_all_pages">
-        <div className="message_form_row">
-          {chatrooms?.length > 0 &&
-            chatrooms.map((item) => (
-              <div className="chats_item" key={item.id}>
-                {/* <ListItemIcon>
+
+      <div className={styles.chats_column}>
+        {chatrooms?.length > 0 &&
+          chatrooms.map((item) => (
+            <div
+              className={
+                !item.lastMessage.isRead &&
+                item.lastMessage.senderId !== allInfoUser.value.id
+                  ? styles.chact_block_gray
+                  : styles.chact_block
+              }
+              key={item.id}
+            >
+              <div
+                className={styles.inner}
+                onClick={() =>
+                  handleOpen({ id: item.id, name: item.recipientId })
+                }
+              >
+                <div>
                   {!item.lastMessage.isRead &&
                   item.lastMessage.senderId !== allInfoUser.value.id ? (
-                    <img src="../../../images/message_closed.png" alt="" />
+                    <LetterClosed />
                   ) : (
-                    <img src="../../../images/message_open.png" alt="" />
+                    <LetterOpen />
                   )}
-                </ListItemIcon> */}
-                <div
-                  onClick={() =>
-                    handleOpen({ id: item.id, name: item.recipientId })
-                  }
-                  className="chats_item_inner"
-                >
-                  <div className="chats_item_login">
-                    <Tooltip title={`Login: ${item?.recipientLogin}`}>
-                      <div>
-                        {item?.recipientName &&
-                        item?.recipientName.trim().length > 0
-                          ? item.recipientName
-                          : item?.recipientLogin
-                          ? item?.recipientLogin
-                          : "no login"}
-                      </div>
-                    </Tooltip>
+                </div>
+                <div className={styles.login_time}>
+                  <div>
+                    {item?.recipientName &&
+                    item?.recipientName.trim().length > 0
+                      ? item.recipientName
+                      : item?.recipientLogin
+                      ? item?.recipientLogin
+                      : "no login"}
                   </div>
 
-                  <div className="chats_item_date">
+                  <div className={styles.time}>
                     <Moment format="HH:mm DD.MM.YYYY">
                       {item?.lastMessage?.creationDate}
                     </Moment>
                   </div>
-                  <div
-                    style={{
-                      color:
-                        item?.lastMessage.senderId === allInfoUser.value.id
-                          ? ""
-                          : "#007aff",
-                    }}
-                  >
-                    {item?.lastMessage.senderId === allInfoUser.value.id
-                      ? "Вы: "
-                      : "Вам: "}
-                    {item.lastMessage.text}
-                  </div>
                 </div>
-                {/* <IconButton
-                    onClick={() =>
-                      handleOpen({ id: item.id, name: item.recipientId })
-                    }
-                  >
-                    <CommentIcon />
-                  </IconButton> */}
+                <div
+                  style={{
+                    flexGrow: 1,
+                    color:
+                      item?.lastMessage.senderId === allInfoUser.value.id
+                        ? ""
+                        : "teal",
+                  }}
+                >
+                  {item?.lastMessage.senderId === allInfoUser.value.id
+                    ? t("New.you")
+                    : t("New.to_you")}
+                  {item.lastMessage.text}
+                </div>
               </div>
-            ))}
-          {/* </List> */}
-        </div>
-        <div>
-          {chatrooms.length < totalCount && (
-            <button
-              className="subm_form"
-              onClick={() => setCurrentPage(currentPage + 1)}
-              style={{ color: "white" }}
-            >
-              {t("Platform.load_more")}
-            </button>
-          )}
-        </div>
+              <IconButton
+                onClick={() => {
+                  setChosenChat(item);
+                  setIsOpenDeleteChatModal(true);
+                }}
+                aria-label="Search database"
+                className={styles.delete}
+                icon={<DeleteIcon color={"teal"} />}
+              />
+            </div>
+          ))}
+        <Spacer />
+
+        {chatrooms.length < totalCount && (
+          <button
+            className="loadmore"
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            {t("Platform.load_more")}
+          </button>
+        )}
       </div>
     </div>
   );

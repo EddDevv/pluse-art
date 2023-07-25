@@ -140,11 +140,11 @@ export const App = () => (
         <Route path={ROUTES.structure} element={<PrivateRoute />}>
           <Route index element={<ReferalStructure />} />
         </Route>
+        <Route path={`${ROUTES.chat}:id/:name`} element={<PrivateRoute />}>
+          <Route index element={<Messages />} />
+        </Route>
         <Route path={ROUTES.chats} element={<PrivateRoute />}>
           <Route index element={<Chats />} />
-        </Route>
-        <Route path="/user/messages:id/:name" element={<PrivateRoute />}>
-          <Route index element={<Messages />} />
         </Route>
         <Route path={ROUTES.career} element={<PrivateRoute />}>
           <Route index element={<Career />} />

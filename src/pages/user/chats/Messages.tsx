@@ -7,15 +7,23 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../../store";
 import { useTranslation } from "react-i18next";
-import { MessagesType, ProfileType } from "../../../assets/types/Chat";
+import {
+  MessagesType,
+  ProfileType,
+  ResponseMessageType,
+} from "../../../assets/types/Chat";
 import { Loader } from "../../../api/Loader";
+import styles from "./Chats.module.scss";
+import { ROUTES, UserIdsEnum } from "../../../assets/consts/consts";
+import { Avatar } from "@chakra-ui/react";
+import Moment from "react-moment";
+import MessageModal from "./MessageModal";
 
 const Messages = () => {
+  console.log("messages");
   const { t } = useTranslation();
 
   const { auth, allInfoUser } = useAppSelector((state) => state);
-  const [openEmoji, setOpenEmoji] = useState(false);
-  // eslint-disable-next-line
   const [send, setSend] = useState(false);
   const [message, setMessage] = useState("");
   const [pic, setPic] = useState("");
@@ -25,19 +33,25 @@ const Messages = () => {
 
   const { id, name } = useParams();
 
-  const [messages, setMessages] = useState<MessagesType | null>(null);
-  //   const messages: UseFetchresponseMessageType = useFetchWithTokenGet(
-  //     `api/Chat/messages?chatRoomId=${id}`,
-  //     { messages: { items: [] } },
-  //     send
-  //   );
+  const [messages, setMessages] = useState<ResponseMessageType | null>(null);
+  const [isOpenMesToSupport, setIsOpenMesToSuppor] = useState(false);
 
-  const [openMes, setOpenMes] = useState(false);
-
-  const handlePush = (e: any) => {
-    e.preventDefault();
-    setOpenMes(!openMes);
+  const getMessages = async () => {
+    try {
+      const res = await instance.get(`api/Chat/messages?chatRoomId=${id}`);
+      if (res.status >= 200 && res.status < 300) {
+        setMessages(res.data);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
+
+  useEffect(() => {
+    if (!auth?.token) return;
+    getMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.token, send]);
 
   // const getImage = async (image) => {
   //   const picture = await MainApi.getImage(image);
@@ -107,17 +121,6 @@ const Messages = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.token, send]);
 
-  // const getMessages = async () => {
-  //   const res = await instance.get(`api/Chat/messages?chatRoomId=${id}`);
-  // };
-
-  const handleAddEmoji = (emoji: any) => {
-    console.log("emoji", emoji);
-    setMessage((prev) => prev + emoji.native);
-    console.log("emoji from", String.fromCodePoint(+`0x${emoji.unified}`));
-    // setMessage((prev) => prev + String.fromCodePoint(emoji.unified));
-  };
-
   // const getSendMessage = async () => {
   //   try {
   //     // const response = await instance.post(`api/Chat/send-message/${name}`, message);
@@ -175,192 +178,102 @@ const Messages = () => {
     }
   };
 
-  const handleOpen = (e: any) => {
-    e.preventDefault();
-    setOpenEmoji(!openEmoji);
-  };
-
   return (
     <>
-      <div className="main_for_all_pages message_no_right_pad">
-        {t("Platform.chats")}
-        <div className="message_form_row">
-          <div className="message_left_form">
-            <div className="mes_send_button_container">
-              <Link
-                to="/chats"
-                className="mes_send_button"
-                style={{ width: "200px" }}
-              >
-                {" "}
-                {"<< "}
-                {t("Platform.chats_list")}
-              </Link>
-            </div>
-            <div className="messageses">
-              {/* <Loader loading={messages.loading} /> */}
-              {/* {messages?.data?.messages?.items?.length > 0 &&
-                messages.data.messages.items.map((item) =>
-                  item.senderId === allInfoUser.value.id ? (
-                    <LkMessagesMainYou
-                      key={item.id}
-                      // url={item.senderId}
-                      text={item.text}
-                      time={item.creationDate}
-                    />
+      <MessageModal
+        id={UserIdsEnum.techSupport}
+        isOpen={isOpenMesToSupport}
+        setIsOpen={setIsOpenMesToSuppor}
+      />
+      <div className={styles.paper}>
+        <div className={styles.title_flex}>
+          <div className="page_title">{t("New.my_mes")} </div>
+          <button
+            className="dark_green_button"
+            style={{ alignSelf: "start" }}
+            onClick={() => setIsOpenMesToSuppor(true)}
+          >
+            {t("User_layout.write_to_tech")}
+          </button>
+        </div>
+        <div className={styles.link_back}>
+          <Link to={ROUTES.chats}>
+            {"<      "}&nbsp;
+            {t("New.back_to_chats")}
+          </Link>
+        </div>
+
+        <div className={styles.chat_column}>
+          {messages &&
+            // userProfile &&
+            messages.messages.items.map((elem) => (
+              <div key={elem.id} className={styles.message_flex}>
+                <div style={{ width: "10%" }}>
+                  {elem.senderId === allInfoUser.value.id ? (
+                    <>
+                      <Avatar
+                        name={allInfoUser.value.login}
+                        src={allInfoUser.avatar}
+                      />
+                    </>
                   ) : (
-                    <LkMessagesMainUser
-                      key={item.id}
-                      url={pic}
-                      text={item.text}
-                      time={item.creationDate}
-                    />
-                  )
-                )} */}
-            </div>
+                    <>
+                      {userProfile && (
+                        <Avatar
+                          name={messages.chatRoom.recipientName}
+                          src={userProfile?.image}
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
 
-            <div className="message_left_form_navig">
-              <form>
-                <div className="message_left_form_navig_row">
-                  <div className="mes_text">
-                    <textarea
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder={t("Platform.type_messege").toString()}
-                    />
+                <div className={styles.login_time}>
+                  <div>
+                    {elem.senderId === allInfoUser.value.id ? (
+                      <>{t("New.you")}</>
+                    ) : (
+                      <>
+                        {messages.chatRoom.recipientName
+                          ? messages.chatRoom.recipientName
+                          : messages.chatRoom.recipientLogin}
+                      </>
+                    )}
                   </div>
 
-                  <div className="mes_send">
-                    <button
-                      style={{
-                        color: "black",
-                        borderRadius: "5px",
-                        height: "45px",
-                        fontWeight: 600,
-                      }}
-                      // href="/"
-                      onClick={handleSend}
-                      className="mes_send_button"
-                      disabled={message?.length === 0}
-                    >
-                      {t("Platform.send")}
-                    </button>
+                  <div className={styles.time}>
+                    <Moment format="HH:mm DD.MM.YYYY">
+                      {elem.creationDate}
+                    </Moment>
                   </div>
                 </div>
-              </form>
-            </div>
-          </div>
 
-          <div className="message_right_form">
-            {/* ..............ОТПРАВКА СООБЩЕНИЙ....................... */}
-            {/* <div style={{ position: "absolute", bottom: "0px", right: "20px" }}>
-              <SendMessage
-                status={openMes}
-                id={61}
-                modifyWrap={""}
-                modifyEmoji={""}
-                refresh={refresh}
-                setRefresh={setRefresh}
-                setOpenStatus={setOpenMes}
-              />
-            </div> */}
-            <div className="message_user_right">
-              <div className="gost_item" style={{ width: "100%" }}>
-                <div className="gost_item_top">
-                  <div
-                    className="gost_item_logo"
-                    style={{
-                      backgroundImage:
-                        pic !== ""
-                          ? `url(${pic})`
-                          : "url(../../../images/khan_black_big.png)",
-                    }}
-                  />
-
-                  <div className="gost_item_top_right">
-                    {/* <div className="gost_item_name">
-                      {userProfile?.firstName
-                        ? userProfile?.firstName
-                        : messages?.data?.chatRoom?.recipientLogin
-                        ? messages?.data?.chatRoom?.recipientLogin
-                        : "no login"}
-                    </div> */}
-                    <div className="gost_item_year">
-                      {userProfile?.yearsOld
-                        ? userProfile.yearsOld + " " + text
-                        : ""}
-                    </div>
-                    <div
-                      className={
-                        userProfile?.isOnline
-                          ? "gost_item_online"
-                          : "gost_item_offline"
-                      }
-                    >
-                      {userProfile?.isOnline ? "Online" : "Offline"}
-                    </div>
-                  </div>
+                <div
+                  style={{
+                    flexGrow: 1,
+                    wordBreak: "break-all",
+                  }}
+                >
+                  {elem.text}
                 </div>
-                {/* <div className="gost_item_buttons">
-                  <Link
-                    to={
-                      allInfoUser.value.login === "office"
-                        ? `/admin/users/${messages?.data?.chatRoom?.recipientLogin}`
-                        : `/user${name}`
-                    }
-                    // onClick={handlePush}
-                    className="gost_item_profile"
-                  >
-                    <img src="/images/prof.png" alt="" />
-                    <span>{t("Platform.user_profile")}</span>
-                  </Link>
-                </div> */}
-
-                {/* {userProfile?.isBlocked === true && (
-                  <UnBlockUserId
-                    id={name}
-                    name={
-                      userProfile?.firstName
-                        ? userProfile?.firstName
-                        : messages?.data?.chatRoom?.recipientLogin
-                    }
-                    refresh={refresh}
-                    setRefresh={setRefresh}
-                  />
-                )}
-
-                {userProfile?.isBlocked === false && (
-                  <BlockUserId
-                    id={name}
-                    name={
-                      userProfile?.firstName
-                        ? userProfile?.firstName
-                        : messages?.data?.chatRoom?.recipientLogin
-                    }
-                    refresh={refresh}
-                    setRefresh={setRefresh}
-                  />
-                )} */}
               </div>
-            </div>
-            <div
-              style={{ color: "#fff" }}
-              onClick={handlePush}
-              className="technical_help"
+            ))}
+
+          <textarea
+            className={`gray_input_w100 ${styles.textarea}`}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder={t("Platform.type_messege").toString()}
+          />
+
+          <div className={styles.button_flex}>
+            <button
+              onClick={handleSend}
+              className="dark_orange_button"
+              disabled={message?.length === 0}
             >
-              {t("Platform.tech_support")}
-            </div>
-            {/* <div style={{ position: "absolute", bottom: "70px", left: "30px" }}>
-              <SendMessage
-                status={openMes}
-                id={61}
-                modifyWrap={""}
-                modifyEmoji={""}
-                refresh={refresh}
-                setRefresh={setRefresh}
-                setOpenStatus={setOpenMes}
-              />
-            </div> */}
+              {t("Platform.send")}
+            </button>
           </div>
         </div>
       </div>
