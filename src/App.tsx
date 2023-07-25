@@ -28,6 +28,7 @@ import Settings from "./pages/user/settings/Settings";
 import ReferalStructure from "./pages/user/referalStructure/ReferalStructure";
 import Messages from "./pages/user/chats/Messages";
 import Chats from "./pages/user/chats/Chats";
+import Promo from "./pages/user/promo/Promo";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -161,6 +162,10 @@ export const App = () => (
         </Route>
         <Route path={ROUTES.pulse} element={<PrivateRoute />}>
           <Route index element={<Cabinet />} />
+        </Route>
+
+        <Route path={ROUTES.promo} element={<PrivateRoute />}>
+          <Route index element={<Promo />} />
         </Route>
       </Route>
     </Routes>

@@ -4,11 +4,11 @@ import { useAppSelector } from "../../store";
 import styles from "./LayoutUser.module.scss";
 import React, { FC } from "react";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AiOutlineGift } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { MdExitToApp } from "react-icons/md";
-import { menuUserItems } from "../../assets/consts/consts";
+import { ROUTES, menuUserItems } from "../../assets/consts/consts";
 import NavMenu from "./NavMenu";
 import { getNumWithoutZeroToFixedN } from "../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 import { useTranslation } from "react-i18next";
@@ -59,20 +59,24 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
         <div>{userData.value.userInfo?.fullName ?? "NN"}</div>
       </div>
       <div className={styles.icons_cont}>
-        <div className={styles.icon_block}>
-          <AiOutlineGift size={24} color="#4F4F4F" />
-        </div>
-        <div className={styles.icon_block}>
-          <BiMessageDetail size={24} color="#4F4F4F" />
-          {allInfoUser.value.messagesCount > 0 && (
-            <div className={styles.notificate_count}>
-              {allInfoUser.value.messagesCount}
-            </div>
-          )}
-        </div>
+        <Link to={ROUTES.promo}>
+          <div className={styles.icon_block}>
+            <AiOutlineGift size={24} color="#4F4F4F" />
+          </div>
+        </Link>
+        <Link to={ROUTES.chats}>
+          <div className={styles.icon_block}>
+            <BiMessageDetail size={24} color="#4F4F4F" />
+            {allInfoUser.value.messagesCount > 0 && (
+              <div className={styles.notificate_count}>
+                {allInfoUser.value.messagesCount}
+              </div>
+            )}
+          </div>
+        </Link>
         <div className={styles.icon_block}>RU</div>
         <div className={styles.icon_block}>
-          <MdExitToApp size={24} color="#4F4F4F"  onClick={handleLogout}/>
+          <MdExitToApp size={24} color="#4F4F4F" onClick={handleLogout} />
         </div>
       </div>
 

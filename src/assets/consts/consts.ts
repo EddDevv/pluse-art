@@ -5,6 +5,7 @@ export enum ROUTES {
     faq = "/faq",
     contacts = "/contacts",
 
+
     broker = "/user/broker",
     portfolios = "/user/portfolios",
     finance = "/user/finance",
@@ -31,7 +32,9 @@ export enum ROUTES {
     structure = "/user/structure",
     chats = "/user/chats",
     chat = "/user/chat/",
-    career = "/user/career"
+    career = "/user/career",
+
+    promo = "/user/promo",
 
 }
 
