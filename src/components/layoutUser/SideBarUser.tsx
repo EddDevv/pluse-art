@@ -13,6 +13,10 @@ import NavMenu from "./NavMenu";
 import { getNumWithoutZeroToFixedN } from "../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 import { useTranslation } from "react-i18next";
 import { AuthApi } from "../../api/auth/auth";
+import { BusketIcon } from "../../assets/icons/Busket";
+import { GiftIcon } from "../../assets/icons/GiftGray";
+import { MessageIcon } from "../../assets/icons/Message";
+import { ExitIcon } from "../../assets/icons/Exit";
 
 type Propstype = {
   onClose?: any;
@@ -59,14 +63,19 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
         <div>{userData.value.userInfo?.fullName ?? "NN"}</div>
       </div>
       <div className={styles.icons_cont}>
+        <Link to={ROUTES.shop}>
+          <div className={styles.icon_block}>
+            <BusketIcon />
+          </div>
+        </Link>
         <Link to={ROUTES.promo}>
           <div className={styles.icon_block}>
-            <AiOutlineGift size={24} color="#4F4F4F" />
+            <GiftIcon />
           </div>
         </Link>
         <Link to={ROUTES.chats}>
           <div className={styles.icon_block}>
-            <BiMessageDetail size={24} color="#4F4F4F" />
+            <MessageIcon />
             {allInfoUser.value.messagesCount > 0 && (
               <div className={styles.notificate_count}>
                 {allInfoUser.value.messagesCount}
@@ -75,8 +84,8 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
           </div>
         </Link>
         <div className={styles.icon_block}>RU</div>
-        <div className={styles.icon_block}>
-          <MdExitToApp size={24} color="#4F4F4F" onClick={handleLogout} />
+        <div className={styles.icon_block} onClick={handleLogout}>
+          <ExitIcon />
         </div>
       </div>
 

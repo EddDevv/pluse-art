@@ -87,6 +87,7 @@ body {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 100%;
 }
+// **************BUTTON***************************************
 
 %dark_green_button {
   // @extend %button;
@@ -94,7 +95,7 @@ body {
   background: $GREEN;
   box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
   min-height: 40px;
-  padding: 5px;
+  padding: 5px 15px;
   min-width: 150px;
   color: $WHITE;
   font-family: Inter;
@@ -113,6 +114,10 @@ body {
 .dark_green_button {
   @extend %dark_green_button;
 }
+.dark_green_button_100 {
+  @extend %dark_green_button;
+  width: 100%;
+}
 .dark_green_button_2 {
   @extend %dark_green_button;
   min-height: 46px;
@@ -126,7 +131,7 @@ body {
   min-width: 100px;
 }
 
-.outline_green_button {
+%outline_green_button {
   color: #005a5a;
   font-family: Inter;
   font-size: 14px;
@@ -142,6 +147,13 @@ body {
   &:disabled {
     opacity: 0.5;
   }
+}
+.outline_green_button {
+  @extend %outline_green_button;
+}
+.outline_green_button_100 {
+  @extend %outline_green_button;
+  width: 100%;
 }
 
 .outline_green_button_2 {
@@ -228,6 +240,8 @@ body {
   color: $ORANGE;
 }
 
+// ******************************INPUT***********************************************
+
 %gray_input {
   background: #f8f8f8;
   // box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
@@ -291,6 +305,8 @@ body {
   }
 }
 
+// *******************************COMMON*********************************
+
 .required {
   color: #f50d62;
   font-weight: 600;
@@ -336,6 +352,18 @@ body {
   font-weight: 500;
   margin-bottom: 20px;
 }
+
+.green_text_big {
+  color: #008080;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+// ***********************************************TABLE****************************
 
 %table_item {
   min-height: 100%;
@@ -545,6 +573,7 @@ body {
   color: $GREEN;
   text-decoration: underline;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .divider {

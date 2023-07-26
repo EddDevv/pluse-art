@@ -10,8 +10,8 @@ import { ChatType } from "../../../assets/types/Chat";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
 import { IconButton, Spacer } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { LetterClosed } from "../../../assets/icons/LetterClosed";
-import { LetterOpen } from "../../../assets/icons/LetterOpen";
+import { LetterClosedIcon } from "../../../assets/icons/LetterClosed";
+import { LetterOpenIcon } from "../../../assets/icons/LetterOpen";
 import { ROUTES, UserIdsEnum } from "../../../assets/consts/consts";
 import MessageModal from "./MessageModal";
 
@@ -129,9 +129,9 @@ const Chats = () => {
                 <div>
                   {!item.lastMessage.isRead &&
                   item.lastMessage.senderId !== allInfoUser.value.id ? (
-                    <LetterClosed />
+                    <LetterClosedIcon />
                   ) : (
-                    <LetterOpen />
+                    <LetterOpenIcon />
                   )}
                 </div>
                 <div className={styles.login_time}>

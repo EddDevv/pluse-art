@@ -1,4 +1,4 @@
-export const LetterClosed = ({ color }: { color?: string }) => (
+export const LetterClosedIcon = ({ color }: { color?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="27"

@@ -29,6 +29,7 @@ import ReferalStructure from "./pages/user/referalStructure/ReferalStructure";
 import Messages from "./pages/user/chats/Messages";
 import Chats from "./pages/user/chats/Chats";
 import Promo from "./pages/user/promo/Promo";
+import Shop from "./pages/user/shop/Shop";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -166,6 +167,16 @@ export const App = () => (
 
         <Route path={ROUTES.promo} element={<PrivateRoute />}>
           <Route index element={<Promo />} />
+        </Route>
+
+        <Route path={ROUTES.shop} element={<PrivateRoute />}>
+          <Route index element={<Shop />} />
+        </Route>
+        <Route path={`${ROUTES.product}:id`} element={<PrivateRoute />}>
+          <Route index element={<Shop />} />
+        </Route>
+        <Route path={ROUTES.busket} element={<PrivateRoute />}>
+          <Route index element={<Shop />} />
         </Route>
       </Route>
     </Routes>

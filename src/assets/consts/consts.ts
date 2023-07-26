@@ -36,6 +36,11 @@ export enum ROUTES {
 
     promo = "/user/promo",
 
+    shop = "/user/shop",
+    product = "/user/shop/product/",
+    busket = "/user/shop/busket",
+
+
 }
 
 export const menuItems = [
