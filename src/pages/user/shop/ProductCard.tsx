@@ -10,6 +10,8 @@ import { Gift } from "../../../assets/icons/Gift";
 import { Diamand } from "../../../assets/icons/Diamand";
 import { SettingsGreen } from "../../../assets/icons/SettingsGreen";
 import Jewerly from "../../../assets/images/Jewerly.png";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../assets/consts/consts";
 
 const product = {
   type: "Кольцо",
@@ -25,11 +27,15 @@ const product = {
 
 const ProductCard = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { contests, allInfoUser } = useAppSelector((state) => state);
 
   return (
-    <div className={`${styles.product_cart_box}`}>
+    <div
+      className={`${styles.product_box}`}
+      onClick={() => navigate(`${ROUTES.product}1`)}
+    >
       <div className={styles.image}>
         <img src={product.image} alt="" />
       </div>

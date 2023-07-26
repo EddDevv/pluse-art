@@ -12,6 +12,8 @@ import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LocalSpinnerAbsolute } from "../../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
 import { BusketIcon } from "../../../assets/icons/Busket";
+import ProductForCart from "./ProductForCart";
+import styles from "./Shop.module.scss";
 
 type IProps = {
   isOpen: boolean;
@@ -25,7 +27,7 @@ type IProps = {
   isHideClose?: boolean;
 };
 
-const ModalBusket: FC<IProps> = ({
+const ModalCart: FC<IProps> = ({
   isOpen,
   handleClose,
   handleSubmit,
@@ -54,7 +56,7 @@ const ModalBusket: FC<IProps> = ({
       // scrollBehavior="inside"
       motionPreset="slideInRight"
       isCentered={width ? false : true}
-      size={width ? width : "lg"}
+      size={width ? width : "4xl"}
     >
       <ModalOverlay backdropFilter="auto" backdropBlur="2px" />
       <ModalContent
@@ -81,45 +83,41 @@ const ModalBusket: FC<IProps> = ({
           </div>
         </ModalHeader>
 
-        {children && children}
+        <ProductForCart />
+        <ProductForCart />
+
+        <div className={styles.comment}>Комментарий к заказу</div>
+        <textarea className={`gray_input_w100 ${styles.textarea}`} />
 
         <div
           style={{
             display: "flex",
-            justifyContent: handleSubmit ? "space-between" : "center",
-            gap: "10px",
+            justifyContent: "flex-end",
+            gap: "20px",
           }}
         >
-          {!isHideClose && (
+          <button
+            onClick={() => handleClose()}
+            className={
+              isOrange ? "outline_black_button" : "outline_green_button"
+            }
+          >
+            {t("New.consult")}
+          </button>
+          <div>
+            {isLoading && <LocalSpinnerAbsolute size="70px" />}
             <button
-              onClick={() => handleClose()}
-              className={
-                isOrange ? "outline_black_button" : "outline_green_button"
-              }
-              style={{ width: "50%" }}
+              onClick={handleLocalSumbit}
+              className={isOrange ? "dark_orange_button" : "dark_green_button"}
+              disabled={isLoading || isDisabled}
             >
-              {t("New.close")}
+              {t("Programs.pay")}
             </button>
-          )}
-          {handleSubmit && (
-            <div style={{ position: "relative", width: "50%" }}>
-              {isLoading && <LocalSpinnerAbsolute size="70px" />}
-              <button
-                onClick={handleLocalSumbit}
-                className={
-                  isOrange ? "dark_orange_button" : "dark_green_button"
-                }
-                style={{ width: "100%" }}
-                disabled={isLoading || isDisabled}
-              >
-                {t("Platform.confirm")}
-              </button>
-            </div>
-          )}
+          </div>
         </div>
       </ModalContent>
     </Modal>
   );
 };
 
-export default ModalBusket;
+export default ModalCart;

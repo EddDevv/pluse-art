@@ -30,6 +30,7 @@ import Messages from "./pages/user/chats/Messages";
 import Chats from "./pages/user/chats/Chats";
 import Promo from "./pages/user/promo/Promo";
 import Shop from "./pages/user/shop/Shop";
+import Product from "./pages/user/shop/Product";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -173,7 +174,7 @@ export const App = () => (
           <Route index element={<Shop />} />
         </Route>
         <Route path={`${ROUTES.product}:id`} element={<PrivateRoute />}>
-          <Route index element={<Shop />} />
+          <Route index element={<Product />} />
         </Route>
         <Route path={ROUTES.busket} element={<PrivateRoute />}>
           <Route index element={<Shop />} />

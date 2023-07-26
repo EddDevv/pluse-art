@@ -83,11 +83,11 @@
   justify-content: center;
   gap: 20px;
 }
-.product_cart_box {
+.product_box {
   background: #fff;
   box-shadow: 0px 0px 20px 0px rgba(194, 225, 225, 0.61);
   min-height: 530px;
-  min-width: 284px;
+  min-width: 200px;
   width: 31.5%;
   padding: 30px;
   color: #000;
@@ -137,7 +137,6 @@
   font-weight: 300;
   line-height: 160%; /* 22.4px */
   display: flex;
-  // flex-direction: column;
   gap: 20px;
 }
 .info_image {
@@ -180,4 +179,111 @@
   display: flex;
   width: 100%;
   gap: 20px;
+}
+
+.product_cart_box {
+  background: #fff;
+  min-height: 150px;
+  width: 100%;
+  padding: 30px;
+  color: #000;
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 160%; /* 22.4px */
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  // align-items: center;
+}
+.cart_image {
+  width: 15%;
+  justify-self: center;
+  align-self: center;
+}
+.cart_main {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.cart_end {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: end;
+}
+.cart_price {
+  color: #000;
+  font-family: Inter;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin: 20px 0 30px 0;
+  b {
+    color: #000;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+}
+
+.comment {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.textarea {
+  margin: 10px 0 30px;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+.modal_header {
+  color: #212121;
+  text-align: center;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.prod_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px 0;
+}
+.link_back {
+  color: var(--gray-2, #4f4f4f);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+  padding-bottom: 20px;
 }

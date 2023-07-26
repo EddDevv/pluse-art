@@ -14,8 +14,10 @@ import ProductInfo from "./ProductInfo";
 import ModalCart from "./ModalCart";
 import { BusketIcon } from "../../../assets/icons/Busket";
 import ModalSuccess from "./ModalSuccess";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../../assets/consts/consts";
 
-const Shop = () => {
+const Product = () => {
   const { t } = useTranslation();
 
   const { contests, allInfoUser } = useAppSelector((state) => state);
@@ -31,11 +33,18 @@ const Shop = () => {
           </div>
         </div>
 
-        <div style={{ display: "flex" }}>
+        {/* <div style={{ display: "flex" }}>
           <Spacer />
           <div className={styles.settings}>
             <SettingsGreen />
           </div>
+        </div> */}
+
+        <div className={styles.link_back}>
+          <Link to={ROUTES.shop}>
+            {"<      "}&nbsp;
+            {t("New.back_to_shop")}
+          </Link>
         </div>
 
         <div className={styles.container}>
@@ -45,12 +54,22 @@ const Shop = () => {
           {contests?.past.map((elem) => (
             <Item elem={elem} key={elem.id} isPast={true} />
           ))} */}
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductInfo />
+        </div>
+
+        <div className={styles.prod_container}>
+          <div className="green_text_big">{t("New.ideal")}</div>
+          <div className={styles.container}>
+            <ProductCard />
+            <ProductCard />
+            <Spacer />
+          </div>
+          <div className="green_text_big">{t("New.recent")}</div>
+          <div className={styles.container}>
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+          </div>
         </div>
       </div>
       <div onClick={() => setIsBusketOpen(true)}>
@@ -68,4 +87,4 @@ const Shop = () => {
     </div>
   );
 };
-export default Shop;
+export default Product;
