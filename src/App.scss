@@ -331,8 +331,8 @@ body {
 .page_inner_container {
   padding: 50px 0;
 
-  @media screen and (max-width: 760px) {
-    padding: 20px 0;
+  @media screen and (max-width: $tablet) {
+    padding: 40px 0;
   }
 }
 
@@ -343,6 +343,9 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   // padding-left: 20px;
+  @media screen and (max-width: $mobile) {
+    font-size: 18px;
+  }
 }
 
 .modal_title {
@@ -403,7 +406,7 @@ body {
   @extend %table_item;
   width: 5%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -412,7 +415,7 @@ body {
   @extend %table_item;
   width: 7.5%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -421,7 +424,7 @@ body {
   @extend %table_item;
   width: 10%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -430,7 +433,7 @@ body {
   @extend %table_item;
   width: 12.5%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -439,7 +442,7 @@ body {
   @extend %table_item;
   width: 15%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -448,7 +451,7 @@ body {
   @extend %table_item;
   width: 20%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -457,7 +460,7 @@ body {
   @extend %table_item;
   width: 25%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -466,7 +469,7 @@ body {
   @extend %table_item;
   width: 30%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -475,7 +478,7 @@ body {
   @extend %table_item;
   width: 40%;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $mobile) {
     width: 100%;
   }
 }
@@ -656,4 +659,28 @@ body {
 
 .loader_for_button {
   position: relative;
+}
+
+// *******************************SCROLL******************
+// body::-webkit-scrollbar {
+//   width: 12px;               /* ширина scrollbar */
+// }
+// body::-webkit-scrollbar-track {
+//   background: orange;        /* цвет дорожки */
+// }
+// body::-webkit-scrollbar-thumb {
+//   background-color: blue;    /* цвет плашки */
+//   border-radius: 20px;       /* закругления плашки */
+//   border: 3px solid orange;  /* padding вокруг плашки */
+// }
+
+::-webkit-scrollbar {
+  height: 4px;              /* height of horizontal scrollbar ← You're missing this */
+  width: 4px;               /* width of vertical scrollbar */
+  border: 1px solid #d5d5d5;
+}
+::-webkit-scrollbar-thumb {
+  background-color: $GRAY_4;    /* цвет плашки */
+  border-radius: 20px;       /* закругления плашки */
+  // border: 3px solid orange;  /* padding вокруг плашки */
 }

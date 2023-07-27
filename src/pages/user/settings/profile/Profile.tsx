@@ -7,14 +7,20 @@ import {
   CircularProgress,
   CircularProgressLabel,
   Spacer,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { AiFillStar, AiTwotoneSecurityScan } from "react-icons/ai";
 import { UseYears } from "../../../../hooks/useYears";
 import { getNumWithoutZeroToFixedN } from "../../../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
+import { VerificationIcon } from "../../../../assets/icons/Verification";
+import { StarIcon } from "../../../../assets/icons/Star";
+import { ManIcon } from "../../../../assets/icons/Man";
+import { SettingsIcon } from "../../../../assets/icons/Settings";
 
 const Profile = () => {
   const { t } = useTranslation();
+  const [isLagerThan760] = useMediaQuery("(min-width: 1050px)");
 
   const { userData } = useAppSelector((state) => state);
   const { allInfoUser } = useAppSelector((state) => state);
@@ -92,6 +98,7 @@ const Profile = () => {
             size="xl"
             name={userData.value.userInfo.fullName}
           />
+
           <div className={styles.column}>
             <div className={styles.name}>
               {userData.value.userInfo?.fullName
@@ -100,6 +107,7 @@ const Profile = () => {
                 ? allInfoUser.value.login
                 : "User"}
             </div>
+
             <div className={styles.flex}>
               <div className={styles.email}>email</div>
               <div className={styles.email_val}>
@@ -111,37 +119,55 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className={styles.flex} style={{marginTop: "25px"}}>
-          <AiTwotoneSecurityScan color={true ? "#008080" : "#FF0000"} />
-          <div>
-            {allInfoUser.value.verificationDate ? (
-              <span>{t("PersonalArea.ver_true")}</span>
-            ) : (
-              <button
-                className="blueButton"
-                // onClick={() => setIsOpenVerificationModal(true)}
-              >
-                {t("New.verify")}
-              </button>
+        <div className={isLagerThan760 ? "" : styles.flex_column}>
+          <div className={styles.column}>
+            <div className={styles.flex} style={{ marginTop: "25px" }}>
+              <VerificationIcon color={true ? "#008080" : "#FF0000"} />
+              <div>
+                {allInfoUser.value.verificationDate ? (
+                  <span>{t("PersonalArea.ver_true")}</span>
+                ) : (
+                  <button
+                    className="blueButton"
+                    // onClick={() => setIsOpenVerificationModal(true)}
+                  >
+                    {t("New.verify")}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {allInfoUser.value.rang === 3 && (
+              <div className={styles.flex}>
+                <StarIcon />
+                <div>{t("PersonalArea.vip")}</div>
+              </div>
             )}
           </div>
-        </div>
 
-        {allInfoUser.value.rang === 3 && (
-          <div className={styles.flex}>
-            <AiFillStar color="#FF7F50" />
-            <div>{t("PersonalArea.vip")}</div>
-          </div>
-        )}
+          {!isLagerThan760 && (
+            <div className={styles.column}>
+              <div className={styles.agent}>
+                <ManIcon />
+                <div>{t("New.agent")}</div>
+              </div>
+              <div className={styles.agent}>
+                <SettingsIcon />
+                <div>{t("User_layout.settings")}</div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ************ */}
-      <div className={styles.box2}>
+      {/* {isLagerThan760 && ( */}
+      <div className={isLagerThan760 ? styles.box2 : styles.box2m}>
         <div>
           <CircularProgress
             value={percent}
             color="#008080"
-            size="200px"
+            size={isLagerThan760 ? "200px" : "130px"}
             thickness="4px"
           >
             <CircularProgressLabel>
@@ -155,23 +181,34 @@ const Profile = () => {
           </CircularProgress>
         </div>
       </div>
+      {/* )} */}
 
       {/* ************ */}
-      <div className={styles.box3}>
-        <div className={styles.y_balance}>{t("New.y_balance")}</div>
-        <div className={styles.balance}>
-          {getNumWithoutZeroToFixedN(
-            allInfoUser.value.balance,
-            2
-          ).toLocaleString()}{" "}
-          &nbsp; USD
+      {isLagerThan760 && (
+        <div className={styles.box3}>
+          {isLagerThan760 && (
+            <>
+              <div className={styles.y_balance}>{t("New.y_balance")}</div>
+              <div className={styles.balance}>
+                {getNumWithoutZeroToFixedN(
+                  allInfoUser.value.balance,
+                  2
+                ).toLocaleString()}{" "}
+                &nbsp; USD
+              </div>
+            </>
+          )}
+          <Spacer />
+          <div className={styles.agent}>
+            <ManIcon />
+            <div>{t("New.agent")}</div>
+          </div>
+          <div className={styles.agent}>
+            <SettingsIcon />
+            <div>{t("User_layout.settings")}</div>
+          </div>
         </div>
-        <Spacer />
-        <div className={styles.agent}>
-          <BsFillPersonCheckFill color="#828282" size="20" />
-          <div>{t("New.agent")}</div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

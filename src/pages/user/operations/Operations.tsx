@@ -10,17 +10,28 @@ import Moment from "react-moment";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
 import {
   Button,
+  IconButton,
   Modal,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { LocalSpinner } from "../../../UIcomponents/localSpinner/LocalSpinner";
 import { getNumWithoutZeroToFixedN } from "../../../utils/getNumWithoutZeroToFixedN/getNumWithoutZeroToFixedN";
 import { LocalSpinnerAbsolute } from "../../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
+import { DotsIcon } from "../../../assets/icons/Dots";
+import { Tooltip } from "chart.js";
 
 export type FinanceItemType = {
   accountBalance: number;
@@ -88,6 +99,8 @@ type PropType = {
 
 const Operations = ({ isWithdrawal, refresh, isReplanish }: PropType) => {
   const { t } = useTranslation();
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
+
   const { businessBalance } = useAppSelector((state) => state.allInfoUser);
   const { auth, userData } = useAppSelector((state) => state);
 
@@ -214,15 +227,15 @@ const Operations = ({ isWithdrawal, refresh, isReplanish }: PropType) => {
 
   const Status = ({ financeItem }: { financeItem: FinanceItemType }) => {
     if (financeItem.processingStatus === "Отменен") {
-      return <div style={{ color: "#F00" }}>{t("History.canceled")}</div>;
+      return <span style={{ color: "#F00" }}>{t("History.canceled")}</span>;
     } else if (financeItem.processingStatus === "На проверке") {
       return (
-        <div style={{ color: "#828282", border: "1px" }}>
+        <span style={{ color: "#828282", border: "1px" }}>
           {t("History.pending")}
-        </div>
+        </span>
       );
     } else if (financeItem.processingStatus === "Выполнен") {
-      return <div style={{ color: "#1EC145" }}>{t("History.completed")}</div>;
+      return <span style={{ color: "#1EC145" }}>{t("History.completed")}</span>;
     } else return <div></div>;
   };
 
@@ -253,10 +266,9 @@ const Operations = ({ isWithdrawal, refresh, isReplanish }: PropType) => {
             <>
               {historyItems.map((elem) => (
                 <div className={styles.operation_item} key={elem.id}>
-                  <div className={`table_item_15 ${styles.hesh}`}>
-                    {elem.id}
-                  </div>
-                  <div className={`table_item_15 ${styles.hesh}`}>
+                  <div className={`${styles.hesh}`}>{elem.id}</div>
+
+                  <div className={`${styles.info}`}>
                     <div className={styles.in_out}>
                       {elem.debetSum
                         ? t("History.withdrawal")
@@ -268,19 +280,50 @@ const Operations = ({ isWithdrawal, refresh, isReplanish }: PropType) => {
                       </Moment>
                     </div>
                   </div>
-                  <div className={`table_item_30 ${styles.desc}`}>
-                    {elem.objectName}
-                  </div>
-                  <div className={`table_item_15 ${styles.sum}`}>
-                    <div>
-                      {elem.creditSum ? elem?.creditSum : elem?.debetSum}
-                      &nbsp;{" "}
-                      <b style={{ fontSize: "14px" }}>{elem.currencyCode}</b>
+
+                  <div className={`${styles.desc}`}>{elem.objectName}</div>
+
+                  <div className={`${styles.sum}`}>
+                    {!isLagerThan480 && <Status financeItem={elem} />}
+                    <div
+                      style={{ color: elem?.creditSum ? "#FF2F2F" : "#1EC145" }}
+                    >
+                      {elem.creditSum ? (
+                        <>-{getNumWithoutZeroToFixedN(elem?.creditSum, 2)}</>
+                      ) : (
+                        getNumWithoutZeroToFixedN(elem?.debetSum, 2)
+                      )}
+                      &nbsp;
+                      <b style={{ fontWeight: "400" }}>
+                        {elem.currencyCode ?? "USD"}
+                      </b>
                     </div>
                   </div>
-                  <div className={`table_item_15`}>
+
+                  <div className={styles.status}>
                     <Status financeItem={elem} />
                   </div>
+                  {!isLagerThan480 && (
+                    <div className={styles.dots}>
+                      <Popover>
+                        <PopoverTrigger>
+                          {/* <IconButton
+                            aria-label="Search database"
+                            icon={<DotsIcon />}
+                          /> */}
+                          <div style={{ cursor: "pointer" }}>
+                            <DotsIcon />
+                          </div>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <PopoverArrow />
+                          <PopoverCloseButton />
+                          <PopoverHeader>Info:</PopoverHeader>
+                          <PopoverBody>{elem.objectName}</PopoverBody>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  )}
                 </div>
               ))}
 

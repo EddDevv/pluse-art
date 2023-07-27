@@ -1,9 +1,10 @@
+@import "../../../AppConsts.scss";
 .title_flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 50px;
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $tablet) {
     margin-bottom: 20px;
   }
   // background-color: aqua;
@@ -22,14 +23,16 @@
   min-height: 82px;
   background: #fff;
   box-shadow: 0px 0px 20px 0px rgba(194, 225, 225, 0.47);
+  padding: 15px 30px;
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 5px;
-  padding: 5px;
   font-weight: 500;
-  @media screen and (max-width: 760px) {
-    flex-direction: column;
+  @media screen and (max-width: $mobile) {
+    padding: 20px;
+    font-size: 14px;
   }
 }
 .hesh {
@@ -37,6 +40,24 @@
   font-size: 14px;
   font-family: Inter;
   font-weight: 300;
+  width: 15%;
+  @media screen and (max-width: $tablet) {
+    display: none;
+  }
+}
+.info {
+  color: var(--gray-2, #4f4f4f);
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 300;
+  width: 15%;
+  @media screen and (max-width: $tablet) {
+    width: 25%;
+  }
+  @media screen and (max-width: $mobile) {
+    width: 50%;
+    font-size: 14px;
+  }
 }
 .in_out {
   color: var(--gray-2, #4f4f4f);
@@ -48,12 +69,48 @@
 .desc {
   color: var(--gray-2, #4f4f4f);
   font-size: 16px;
+  width: 30%;
+  @media screen and (max-width: $tablet) {
+    width: 50%;
+  }
+  @media screen and (max-width: $mobile) {
+    display: none;
+  }
 }
 .sum {
   color: #000;
   text-align: right;
   font-size: 20px;
   font-family: Inter;
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  b {
+    font-size: 12px;
+  }
+  @media screen and (max-width: $tablet) {
+    width: 25%;
+  }
+  @media screen and (max-width: $mobile) {
+    width: 50%;
+    font-size: 16px;
+    span {
+      font-size: 14px;
+    }
+  }
+}
+.status {
+  width: 15%;
+  @media screen and (max-width: $tablet) {
+    display: none;
+  }
+}
+.dots{
+  cursor: pointer;
+  &:hover{
+    background-color: $GRAY;
+  }
 }
 .usd {
 }
@@ -87,7 +144,7 @@
   margin-top: 35px;
   display: flex;
   justify-content: center;
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $tablet) {
     margin-top: 20px;
   }
 }
