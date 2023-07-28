@@ -3,20 +3,20 @@ import styles from "./Market.module.scss";
 import instance from "../../../api/instance";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../store";
-import {
-  useMediaQuery,
-} from "@chakra-ui/react";
 import { LocalSpinner } from "../../../UIcomponents/localSpinner/LocalSpinner";
 import { LocalSpinnerAbsolute } from "../../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
 import StockItem from "./StockItem";
 import { IStock, PeriodEnum } from "../../../assets/types/StockTypes";
+import { useMediaQuery } from "@chakra-ui/react";
 
 const itemsPerPage = 10;
 
 const Market = () => {
   const { t } = useTranslation();
+  const [isLagerThan1260] = useMediaQuery("(min-width: 1260px)");
+
   const { token } = useAppSelector((state) => state.auth);
-  const isLargesThan850 = useMediaQuery("(min-width:850px)");
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
   const [filter, setFilter] = useState("");
   const [stocks, setStocks] = useState<IStock[]>([]);
   const [page, setPage] = useState(1);
@@ -66,7 +66,6 @@ const Market = () => {
     getStocksWithFilter();
   }, [filter]);
 
-
   return (
     <div className="page_container">
       <div className={`${styles.paper}`}>
@@ -81,8 +80,8 @@ const Market = () => {
               className="gray_input"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-            // readOnly
-            // placeholder="Поиск временно недоступен"
+              // readOnly
+              // placeholder="Поиск временно недоступен"
             />
 
             <select
@@ -92,40 +91,48 @@ const Market = () => {
               onChange={(e) => setFilter(e.target.value)}
             >
               <option value="">All</option>
-              {["KKTM", "ORGT", "KADM"].map(elem => (
-                <option key={elem} value={elem}>{elem}</option>))}
+              {["KKTM", "ORGT", "KADM"].map((elem) => (
+                <option key={elem} value={elem}>
+                  {elem}
+                </option>
+              ))}
             </select>
           </div>
-          <div>{t("New.total")} {stocks.length} {t("New.stocks")}</div>
+          <div>
+            {t("New.total")} {stocks.length} {t("New.stocks")}
+          </div>
 
           <div className={styles.items_container}>
             {stocks?.length > 0 ? (
               <>
-                {isLargesThan850 && (
+                {isLagerThan480 && (
                   <div className="table_row ">
-                    {/* <div className={styles.item__logo}>
-                        {t("MarketPage.logo")}
-                      </div> */}
-                    <div className="table_item_10" style={{ alignItems: "start" }}>
+                    <div
+                      className={styles.table_item_10_logo}
+                      style={{ alignItems: "start" }}
+                    >
                       {t("MarketPage.name")}
                     </div>
-                    <div className="table_item_30">
-                    </div>
-                    <div className="table_item_15">
+                    <div className={styles.table_item_30_name}></div>
+                    <div className={styles.table_item_15}>
                       {t("MarketPage.price")}
                     </div>
-                    <div className="table_item_15">
+                    <div className={styles.table_item_15}>
                       <select
                         value={period}
-                        onChange={(e) => setPeriod(e.target.value as PeriodEnum)}
+                        onChange={(e) =>
+                          setPeriod(e.target.value as PeriodEnum)
+                        }
                         style={{ border: "none" }}
                       >
-                        {Object.keys(PeriodEnum).map(elem => (
-                          <option key={elem} value={elem}>{t(`New.per_${elem}`)}</option>
+                        {Object.keys(PeriodEnum).map((elem) => (
+                          <option key={elem} value={elem}>
+                            {t(`New.per_${elem}`)}
+                          </option>
                         ))}
                       </select>
                     </div>
-                    <div className="table_item_15">
+                    <div className={styles.table_item_15}>
                       {t("MarketPage.chart")}
                     </div>
 
@@ -135,7 +142,12 @@ const Market = () => {
                     <div className="table_item_12_5">
                       {t("MarketPage.sum")}
                     </div> */}
-                    <div className="table_item_15">
+                    {!isLagerThan1260 && (
+                      <div className={styles.table_price_delta}>
+                        {t("New.price_delta")}
+                      </div>
+                    )}
+                    <div className={styles.table_but}>
                       {t("MarketPage.byu")}
                     </div>
                   </div>
@@ -158,9 +170,6 @@ const Market = () => {
             )}
           </div>
         </div>
-
-
-
       </div>
     </div>
   );
