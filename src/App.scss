@@ -270,6 +270,9 @@ body {
   &:focus {
     outline-color: #128eb8;
   }
+  &:read-only {
+    background-color: $WHITE;
+  }
 }
 
 .gray_input {

@@ -21,27 +21,40 @@ import MainInfo from "./components/MainInfo";
 import PaymentInfo from "./components/PaymentInfo";
 import Documents from "./components/Documents";
 import Security from "./components/Security";
+import { SettManIcon } from "../../../assets/icons/SettMan";
+import { SettCreditIcon } from "../../../assets/icons/SettCredit";
+import { SettSecurityIcon } from "../../../assets/icons/SettSecurity";
+import { SettBookIcon } from "../../../assets/icons/SettBook";
 
 const set_items = [
   {
     id: 1,
     name: "user_info",
-    icon: <AiOutlineUserSwitch />,
+    icon: <SettManIcon />,
+    icon2: <SettManIcon color="#4F4F4F" />,
     child: <MainInfo />,
   },
   {
     id: 2,
     name: "pay_info",
-    icon: <AiOutlineCreditCard />,
+    icon: <SettCreditIcon />,
+    icon2: <SettCreditIcon color="#4F4F4F" />,
     child: <PaymentInfo />,
   },
   {
     id: 3,
     name: "security",
-    icon: <AiOutlineSecurityScan />,
+    icon: <SettSecurityIcon />,
+    icon2: <SettSecurityIcon color="#4F4F4F" />,
     child: <Security />,
   },
-  { id: 4, name: "doc", icon: <BsBook />, child: <Documents /> },
+  {
+    id: 4,
+    name: "doc",
+    icon: <SettBookIcon />,
+    icon2: <SettBookIcon color="#4F4F4F" />,
+    child: <Documents />,
+  },
 ];
 
 const Settings = () => {
@@ -68,7 +81,7 @@ const Settings = () => {
                   elem.id === chosenId ? styles.block_open : styles.block_close
                 }
               >
-                {elem.icon}
+                {elem.id === chosenId ? elem.icon : elem.icon2}
                 <div>{t(`New.${elem.name}`)}</div>
               </div>
               <Collapse in={chosenId === elem.id} animateOpacity>

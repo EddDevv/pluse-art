@@ -24,6 +24,8 @@ const MainInfo = () => {
   const { t } = useTranslation();
   const { allInfoUser } = useAppSelector((state) => state);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isEditPass, setIsEditPass] = useState(false);
 
   const dispatch = useAppDispatch();
   const firstName = useInputV(allInfoUser?.value?.firstName ?? "");
@@ -112,6 +114,8 @@ const MainInfo = () => {
     // console.log(allInfoUser.value?.passportIssueDate?.split("T")?.[0]);
     allInfoUser.value?.passportIssueDate &&
       setPassportDate(allInfoUser.value?.passportIssueDate?.split("T")?.[0]);
+    setIsEdit(false);
+    setIsEditPass(false);
   };
 
   useEffect(() => {
@@ -196,6 +200,8 @@ const MainInfo = () => {
       }
       await handleUpdatePhoneMail();
       await MainApi.getInitialMainReduxInfo();
+      setIsEdit(false);
+      setIsEditPass(false);
     } catch (e) {
       console.error(e);
       toast.error(t("New.data_update_error"));
@@ -245,6 +251,7 @@ const MainInfo = () => {
               value={lastName.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -255,6 +262,7 @@ const MainInfo = () => {
               value={firstName.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -265,6 +273,7 @@ const MainInfo = () => {
               value={middleName.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -275,6 +284,7 @@ const MainInfo = () => {
               value={inn.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -290,7 +300,7 @@ const MainInfo = () => {
               country={"ru"}
               value={phoneNumber}
               onChange={(tel) => {
-                setPhoneNumber(tel);
+                isEdit && setPhoneNumber(tel);
               }}
             />
           </div>
@@ -305,6 +315,7 @@ const MainInfo = () => {
                 email.onChange(e);
               }}
               value={email.value}
+              readOnly={!isEdit}
             />
             {email.isDirty && email.emailError && (
               <span className="error_message">
@@ -323,6 +334,7 @@ const MainInfo = () => {
               value={birthDate.value}
               type="date"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -334,7 +346,7 @@ const MainInfo = () => {
               classes={`gray_input ${styles.country}`}
               onChange={(val) => {
                 // console.log(val);
-                setCountry(val);
+                isEdit && setCountry(val);
               }}
               // priorityOptions={["Russian Federation", "Kyrgyzstan"]}
               // whitelist={["Russian Federation", "Kyrgyzstan"]}
@@ -348,6 +360,7 @@ const MainInfo = () => {
               value={city.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -358,6 +371,7 @@ const MainInfo = () => {
               value={telegram.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -369,6 +383,7 @@ const MainInfo = () => {
               value={vkontakte.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
 
@@ -380,27 +395,42 @@ const MainInfo = () => {
               value={ok.value}
               type="text"
               className={`gray_input ${styles.w70}`}
+              readOnly={!isEdit}
             />
           </div>
         </div>
       </div>
 
       {/* buttons */}
-      <div className={styles.button_flex}>
-        <button className="outline_green_button_2" onClick={handleReset}>
-          {t("SettingsPage.cancel")}
-        </button>
-        <button
-          className="dark_green_button_2"
-          disabled={isLoading}
-          onClick={updateMainInfo}
-        >
-          <div className="loader_for_button">
-            <Loader loading={isLoading} />
-          </div>
-          {t("SettingsPage.save")}
-        </button>
-      </div>
+      {isEdit ? (
+        <div className={styles.button_flex}>
+          <button
+            className={`outline_green_button_2 ${styles.button_save}`}
+            onClick={handleReset}
+          >
+            {t("SettingsPage.cancel")}
+          </button>
+          <button
+            className={`dark_green_button_2 ${styles.button_save}`}
+            disabled={isLoading}
+            onClick={updateMainInfo}
+          >
+            <div className="loader_for_button">
+              <Loader loading={isLoading} />
+            </div>
+            {t("SettingsPage.save")}
+          </button>
+        </div>
+      ) : (
+        <div className={styles.button_flex}>
+          <button
+            className={`dark_orange_button ${styles.button_save}`}
+            onClick={() => setIsEdit(true)}
+          >
+            {t("New.edit")}
+          </button>
+        </div>
+      )}
 
       {/* *****PASSSPORT*************************************** */}
 
@@ -416,6 +446,7 @@ const MainInfo = () => {
               <input
                 type="text"
                 className="gray_input"
+                readOnly={!isEditPass}
                 {...register("passportSerial", {
                   required: t("SettingsPage.requared").toString(),
                   minLength: {
@@ -442,6 +473,7 @@ const MainInfo = () => {
               <input
                 type="text"
                 className="gray_input"
+                readOnly={!isEditPass}
                 {...register("passportNumber", {
                   required: t("SettingsPage.requared").toString(),
                   minLength: {
@@ -470,8 +502,9 @@ const MainInfo = () => {
             <div className={styles.input70}>
               <input
                 type="date"
-                className="gray_input"
+                className="!gray_input"
                 value={passportDate}
+                readOnly={isEditPass}
                 {...register("passportIssueDate1", {
                   // required: t("SettingsPage.requared").toString(),
                   onChange: (e) => setPassportDate(e.target.value),
@@ -493,6 +526,7 @@ const MainInfo = () => {
           <input
             type="text"
             className="gray_input"
+            readOnly={!isEditPass}
             {...register("passportIssuer", {
               required: t("SettingsPage.requared").toString(),
               minLength: {
@@ -521,6 +555,7 @@ const MainInfo = () => {
           <input
             type="text"
             className="gray_input"
+            readOnly={!isEditPass}
             {...register("addressReg", {
               required: t("SettingsPage.requared").toString(),
               minLength: {
@@ -542,31 +577,43 @@ const MainInfo = () => {
       </div>
 
       {/* buttons */}
-      <div className={styles.button_flex}>
-        <button
-          className="outline_green_button_2"
-          onClick={() => {
-            reset(allInfoUser.value);
-            // console.log(allInfoUser.value?.passportIssueDate?.split("T")?.[0]);
-            setPassportDate(
-              allInfoUser.value?.passportIssueDate?.split("T")?.[0]
-            );
-            // handleReset();
-          }}
-        >
-          {t("SettingsPage.cancel")}
-        </button>
-        <button
-          className="dark_green_button_2"
-          disabled={!isValid || isLoading}
-          onClick={handleSubmit(onSubmitPassportData)}
-        >
-          <div className="loader_for_button">
-            <Loader loading={isLoading} />
-          </div>
-          {t("SettingsPage.save")}
-        </button>
-      </div>
+      {isEditPass ? (
+        <div className={styles.button_flex}>
+          <button
+            className={`outline_green_button_2 ${styles.button_save}`}
+            onClick={() => {
+              reset(allInfoUser.value);
+              // console.log(allInfoUser.value?.passportIssueDate?.split("T")?.[0]);
+              setPassportDate(
+                allInfoUser.value?.passportIssueDate?.split("T")?.[0]
+              );
+              setIsEditPass(false);
+              // handleReset();
+            }}
+          >
+            {t("SettingsPage.cancel")}
+          </button>
+          <button
+            className={`dark_green_button_2 ${styles.button_save}`}
+            disabled={!isValid || isLoading}
+            onClick={handleSubmit(onSubmitPassportData)}
+          >
+            <div className="loader_for_button">
+              <Loader loading={isLoading} />
+            </div>
+            {t("SettingsPage.save")}
+          </button>
+        </div>
+      ) : (
+        <div className={styles.button_flex}>
+          <button
+            className={`dark_orange_button ${styles.button_save}`}
+            onClick={() => setIsEditPass(true)}
+          >
+            {t("New.edit")}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

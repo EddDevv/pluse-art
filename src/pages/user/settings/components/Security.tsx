@@ -236,11 +236,11 @@ const Security = () => {
       }
     } catch (e: any) {
       if (e?.response?.data) {
-        toast.error(e?.response?.data);
+        console.error(e?.response?.data);
       } else if (e?.response) {
-        toast.error(e?.response);
+        console.error(e?.response);
       } else {
-        toast.error(t("SettingsPage.error"));
+        console.error(t("SettingsPage.error"));
       }
       console.error(e);
     }
@@ -531,7 +531,7 @@ const Security = () => {
 
       {/* ******************HIDDEN************************************** */}
 
-      <div className={styles.check_flex} style={{marginTop: "30px"}}>
+      <div className={styles.check_flex} style={{ marginTop: "30px" }}>
         <Checkbox
           colorScheme="teal"
           checked={allInfoUser.value.isHidden === true}
