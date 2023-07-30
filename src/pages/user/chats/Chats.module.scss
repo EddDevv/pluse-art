@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 .paper {
   margin: 31px 0;
   //   padding: 31px 29px;
@@ -16,6 +17,10 @@
 
   @media screen and (max-width: 760px) {
     margin-bottom: 20px;
+  }
+  @media screen and (max-width: $mobile) {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 
@@ -56,6 +61,16 @@
   align-items: center;
   width: 100%;
   cursor: pointer;
+  @media screen and (max-width: $mobile) {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+.login_ava {
+  width: 10%;
+  @media screen and (max-width: $mobile) {
+    width: 25%;
+  }
 }
 .login_time {
   width: 30%;
@@ -68,6 +83,17 @@
   font-style: normal;
   font-weight: 500;
   line-height: 140%; /* 19.6px */
+  @media screen and (max-width: $mobile) {
+    width: 70%;
+  }
+}
+.login_mess {
+  width: 60%;
+  word-break: break-all;
+  @media screen and (max-width: $mobile) {
+    width: 100%;
+    // margin-bottom: 30px;
+  }
 }
 .time {
   color: var(--gray-2, #4f4f4f);
@@ -101,6 +127,11 @@
   width: 100%;
   align-items: flex-start;
   gap: 30px;
+  @media screen and (max-width: $mobile) {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+  }
 }
 .textarea {
   padding: 30px;

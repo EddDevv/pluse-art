@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../store";
 import styles from "./Chats.module.scss";
 import { ChatType } from "../../../assets/types/Chat";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
-import { IconButton, Spacer } from "@chakra-ui/react";
+import { IconButton, Spacer, useMediaQuery } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { LetterClosedIcon } from "../../../assets/icons/LetterClosed";
 import { LetterOpenIcon } from "../../../assets/icons/LetterOpen";
@@ -17,6 +17,8 @@ import MessageModal from "./MessageModal";
 
 const Chats = () => {
   const { t } = useTranslation();
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
+
   const { allInfoUser } = useAppSelector((state) => state);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -126,7 +128,7 @@ const Chats = () => {
                   handleOpen({ id: item.id, name: item.recipientId })
                 }
               >
-                <div>
+                <div className={styles.login_ava}>
                   {!item.lastMessage.isRead &&
                   item.lastMessage.senderId !== allInfoUser.value.id ? (
                     <LetterClosedIcon />
@@ -134,6 +136,7 @@ const Chats = () => {
                     <LetterOpenIcon />
                   )}
                 </div>
+
                 <div className={styles.login_time}>
                   <div>
                     {item?.recipientName &&
@@ -151,8 +154,9 @@ const Chats = () => {
                   </div>
                 </div>
                 <div
+                className={styles.login_mess}
                   style={{
-                    flexGrow: 1,
+                    // flexGrow: 1,
                     color:
                       item?.lastMessage.senderId === allInfoUser.value.id
                         ? ""

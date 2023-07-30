@@ -15,13 +15,14 @@ import {
 import { Loader } from "../../../api/Loader";
 import styles from "./Chats.module.scss";
 import { ROUTES, UserIdsEnum } from "../../../assets/consts/consts";
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, useMediaQuery } from "@chakra-ui/react";
 import Moment from "react-moment";
 import MessageModal from "./MessageModal";
 
 const Messages = () => {
   console.log("messages");
   const { t } = useTranslation();
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
 
   const { auth, allInfoUser } = useAppSelector((state) => state);
   const [send, setSend] = useState(false);
@@ -208,7 +209,7 @@ const Messages = () => {
             // userProfile &&
             messages.messages.items.map((elem) => (
               <div key={elem.id} className={styles.message_flex}>
-                <div style={{ width: "10%" }}>
+                <div className={styles.login_ava}>
                   {elem.senderId === allInfoUser.value.id ? (
                     <>
                       <Avatar
@@ -248,14 +249,14 @@ const Messages = () => {
                   </div>
                 </div>
 
+                {/* {isLagerThan480 && ( */}
                 <div
-                  style={{
-                    flexGrow: 1,
-                    wordBreak: "break-all",
-                  }}
+                  className={styles.login_mess}
+                  style={{ marginBottom: isLagerThan480 ? "" : "30px" }}
                 >
                   {elem.text}
                 </div>
+                {/* )} */}
               </div>
             ))}
 
