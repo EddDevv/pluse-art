@@ -25,7 +25,7 @@ type EnterForm = {
   login: string;
   password: string;
   passwordRepeat: string;
-  pin: string;
+  code: string;
 };
 
 const Login: FC = () => {
@@ -72,9 +72,7 @@ const Login: FC = () => {
   }, [token]);
 
   // ПРОВЕРКА АКТИВНОСТИ GA У ПОЛЬЗОВАТЕЛЯ
-  const getGaStatusHandler = async (e: any, loginFromInput: string | null) => {
-    e.preventDefault();
-
+  const getGaStatusHandler = async (loginFromInput: string | null) => {
     try {
       const response = await instanceWithoutAuth.get(
         `api/Auth/2fa-status?login=${loginFromInput}`
@@ -102,7 +100,7 @@ const Login: FC = () => {
         if (isGa === true) {
           setIsLoading(true);
           const res = await instanceWithoutAuth(
-            `api/Auth/reset-password?login=${data.login}&code=${data.pin}`
+            `api/Auth/reset-password?login=${data.login}&code=${data.code}`
           );
           if (res.status >= 200 && res.status < 300) {
             toast.success("Пароль успешно сброшен");
@@ -127,7 +125,7 @@ const Login: FC = () => {
       const rd = {
         loginOrEmail: data.login,
         password: data.password,
-        code: isGa === true ? data.pin : "111111",
+        code: isGa === true ? data.code : "111111",
       };
       if (!successCaptcha) return;
       setIsLoading(true);
@@ -220,9 +218,9 @@ const Login: FC = () => {
                     {...register("login", {
                       required: "The field is required!",
                       onChange: (e) => {
-                        // if (e.target.value.length >= 4) {
-                        // checkIsGaForLogin(e.target.value);
-                        // }
+                        if (e.target.value.length >= 4) {
+                          getGaStatusHandler(e.target.value);
+                        }
                       },
                       minLength: {
                         value: 4,
@@ -329,13 +327,13 @@ const Login: FC = () => {
                         <div className={styles.label}>Код GA</div>
                         <input
                           className="gray_input_w100"
-                          {...register("pin", {
+                          {...register("code", {
                             required: isGa ? "The field is required" : false,
                           })}
                         />
-                        {errors?.pin && (
+                        {errors?.code && (
                           <div className="required">
-                            {errors.pin.message || "Error!"}
+                            {errors.code.message || "Error!"}
                           </div>
                         )}
                       </div>
@@ -361,7 +359,7 @@ const Login: FC = () => {
                         target="_blank"
                         rel="noreferrer"
                       > */}
-                        Написать в поддержку
+                      Написать в поддержку
                       {/* </a> */}
                     </button>
                   </>
