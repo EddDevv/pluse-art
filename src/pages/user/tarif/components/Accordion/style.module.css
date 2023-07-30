@@ -1,0 +1,35 @@
+.Accordion {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.Accordion .Top {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #005a5a;
+  cursor: pointer;
+}
+
+.Accordion .Top .Icon {
+  transition: 0.5s;
+  color: #005a5a;
+  min-width: 19px;
+}
+
+.Accordion .Top .Icon.Active {
+  transform: rotate(-45deg);
+}
+
+.Accordion .Top p {
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.Accordion .Bottom {
+  color: #000;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 160%;
+}

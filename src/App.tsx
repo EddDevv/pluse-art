@@ -31,6 +31,7 @@ import Chats from "./pages/user/chats/Chats";
 import Promo from "./pages/user/promo/Promo";
 import Shop from "./pages/user/shop/Shop";
 import Product from "./pages/user/shop/Product";
+import Tarif from "./pages/user/tarif/Tarif";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -101,7 +102,7 @@ export const App = () => (
           <Route index element={<MyStocks />} />
         </Route>
         <Route path={ROUTES.tarif} element={<PrivateRoute />}>
-          <Route index element={<Cabinet />} />
+          <Route index element={<Tarif />} />
         </Route>
         <Route path={ROUTES.documents} element={<PrivateRoute />}>
           <Route index element={<BrokerDocuments />} />
