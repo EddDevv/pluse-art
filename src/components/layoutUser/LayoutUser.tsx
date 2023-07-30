@@ -8,7 +8,7 @@ import SideBarUser from "./SideBarUser";
 import SideBarUserMobile from "./SideBarUserMobile";
 
 const LayoutUser: FC = () => {
-  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
+  const [isLagerThan760] = useMediaQuery("(min-width: 1060px)");
   return (
     <>
       <div className={styles.layout_main}>

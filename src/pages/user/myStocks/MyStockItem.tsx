@@ -10,6 +10,7 @@ import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
 import Moment from "react-moment";
 import { ISellStock, PeriodEnum } from "../../../assets/types/StockTypes";
 import MainAvatar from "../../../UIcomponents/mainAvatar/MainAvatar";
+import { useMediaQuery } from "@chakra-ui/react";
 
 interface IDataForChart {
   labels: string[];
@@ -22,11 +23,18 @@ type PropsType = {
   stock: ISellStock;
   refreshStocks: boolean;
   setRefreshStocks: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
-const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsType) => {
+const MyStockItem = ({
+  stock,
+  period,
+  refreshStocks,
+  setRefreshStocks,
+}: PropsType) => {
   const { t } = useTranslation();
   const { value } = useAppSelector((state) => state.stockRates);
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
+  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
 
   const [totalCount, setTotalCount] = useState<number | string>(0);
   const [totalSum, setTotalSum] = useState<number | string>(0);
@@ -76,20 +84,20 @@ const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsTy
   const getSum = (count: number) => {
     const sellPrice = value?.find((item) => item.code === stock.stockCode);
     if (sellPrice) {
-      return (count * sellPrice.buyPrice).toFixed(2)
+      return (count * sellPrice.buyPrice).toFixed(2);
     } else {
       return 0;
     }
-  }
+  };
 
   const getPrice = (): number => {
     const sellPrice = value?.find((item) => item.code === stock.stockCode);
     if (sellPrice) {
-      return +(sellPrice.buyPrice).toFixed(2)
+      return +sellPrice.buyPrice.toFixed(2);
     } else {
       return 0;
     }
-  }
+  };
 
   // **********ЗАКРЫТИЕ МОДАЛКИ***************
   const closeModalHandler = () => {
@@ -128,18 +136,29 @@ const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsTy
   };
   return (
     <>
-
       <ModalMain
         isOpen={isOpenModal}
         title={t("New.stock_seil")}
-        handleClose={() => { setIsOpenModal(false) }}
-        handleSubmit={() => { setIsOpenModal(false); setIsOpenConfirmModal(true) }}
+        handleClose={() => {
+          setIsOpenModal(false);
+        }}
+        handleSubmit={() => {
+          setIsOpenModal(false);
+          setIsOpenConfirmModal(true);
+        }}
         isOrange={true}
       >
         <div className={styles.stock_body_modal}>
-          <div><Moment format="DD/MM/YYYY HH:mm" locale="ru">{new Date()}</Moment></div>
+          <div>
+            <Moment format="DD/MM/YYYY HH:mm" locale="ru">
+              {new Date()}
+            </Moment>
+          </div>
           <div className={styles.stock_image}>
-            <MainAvatar text={stock?.stockCode.slice(0, 3)} bg={stringToColor(stock.stockCode)} />
+            <MainAvatar
+              text={stock?.stockCode.slice(0, 3)}
+              bg={stringToColor(stock.stockCode)}
+            />
             <div style={{ fontSize: "20px" }}>{stock.stockName}</div>
             <div style={{ alignSelf: "start" }}>{stock.stockCode}</div>
           </div>
@@ -149,24 +168,30 @@ const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsTy
           </div>
           <div className={styles.modal_flex}>
             <div>{t("New.stock_price")}</div>
-            <div>{getPrice()}$</div>
+            <div className={styles.medium}>{getPrice()}$</div>
           </div>
           <div className={styles.modal_flex}>
             <div>Доходность за год</div>
-            <div>-</div>
+            <div className={styles.medium}>-</div>
           </div>
           <div className={styles.modal_flex}>
             <div>{t("New.input_amount")}</div>
             <div>
-              <input value={totalCount} className={styles.input}
+              <input
+                value={totalCount}
+                className={styles.input}
+                style={{ backgroundColor: "#F8F8F8", width: "100px" }}
                 onChange={(e) => setTotalCount(e.target.value)}
               />
             </div>
           </div>
 
           <div className="divider" />
-          <div className={styles.modal_flex} style={{ color: "#000", margin: "20px 0" }}>
-            <div>{t("New.input_sum")}</div>
+          <div
+            className={styles.modal_flex}
+            style={{ color: "#000", margin: "20px 0" }}
+          >
+            <div className={styles.medium}>{t("New.input_sum")}</div>
             <div style={{ fontSize: "20px" }}>
               <input
                 value={totalCount ? (+totalCount * getPrice()).toFixed(2) : ""}
@@ -175,22 +200,28 @@ const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsTy
               />
             </div>
           </div>
-
         </div>
-
       </ModalMain>
       {/* ***************************************************** */}
       <ModalMain
         isOpen={isOpenConfirmModal}
         title={t("New.operation_confirm")}
-        handleClose={() => { setIsOpenConfirmModal(false) }}
+        handleClose={() => {
+          setIsOpenConfirmModal(false);
+        }}
         handleSubmit={() => sellStockHandler()}
         isOrange={true}
       >
         <div className={styles.stock_body_modal}>
-          <div><Moment format="DD/MM/YYYY HH:mm" locale="ru">{new Date()}</Moment></div>
+          <div>
+            <Moment format="DD/MM/YYYY HH:mm" locale="ru">
+              {new Date()}
+            </Moment>
+          </div>
 
-          <div className={styles.main_text} style={{ margin: "20px 0" }}>{t("New.you_buy")}</div>
+          <div className={styles.main_text} style={{ margin: "20px 0" }}>
+            {t("New.you_buy")}
+          </div>
 
           <div className={styles.modal_flex}>
             <div>{t("MarketPage.name")}</div>
@@ -202,7 +233,10 @@ const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsTy
             <div className={styles.main_text}>{totalCount}</div>
           </div>
 
-          <div className={styles.modal_flex} style={{ color: "#000", margin: "20px 0" }}>
+          <div
+            className={styles.modal_flex}
+            style={{ color: "#000", margin: "20px 0" }}
+          >
             <div>{t("New.input_sum")}</div>
             <div style={{ fontSize: "20px" }}>
               <input
@@ -212,38 +246,55 @@ const MyStockItem = ({ stock, period, refreshStocks, setRefreshStocks }: PropsTy
               />
             </div>
           </div>
-
         </div>
-
       </ModalMain>
 
       {/* **************ТАБЛИЦА******************** */}
-      <div className={`table_row ${styles.table_main_text}`}>
-        <div className="table_item_10">
-          <MainAvatar text={stock?.stockCode.slice(0, 3)} bg={stringToColor(stock.stockCode)} />
+      <div
+        className={`table_row ${styles.table_main_text}`}
+        onClick={() => {
+          !isLagerThan480 && openModalHandler();
+        }}
+      >
+        <div className={styles.table_item_logo}>
+          <MainAvatar
+            text={stock?.stockCode.slice(0, 3)}
+            bg={stringToColor(stock.stockCode)}
+          />
         </div>
 
         {/* <Tooltip title={stock.objectName}> */}
-        <div className="table_item_30" style={{ alignItems: "start" }}>
+        <div
+          className={styles.table_item_name}
+          style={{ alignItems: "start", textAlign: "start" }}
+        >
           <div>{stock.stockName}</div>
           <div className={styles.table_sub_text}>{stock.stockCode}</div>
         </div>
         {/* </Tooltip> */}
 
-        <div className="table_item_15" style={{ alignItems: "end" }}>
-          <div >{getNumWithoutZeroToFixedN(stock.quantity, 2)}$</div>
-          <div className={styles.table_sub_text}>{t("History.stock_simple")}</div>
+        <div className={styles.table_item_price} style={{ alignItems: "end" }}>
+          <div>{getNumWithoutZeroToFixedN(stock.quantity, 2)}$</div>
+          <div className={styles.table_sub_text}>
+            {isLagerThan760 ? (
+              t("History.stock_simple")
+            ) : (
+              <>
+                {stock.quantity.toLocaleString()} {t("New.count")}
+              </>
+            )}
+          </div>
         </div>
 
-        <div className="table_item_15" style={{ alignItems: "end" }}>
-          {stock.quantity}
+        <div className={styles.table_item_15} style={{ alignItems: "end" }}>
+          {stock.quantity.toLocaleString()}
         </div>
 
-        <div className="table_item_15" style={{ alignItems: "end" }}>
+        <div className={styles.table_item_15} style={{ alignItems: "end" }}>
           {getSum(stock.quantity)}$
         </div>
 
-        <div className="table_item_15">
+        <div className={styles.table_item_but}>
           <button
             className="orange_button_s"
             onClick={() => openModalHandler()}

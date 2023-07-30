@@ -207,11 +207,11 @@ const StockItem = ({ stock, period }: PropsType) => {
           </div>
           <div className={styles.modal_flex}>
             <div>{t("New.stock_price")}</div>
-            <div>{stock.buyPrice}$</div>
+            <div className={styles.medium}>{stock.buyPrice}$</div>
           </div>
           <div className={styles.modal_flex}>
             <div>Доходность за год</div>
-            <div>-</div>
+            <div className={styles.medium}>-</div>
           </div>
           <div className={styles.modal_flex}>
             <div>{t("New.input_amount")}</div>
@@ -230,7 +230,7 @@ const StockItem = ({ stock, period }: PropsType) => {
             className={styles.modal_flex}
             style={{ color: "#000", margin: "20px 0" }}
           >
-            <div>{t("New.input_sum")}</div>
+            <div className={styles.medium}>{t("New.input_sum")}</div>
             <div style={{ fontSize: "20px" }}>
               <input
                 value={

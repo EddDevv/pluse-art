@@ -3,21 +3,23 @@ import styles from "./MyStocks.module.scss";
 import instance from "../../../api/instance";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../store";
+import { useMediaQuery } from "@chakra-ui/react";
 import {
-  useMediaQuery,
-} from "@chakra-ui/react";
-import { ISellStock, IStock, PeriodEnum } from "../../../assets/types/StockTypes";
+  ISellStock,
+  IStock,
+  PeriodEnum,
+} from "../../../assets/types/StockTypes";
 import MyStockItem from "./MyStockItem";
 import { stockRatesAction } from "../../../store/stockRates/actions";
 
 const itemsPerPage = 10;
 
-
-
 const MyStocks = () => {
   const { t } = useTranslation();
   const { token } = useAppSelector((state) => state.auth);
-  const isLargesThan850 = useMediaQuery("(min-width:850px)");
+  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
+
   const [filter, setFilter] = useState("");
   const [stocks, setStocks] = useState<ISellStock[]>([]);
   const [page, setPage] = useState(1);
@@ -25,7 +27,6 @@ const MyStocks = () => {
 
   const dispatch = useAppDispatch();
   const [refreshStocks, setRefreshStocks] = useState(false);
-
 
   // const [totalCount, setTotalCount] = useState(0);
 
@@ -69,10 +70,6 @@ const MyStocks = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, refreshStocks]);
 
-
-
-
-
   // const getStocksWithFilter = async () => {
   //   if (!filter) return;
   //   try {
@@ -90,7 +87,6 @@ const MyStocks = () => {
   //   getStocksWithFilter();
   // }, [filter]);
 
-
   return (
     <div className="page_container">
       <div className={`${styles.paper}`}>
@@ -105,8 +101,8 @@ const MyStocks = () => {
               className="gray_input"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-            // readOnly
-            // placeholder="Поиск временно недоступен"
+              // readOnly
+              // placeholder="Поиск временно недоступен"
             />
 
             <select
@@ -116,42 +112,60 @@ const MyStocks = () => {
               onChange={(e) => setFilter(e.target.value)}
             >
               <option value="">All</option>
-              {["KKTM", "ORGT", "KADM"].map(elem => (
-                <option key={elem} value={elem}>{elem}</option>))}
+              {["KKTM", "ORGT", "KADM"].map((elem) => (
+                <option key={elem} value={elem}>
+                  {elem}
+                </option>
+              ))}
             </select>
           </div>
-          <div>{t("New.total")} {stocks.length} {t("New.stocks")}</div>
+          <div>
+            {t("New.total")} {stocks.length} {t("New.stocks")}
+          </div>
 
           <div className={styles.items_container}>
             {stocks?.length > 0 ? (
               <>
-                {isLargesThan850 && (
+                {isLagerThan480 && (
                   <div className="table_row ">
-                    <div className="table_item_10" style={{ alignItems: "start" }}>
-
-                    </div>
-                    <div className="table_item_30">
+                    <div
+                      className={styles.table_item_logo}
+                      style={{ alignItems: "start" }}
+                    ></div>
+                    <div className={styles.table_item_name}>
                       {t("MarketPage.name")}
                     </div>
-                    <div className="table_item_15" style={{ alignItems: "end" }}>
-                      {t("MarketPage.price")}
+                    <div
+                      className={styles.table_item_price}
+                      style={{ alignItems: "end" }}
+                    >
+                      {isLagerThan760
+                        ? t("MarketPage.price")
+                        : t("New.price_count")}
                     </div>
-                    <div className="table_item_15" style={{ alignItems: "end" }}>
+                    <div
+                      className={styles.table_item_15}
+                      style={{ alignItems: "end" }}
+                    >
                       {t("MarketPage.in_stock")}
                     </div>
-                    <div className="table_item_15" style={{ alignItems: "end" }} >
+                    <div
+                      className={styles.table_item_15}
+                      style={{ alignItems: "end" }}
+                    >
                       {t("New.in_sum")}
                     </div>
-                    <div className="table_item_15">
-                    </div>
+                    <div className={styles.table_item_but}></div>
                   </div>
                 )}
                 {stocks?.map((stock) => (
-                  <MyStockItem key={stock.stockCode}
+                  <MyStockItem
+                    key={stock.stockCode}
                     stock={stock}
                     period={period}
                     refreshStocks={refreshStocks}
-                    setRefreshStocks={setRefreshStocks} />
+                    setRefreshStocks={setRefreshStocks}
+                  />
                 ))}
 
                 {/* {page * itemsPerPage < stocks.length && (
@@ -168,9 +182,6 @@ const MyStocks = () => {
             )}
           </div>
         </div>
-
-
-
       </div>
     </div>
   );

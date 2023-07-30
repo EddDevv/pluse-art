@@ -132,6 +132,11 @@ body {
   box-shadow: 0px 4px 20px 0px rgba(194, 225, 225, 0.47);
   min-height: 40px;
   min-width: 100px;
+  @media screen and (max-width: $tablet) {
+    min-width: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 %outline_green_button {
