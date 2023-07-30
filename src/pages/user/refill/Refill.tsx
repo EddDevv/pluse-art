@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../store";
 import styles from "./Refill.module.scss";
 import RefillItem, { RefillType } from "./RefillItem";
-import { Fade, Spacer, useMediaQuery } from "@chakra-ui/react";
+import { Checkbox, Fade, Spacer, useMediaQuery } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import TincoffIcon from "../../../assets/images/Tincoff.png";
 import BankKyrgIcon from "../../../assets/images/BankKyrg.png";
@@ -23,6 +23,7 @@ export const DopRefillType = [
 const Refill = ({ success }: { success?: boolean }) => {
   const { t } = useTranslation();
   const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
+  const [isShowHistory, setIsShowHistory] = useState(false);
 
   const { userData, allInfoUser } = useAppSelector((state) => state);
   const navigate = useNavigate();
@@ -145,7 +146,15 @@ const Refill = ({ success }: { success?: boolean }) => {
             ))}
           </div>
 
-          <Operations isReplanish={true} />
+          <div className={styles.check_history}>
+            <Checkbox
+              colorScheme="teal"
+              checked={isShowHistory}
+              onChange={(e) => setIsShowHistory(e.target.checked)}
+            />
+            <div>{t("New.refill_history")}</div>
+          </div>
+          {isShowHistory && <Operations isReplanish={true} />}
         </div>
       </div>
     </>

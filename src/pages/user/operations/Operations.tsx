@@ -241,17 +241,19 @@ const Operations = ({ isWithdrawal, refresh, isReplanish }: PropType) => {
 
   return (
     <div className="page_container">
-      <div className="page_inner_container">
+      <div
+        className={isWithdrawal || isReplanish ? "" : "page_inner_container"}
+      >
         <div className={styles.title_flex}>
           {isWithdrawal ? (
             <div className={styles.isWithdrawal}>
-              <img src={Icon_item} alt="" />
-              {t("New.withdrawal_history")}
+              {/* <img src={Icon_item} alt="" /> */}
+              {/* {t("New.withdrawal_history")} */}
             </div>
           ) : isReplanish ? (
             <div className={styles.isWithdrawal}>
-              <img src={Icon_item} alt="" />
-              {t("New.refill_history")}
+              {/* <img src={Icon_item} alt="" />
+              {t("New.refill_history")} */}
             </div>
           ) : (
             <div className="page_title">{t("User_layout.history")}</div>

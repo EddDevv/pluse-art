@@ -13,6 +13,7 @@ import Moment from "react-moment";
 import ModalMain from "../../../UIcomponents/mainModal/ModalMain";
 import {
   Button,
+  Checkbox,
   Collapse,
   Modal,
   ModalCloseButton,
@@ -47,6 +48,7 @@ enum requsitesType {
 const Withdrawal = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowHistory, setIsShowHistory] = useState(false);
 
   const { auth, userData } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
@@ -281,38 +283,51 @@ const Withdrawal = () => {
 
           <div className={styles.main_min}>{t("New.min_sum_10")}</div>
 
-          <div className={`${styles.main_flex} ${styles.main_min}`}>
-            <div className={styles.main_form}>Введите сумму в USD</div>
-            <div className={styles.main_form}>
-              <input
-                className="gray_input_w100"
-                value={realSumValue}
-                placeholder="0 USD"
-                style={{ textAlign: "end" }}
-                onChange={(e) => handleChangeValue(e.target.value)}
-              />
-            </div>
-            <div className={styles.main_form}>
-              <div>
-                <b>{getNumWithoutZeroToFixedN(balance, 2)} &nbsp; USD</b>
+          <div className={`${styles.main_flex_1} ${styles.main_min}`}>
+            <div className={styles.flex_10}>
+              <div className={styles.main_form}>Введите сумму в USD</div>
+              <div className={styles.main_form}>
+                <input
+                  className="gray_input_w100"
+                  value={realSumValue}
+                  placeholder="0 USD"
+                  style={{ textAlign: "end" }}
+                  onChange={(e) => handleChangeValue(e.target.value)}
+                />
               </div>
-              <div>{t("New.available_for_withdrawal")}</div>
             </div>
-            <div className={styles.main_form}>
-              <button
-                className={styles.filter_apply}
-                onClick={() => {
-                  // getHistory();
-                }}
-                disabled={isLoading || withdrawalType === ""}
-              >
-                {t("Finance.withdraw")}
-              </button>
+
+            <div className={styles.flex_10}>
+              <div className={styles.main_form}>
+                <div>
+                  <b>{getNumWithoutZeroToFixedN(balance, 2)} &nbsp; USD</b>
+                </div>
+                <div>{t("New.available_for_withdrawal")}</div>
+              </div>
+              <div className={styles.main_form}>
+                <button
+                  className={styles.filter_apply}
+                  onClick={() => {
+                    // getHistory();
+                  }}
+                  disabled={isLoading || withdrawalType === ""}
+                >
+                  {t("Finance.withdraw")}
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        <Operations isWithdrawal={true} />
+        <div className={styles.check_history}>
+          <Checkbox
+            colorScheme="teal"
+            checked={isShowHistory}
+            onChange={(e) => setIsShowHistory(e.target.checked)}
+          />
+          <div>{t("New.withdrawal_history")}</div>
+        </div>
+        {isShowHistory && <Operations isWithdrawal={true} />}
       </div>
     </div>
   );
