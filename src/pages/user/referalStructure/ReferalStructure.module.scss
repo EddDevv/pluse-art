@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 .container {
   width: 100%;
 }
@@ -30,6 +31,9 @@
   @media screen and (max-width: 1050px) {
     flex-wrap: wrap;
   }
+  @media screen and (max-width: $mobile) {
+    padding: 20px;
+  }
 }
 
 .level1_row {
@@ -60,11 +64,19 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  width: 30%;
-  @media screen and (max-width: 1050px) {
-    width: 48%;
-    margin-bottom: 20px;
-    gap: 5px;
+  width: 25%;
+  // @media screen and (max-width: 1050px) {
+  //   width: 48%;
+  //   margin-bottom: 20px;
+  //   gap: 5px;
+  // }
+  @media screen and (max-width: $mobile) {
+    width: 35%;;
+  }
+}
+.email {
+  @media screen and (max-width: $mobile) {
+    display: none;
   }
 }
 

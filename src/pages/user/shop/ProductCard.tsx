@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Spacer } from "@chakra-ui/react";
+import { Spacer, useMediaQuery } from "@chakra-ui/react";
 import styles from "./Shop.module.scss";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../store";
@@ -27,6 +27,8 @@ const product = {
 
 const ProductCard = () => {
   const { t } = useTranslation();
+  const [isLagerThan480] = useMediaQuery("(min-width: 600px)");
+
   const navigate = useNavigate();
 
   const { contests, allInfoUser } = useAppSelector((state) => state);
@@ -44,15 +46,19 @@ const ProductCard = () => {
         <div>{product.type}</div>
         <div>{product.name}</div>
       </div>
-      <div>
-        {product.desc.map((elem, i) => (
-          <div key={i}>{elem}</div>
-        ))}
-      </div>
+      {isLagerThan480 && (
+        <div>
+          {product.desc.map((elem, i) => (
+            <div key={i}>{elem}</div>
+          ))}
+        </div>
+      )}
 
       <div className={styles.bold}>{product.price} &nbsp; USD</div>
 
-      <button className="dark_green_button_100">{t("New.add")}</button>
+      {isLagerThan480 && (
+        <button className="dark_green_button_100">{t("New.add")}</button>
+      )}
     </div>
   );
 };

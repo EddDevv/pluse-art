@@ -62,14 +62,14 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
         />
         <div>{userData.value.userInfo?.fullName ?? "NN"}</div>
       </div>
-      <div className={styles.icons_cont}>
+      <div className={styles.icons_cont} >
         <Link to={ROUTES.shop}>
-          <div className={styles.icon_block}>
+          <div className={styles.icon_block} onClick={onClose}>
             <BusketIcon />
           </div>
         </Link>
         <Link to={ROUTES.promo}>
-          <div className={styles.icon_block}>
+          <div className={styles.icon_block} onClick={onClose}>
             <GiftIcon />
           </div>
         </Link>

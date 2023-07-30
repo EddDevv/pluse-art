@@ -1,11 +1,7 @@
 import styles from "./ReferalStructure.module.scss";
 import React, { useEffect, useState } from "react";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
-import {
-  Collapse,
-  Skeleton,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Collapse, Skeleton, useMediaQuery } from "@chakra-ui/react";
 import { LocalSpinnerAbsolute } from "../../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
 import instance from "../../../api/instance";
 import { MarketingApi } from "../../../api/marketing/marketing";
@@ -25,7 +21,7 @@ type PropsType = {
 
 const StructureLevel = (props: PropsType) => {
   const { t } = useTranslation();
-  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
 
   const [referals, setReferals] = useState<StructureItemType[]>([]);
   // const [totalCount, setTotalCount] = useState(0);
@@ -127,14 +123,18 @@ const StructureLevel = (props: PropsType) => {
 
   return (
     <div className={styles.relative}>
-      {loading && <LocalSpinnerAbsolute size="50"  />}
+      {loading && <LocalSpinnerAbsolute size="50" />}
       {referals?.length > 0 ? (
         referals?.map((elem) => (
           <Skeleton key={elem.id} isLoaded={!loading}>
             <div
               className={level === 1 ? styles.level1_row : styles.level_row}
               style={{
-                marginLeft: level < 5 ? `${(level - 1) * 40}px` : "200px",
+                marginLeft: !isLagerThan480
+                  ? "0"
+                  : level < 5
+                  ? `${(level - 1) * 40}px`
+                  : "200px",
               }}
             >
               <div className={styles.level}>
@@ -144,17 +144,24 @@ const StructureLevel = (props: PropsType) => {
 
               <div className={styles.table_column}>
                 <div className={styles.cell_name}>{t("History.login")}</div>
-                <div className={styles.cell_login} style={{color: elem?.isActivated?"teal":"gray"}}>{elem.login}</div>
+                <div
+                  className={styles.cell_login}
+                  style={{ color: elem?.isActivated ? "teal" : "gray" }}
+                >
+                  {elem.login}
+                </div>
               </div>
 
               <div className={styles.table_column}>
-                <div className={styles.cell_name}>{t("Statistics.activation_date")}</div>
+                <div className={styles.cell_name}>
+                  {t("Statistics.activation_date")}
+                </div>
                 <div className={styles.cell_date}>
                   {elem.creationDate.split("T")[0]}
                 </div>
               </div>
 
-              <div className={styles.table_column}>
+              <div className={`${styles.table_column} ${styles.email}`}>
                 <div className={styles.cell_name}>Email</div>
                 <div className={styles.cell_date}>
                   {elem.email ? elem.email : "no"}

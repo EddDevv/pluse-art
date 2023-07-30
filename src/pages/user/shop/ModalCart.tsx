@@ -7,6 +7,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -39,6 +40,7 @@ const ModalCart: FC<IProps> = ({
   isHideClose,
 }) => {
   const { t } = useTranslation();
+  const [isLagerThan600] = useMediaQuery("(min-width: 600px)");
 
   const [isLoading, setLoading] = useState<boolean>(false);
 
@@ -89,13 +91,7 @@ const ModalCart: FC<IProps> = ({
         <div className={styles.comment}>Комментарий к заказу</div>
         <textarea className={`gray_input_w100 ${styles.textarea}`} />
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "20px",
-          }}
-        >
+        <div className={styles.button_modal_flex}>
           <button
             onClick={() => handleClose()}
             className={
@@ -104,8 +100,8 @@ const ModalCart: FC<IProps> = ({
           >
             {t("New.consult")}
           </button>
-          <div>
-            {isLoading && <LocalSpinnerAbsolute size="70px" />}
+          {/* <div>*/}
+            {isLoading && <LocalSpinnerAbsolute size="70px" />} 
             <button
               onClick={handleLocalSumbit}
               className={isOrange ? "dark_orange_button" : "dark_green_button"}
@@ -113,7 +109,7 @@ const ModalCart: FC<IProps> = ({
             >
               {t("Programs.pay")}
             </button>
-          </div>
+          {/* </div> */}
         </div>
       </ModalContent>
     </Modal>

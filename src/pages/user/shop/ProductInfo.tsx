@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Spacer } from "@chakra-ui/react";
+import { Spacer, useMediaQuery } from "@chakra-ui/react";
 import styles from "./Shop.module.scss";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../store";
@@ -25,33 +25,66 @@ const product = {
 
 const ProductInfo = () => {
   const { t } = useTranslation();
+  const [isLagerThan600] = useMediaQuery("(min-width: 600px)");
+  const [size, setSize] = useState(1);
 
   const { contests, allInfoUser } = useAppSelector((state) => state);
 
   return (
     <div className={styles.product_info_box}>
-      <div className={styles.info_image}>
-        <img src={product.image} alt="" />
-        <div className={styles.small_img_cont}>
+      {isLagerThan600 && (
+        <div className={styles.info_image}>
           <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
+          <div className={styles.small_img_cont}>
+            <img src={product.image} alt="" />
+            <img src={product.image} alt="" />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className={styles.info_main}>
-        <div className={styles.art}>Арт. J12208</div>
-        <div className={styles.bold} style={{ display: "flex" }}>
-          <div>{product.type}</div> &nbsp;
-          <div>{product.name}</div>
-        </div>
+        {isLagerThan600 ? (
+          <>
+            <div className={styles.art}>Арт. J12208</div>
+            <div className={styles.bold} style={{ display: "flex" }}>
+              <div>{product.type}</div> &nbsp;
+              <div>{product.name}</div>
+            </div>
+          </>
+        ) : (
+          <div className={styles.flex_m}>
+            <div className={styles.art}>Арт. J12208</div>
+            <Spacer />
+            <div className={styles.bold} style={{ display: "flex" }}>
+              <div>{product.type}</div> &nbsp;
+              <div>{product.name}</div>
+            </div>
+          </div>
+        )}
+
+        {!isLagerThan600 && (
+          <div className={styles.info_image_m}>
+            <img src={product.image} alt="" />
+            <div className={styles.small_img_cont}>
+              <img src={product.image} alt="" />
+              <img src={product.image} alt="" />
+            </div>
+          </div>
+        )}
 
         <div className={styles.bold}>
           <b>{product.price}</b> &nbsp; USD
         </div>
 
         <div>Выберите подходящий размер</div>
-        <select placeholder="Ваш размер" className="gray_input_w100">
+        <select
+          placeholder="Ваш размер"
+          className={`gray_input_w100 ${styles.input}`}
+          value={size}
+          onChange={(e) => setSize(+e.target.value)}
+        >
           <option value={1}>1</option>
+          <option value={2}>2</option>
         </select>
         <div className="main_link" style={{ alignSelf: "flex-end" }}>
           Таблица размеров

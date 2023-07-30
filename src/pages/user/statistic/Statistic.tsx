@@ -7,7 +7,7 @@ import { StatisticType } from "../../../assets/types/Statistics";
 import { useText } from "../../../hooks/useText";
 import People from "../../../assets/images/People.png";
 import Moment from "react-moment";
-import { Spacer } from "@chakra-ui/react";
+import { Spacer, useMediaQuery } from "@chakra-ui/react";
 import instance from "../../../api/instance";
 
 type RowType = {
@@ -19,6 +19,8 @@ type RowType = {
 
 const Statistic = () => {
   const { t } = useTranslation();
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
+  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
 
   const { auth } = useAppSelector((state) => state);
   const [stat, setStat] = useState<StatisticType | null>(null);
@@ -127,8 +129,14 @@ const Statistic = () => {
           <div className="page_title">{t("New.stat")}</div>
         </div>
 
+        {!isLagerThan760 && (
+          <div className={styles.flex_end}>
+            <div className={styles.div_50}>{t("New.to_y_invites")}</div>
+          </div>
+        )}
+
         <div className={styles.flex_end}>
-          <div>{t("New.to_y_invites")}</div>
+          {isLagerThan760 && <div>{t("New.to_y_invites")}</div>}
           <div className={styles.stat_box}>
             <div className={styles.main_numbers_box}>
               <div className={styles.main_numbers}>

@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 .paper {
   background: #fff;
   margin: 22px 0;
@@ -16,7 +17,7 @@
   background-repeat: repeat-x, no-repeat;
   overflow: hidden;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $tablet) {
     padding: 20px;
   }
 }
@@ -34,7 +35,7 @@
   line-height: normal;
   text-transform: uppercase;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $tablet) {
     margin-bottom: 20px;
   }
 }
@@ -63,6 +64,26 @@
   gap: 50px;
   position: relative;
   top: -50px;
+  // background-color: aqua;
+  @media screen and (max-width: $tablet) {
+    // width: 70%;
+    top: -70px;
+  }
+  @media screen and (max-width: 600px) {
+    top: 0px;
+    margin-top: 40px;
+
+    justify-content: space-between;
+  }
+}
+.div_50 {
+  width: 50%;
+  margin-bottom: 10px;
+  @media screen and (max-width: $mobile) {
+    width: 100%;
+    margin-bottom: 0;
+    margin-top: 30px;
+  }
 }
 
 .stat_box {
@@ -72,8 +93,12 @@
   // justify-content: center;
   // align-items: center;
   gap: 20px;
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: $tablet) {
     width: 100%;
+  }
+  @media screen and (max-width: $mobile) {
+    // width: 100%;
+    // justify-content: space-between;
   }
 }
 .main_numbers_box {
@@ -82,6 +107,14 @@
   justify-content: space-between;
   gap: 20px;
   align-items: center;
+  @media screen and (max-width: $tablet) {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  @media screen and (max-width: $mobile) {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 .main_numbers {
   display: flex;
@@ -130,11 +163,25 @@
   font-style: normal;
   font-weight: 300;
   line-height: normal;
+  @media screen and (max-width: $tablet) {
+    text-align: end;
+    margin-bottom: 20px;
+  }
+  // @media screen and (max-width: $mobile) {
+  //   width: 60%;
+  // }
 }
 .level_box {
   background: #fff;
   box-shadow: 0px 0px 30px 0px rgba(194, 225, 225, 0.61);
   min-height: 340px;
+  @media screen and (max-width: $tablet) {
+    min-height: 100px;
+    margin-top: -50px;
+  }
+  @media screen and (max-width: 600px) {
+    margin-top: 0px;
+  }
 }
 .level_green {
   background: #008080;

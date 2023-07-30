@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Spacer } from "@chakra-ui/react";
+import { Spacer, useMediaQuery } from "@chakra-ui/react";
 import styles from "./Promo.module.scss";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../store";
@@ -18,6 +18,7 @@ import { Gift } from "../../../assets/icons/Gift";
 
 const Promo = () => {
   const { t } = useTranslation();
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
 
   const { contests, allInfoUser } = useAppSelector((state) => state);
   const [chosen, setChosen] = useState<ContestType | null>(null);
@@ -109,6 +110,7 @@ const Promo = () => {
             {elem.startDate}
           </Moment>
         </div>
+
         <div className={styles.flex}>
           <div className={styles.image}>
             <img src={`${BASEAPPURL}assets/Img/${elem.image}`} alt="" />
@@ -116,6 +118,13 @@ const Promo = () => {
 
           <div className={styles.info_column}>
             <div className={styles.promo_title}>{elem.caption}</div>
+
+            {!isLagerThan480 && (
+              <div className={styles.image_m}>
+                <img src={`${BASEAPPURL}assets/Img/${elem.image}`} alt="" />
+              </div>
+            )}
+
             <div
               className={isPast ? styles.promo_desc_past : styles.promo_desc}
             >
@@ -141,8 +150,8 @@ const Promo = () => {
               <span>{elem.participationCost}</span>
             </div>
 
-            <Spacer />
-            <div className={styles.promo_desc} style={{ alignItems: "end" }}>
+           {!isLagerThan480 && <Spacer />}
+            <div className={styles.promo_desc_m} >
               <div>
                 {t("Platform.participate_list")} {elem.participantsCount}
               </div>
@@ -154,7 +163,9 @@ const Promo = () => {
                 }}
                 disabled
               >
-                {isPast? t("Platform.draw_is_ended"): t("Platform.participate")}
+                {isPast
+                  ? t("Platform.draw_is_ended")
+                  : t("Platform.participate")}
               </button>
             </div>
           </div>

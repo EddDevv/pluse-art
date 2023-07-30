@@ -11,6 +11,7 @@ import {
   IconButton,
   Spacer,
   Switch,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { AddIcon, CloseIcon, CopyIcon } from "@chakra-ui/icons";
 
@@ -101,6 +102,8 @@ const rows2 = [
 
 const RefProgram = () => {
   const { t, i18n } = useTranslation();
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
+  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
 
   const { allInfoUser } = useAppSelector((state) => state);
   const [referralLink, setReferralLink] = useState("");
@@ -154,40 +157,94 @@ const RefProgram = () => {
         <div className={styles.main_info}>{t("New.ref_prog_3")}</div>
 
         {/* ********************************* */}
-        <div className={styles.flex_link}>
-          <div className={styles.ref_text}>{t("PersonalArea.ref")}:</div>
-          <input
-            className={`gray_input ${styles.linkinput}`}
-            value={referralLink}
-            readOnly
-          />
-          <IconButton
-            onClick={handleCopyToClipboard}
-            aria-label="Search database"
-            icon={<CopyIcon color={"teal"} />}
-          />
-
-          <Spacer />
-          <div className={styles.check_box}>
-            <div className={styles.check_box_item}>
-              <Checkbox
-                colorScheme="teal"
-                checked={checked}
-                onChange={handleChangeSwitch}
-                placeholder={`${i18n?.language?.toUpperCase()} lang`}
-              />
-              {`${i18n?.language?.toUpperCase()} lang`}
+        <div className={styles.cont_link}>
+          {!isLagerThan760 && isLagerThan480 && (
+            <div className={styles.check_box_m}>
+              <div className={styles.check_box_item}>
+                <Checkbox
+                  colorScheme="teal"
+                  checked={checked}
+                  onChange={handleChangeSwitch}
+                  placeholder={`${i18n?.language?.toUpperCase()} lang`}
+                />
+                {`${i18n?.language?.toUpperCase()} lang`}
+              </div>
+              <div className={styles.check_box_item}>
+                <Checkbox
+                  colorScheme="teal"
+                  checked={checkedDomen}
+                  onChange={(e) => setCheckedDomen(e.target.checked)}
+                  placeholder="RU domen"
+                />
+                RU domen
+              </div>
             </div>
-            <div className={styles.check_box_item}>
-              <Checkbox
-                colorScheme="teal"
-                checked={checkedDomen}
-                onChange={(e) => setCheckedDomen(e.target.checked)}
-                placeholder="RU domen"
-              />
-              RU domen
+          )}
+
+          {!isLagerThan480 && (
+            <div className={styles.ref_text}>{t("PersonalArea.ref")}:</div>
+          )}
+
+          <div className={styles.flex_link}>
+            {isLagerThan480 && (
+              <div className={styles.ref_text}>{t("PersonalArea.ref")}:</div>
+            )}
+            <input
+              className={`gray_input ${styles.linkinput}`}
+              value={referralLink}
+              // readOnly
+            />
+            <IconButton
+              onClick={handleCopyToClipboard}
+              aria-label="Search database"
+              icon={<CopyIcon color={"teal"} />}
+            />
+
+            {isLagerThan480 && <Spacer />}
+            <div className={styles.check_box}>
+              <div className={styles.check_box_item}>
+                <Checkbox
+                  colorScheme="teal"
+                  checked={checked}
+                  onChange={handleChangeSwitch}
+                  placeholder={`${i18n?.language?.toUpperCase()} lang`}
+                />
+                {`${i18n?.language?.toUpperCase()} lang`}
+              </div>
+              <div className={styles.check_box_item}>
+                <Checkbox
+                  colorScheme="teal"
+                  checked={checkedDomen}
+                  onChange={(e) => setCheckedDomen(e.target.checked)}
+                  placeholder="RU domen"
+                />
+                RU domen
+              </div>
             </div>
           </div>
+
+          {!isLagerThan480 && (
+            <div className={styles.check_box_m}>
+              <div className={styles.check_box_item}>
+                <Checkbox
+                  colorScheme="teal"
+                  checked={checked}
+                  onChange={handleChangeSwitch}
+                  placeholder={`${i18n?.language?.toUpperCase()} lang`}
+                />
+                {`${i18n?.language?.toUpperCase()} lang`}
+              </div>
+              <div className={styles.check_box_item}>
+                <Checkbox
+                  colorScheme="teal"
+                  checked={checkedDomen}
+                  onChange={(e) => setCheckedDomen(e.target.checked)}
+                  placeholder="RU domen"
+                />
+                RU domen
+              </div>
+            </div>
+          )}
         </div>
 
         {/* **************** */}
