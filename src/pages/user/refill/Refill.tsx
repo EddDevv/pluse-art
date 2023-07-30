@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../store";
 import styles from "./Refill.module.scss";
 import RefillItem, { RefillType } from "./RefillItem";
-import { Fade, Spacer } from "@chakra-ui/react";
+import { Fade, Spacer, useMediaQuery } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import TincoffIcon from "../../../assets/images/Tincoff.png";
 import BankKyrgIcon from "../../../assets/images/BankKyrg.png";
@@ -22,6 +22,8 @@ export const DopRefillType = [
 
 const Refill = ({ success }: { success?: boolean }) => {
   const { t } = useTranslation();
+  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
+
   const { userData, allInfoUser } = useAppSelector((state) => state);
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
@@ -100,24 +102,45 @@ const Refill = ({ success }: { success?: boolean }) => {
             ))}
           </div>
 
-          <div className={styles.flex}>
+          <div className={styles.flex_2}>
             {DopRefillType.map((elem) => (
               <div key={elem.id} className={styles.dop_refill_card}>
-                <div style={{ height: "60px" }}>
+                <div
+                  className={styles.dop_refill_logo}
+                  style={{ height: "60px" }}
+                >
                   <img src={elem.icon} alt="" />
                 </div>
-                <div>{t(`New.${elem.desc}`)}</div>
-                {/* <Spacer/> */}
-                <button
-                  className="dark_green_button"
-                  style={{ width: "100%" }}
-                  onClick={() => {
-                    setChosenReq(elem);
-                    setIsOpenRefillReq(true);
-                  }}
-                >
-                  {t("New.req")}
-                </button>
+                {isLagerThan760 ? (
+                  <>
+                    <div>{t(`New.${elem.desc}`)}</div>
+                    {/* <Spacer/> */}
+                    <button
+                      className="dark_green_button"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        setChosenReq(elem);
+                        setIsOpenRefillReq(true);
+                      }}
+                    >
+                      {t("New.req")}
+                    </button>
+                  </>
+                ) : (
+                  <div className={styles.dop_end_mob}>
+                    <button
+                      className="dark_green_button"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        setChosenReq(elem);
+                        setIsOpenRefillReq(true);
+                      }}
+                    >
+                      {t("New.req")}
+                    </button>
+                    <div>{t(`New.${elem.desc}`)}</div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
