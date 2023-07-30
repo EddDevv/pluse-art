@@ -36,6 +36,9 @@
   @media screen and (max-width: 760px) {
     padding: 10px;
   }
+  @media screen and (max-width: $mobile) {
+    padding: 10px 0;
+  }
 }
 
 .container {

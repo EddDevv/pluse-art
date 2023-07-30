@@ -482,7 +482,7 @@ export const DealItem = React.memo(function DealItem({
       </div>
 
       {/* дата начала работы */}
-      <div style={{ minHeight: "30px" }}>
+      <div className={styles.min_height_30}>
         {+new Date(deal.startDate) > +new Date() && (
           <div
             style={{

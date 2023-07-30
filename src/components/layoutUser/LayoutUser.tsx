@@ -13,7 +13,7 @@ const LayoutUser: FC = () => {
     <>
       <div className={styles.layout_main}>
         {!isLagerThan760 && (
-          <div style={{ position: "fixed", right: "5px", top: "5px" }}>
+          <div style={{ position: "fixed", right: "5px", top: "5px", zIndex: "1000" }}>
             <SideBarUserMobile />
           </div>
         )}

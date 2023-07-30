@@ -16,6 +16,7 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
   Stack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { InvestPlanType } from "../../../../store/investingPlans/reducer";
@@ -40,6 +41,8 @@ const Calculator = ({
 }: PropsType) => {
   const { t } = useTranslation();
   const { value } = useAppSelector((state) => state.investPlans);
+  const [isLagerThan480] = useMediaQuery("(min-width: 480px)");
+  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
 
   const { allInfoUser } = useAppSelector((state) => state);
   const dispatch = useDispatch();
@@ -193,24 +196,24 @@ const Calculator = ({
     <>
       <div className={`${styles.paper}`}>
         <div className={styles.green_block}>
-          {t(`New.portfolio_name_${portfolioId}_of`)}
+          {isLagerThan480
+            ? t(`New.portfolio_name_${portfolioId}_of`)
+            : t(`New.portfolio_name_short`)}
         </div>
 
         <div className={styles.inputs_box}>
           <div className={styles.flex}>
             <div>{t("New.portfolio_sum")}</div>
-            <div>
-              <input
-                className="gray_input"
-                placeholder={t("New.input_sum_amoumt")}
-                value={totalPrice}
-                onChange={(event: any) => {
-                  if (event.target.value <= investPlan.maxSum) {
-                    setTotalPrice(event.target.value);
-                  }
-                }}
-              />
-            </div>
+            <input
+              className={`gray_input ${styles.sum_input}`}
+              placeholder={t("New.input_sum_amoumt")}
+              value={totalPrice}
+              onChange={(event: any) => {
+                if (event.target.value <= investPlan.maxSum) {
+                  setTotalPrice(event.target.value);
+                }
+              }}
+            />
           </div>
 
           <div className={styles.flex}>
@@ -254,7 +257,7 @@ const Calculator = ({
                 onChange={(e) => setIsInsure(e)}
                 value={isInsure}
               >
-                <Stack direction="row" gap={45}>
+                <Stack direction="row" spacing={isLagerThan480 ? 8 : "4px"}>
                   <Radio value="true">{t("DopItems.yes")}</Radio>
                   <Radio value="false">{t("DopItems.no")}</Radio>
                 </Stack>
@@ -269,25 +272,75 @@ const Calculator = ({
               value={speed}
               colorScheme="teal"
             >
-              <Stack direction="row" gap={45}>
-                {["no", "1", "2", "3", "4", "5"].map((elem) => (
-                  <Radio
-                    key={elem}
-                    value={elem}
-                    color={"teal.500"}
-                    isDisabled={
-                      elem === "no" || +elem <= speedMaxEnum[portfolioId]
-                        ? false
-                        : true
-                    }
-                  >
-                    {elem === "no" ? (
-                      t("DopItems.no")
-                    ) : (
-                      <div className={styles.green_speed}>{elem} X</div>
-                    )}
-                  </Radio>
-                ))}
+              {!isLagerThan480 && (
+                <Stack
+                  direction="row"
+                  // gap={45}
+                  spacing={isLagerThan480 ? 8 : 8}
+                  mb={4}
+                >
+                  {["no"].map((elem) => (
+                    <Radio
+                      key={elem}
+                      value={elem}
+                      color={"teal.500"}
+                      isDisabled={
+                        elem === "no" || +elem <= speedMaxEnum[portfolioId]
+                          ? false
+                          : true
+                      }
+                    >
+                      {elem === "no" ? (
+                        t("DopItems.no")
+                      ) : (
+                        <div className={styles.green_speed}>{elem} X</div>
+                      )}
+                    </Radio>
+                  ))}
+                </Stack>
+              )}
+              <Stack
+                direction="row"
+                // gap={45}
+                spacing={isLagerThan760 ? 8 : 4}
+              >
+                {isLagerThan480
+                  ? ["no", "1", "2", "3", "4", "5"].map((elem) => (
+                      <Radio
+                        key={elem}
+                        value={elem}
+                        color={"teal.500"}
+                        isDisabled={
+                          elem === "no" || +elem <= speedMaxEnum[portfolioId]
+                            ? false
+                            : true
+                        }
+                      >
+                        {elem === "no" ? (
+                          t("DopItems.no")
+                        ) : (
+                          <div className={styles.green_speed}>{elem} X</div>
+                        )}
+                      </Radio>
+                    ))
+                  : ["1", "2", "3", "4", "5"].map((elem) => (
+                      <Radio
+                        key={elem}
+                        value={elem}
+                        color={"teal.500"}
+                        isDisabled={
+                          elem === "no" || +elem <= speedMaxEnum[portfolioId]
+                            ? false
+                            : true
+                        }
+                      >
+                        {elem === "no" ? (
+                          t("DopItems.no")
+                        ) : (
+                          <div className={styles.green_speed}>{elem}X</div>
+                        )}
+                      </Radio>
+                    ))}
               </Stack>
             </RadioGroup>
           </div>
@@ -295,7 +348,7 @@ const Calculator = ({
 
         <div className={styles.sum_box}>
           <div className={styles.sum_item}>
-            <div>{t("New.sum_insure")}</div>
+            <div className={styles.sum_desc}>{t("New.sum_insure")}</div>
             <div>
               <b className={styles.big_text}>
                 {isInsure === "true" && totalPrice
@@ -310,7 +363,7 @@ const Calculator = ({
           </div>
 
           <div className={styles.sum_item}>
-            <div>{t("New.sum_auto")}</div>
+            <div className={styles.sum_desc}>{t("New.sum_auto")}</div>
             <div>
               <b className={styles.big_text}>
                 {totalPrice &&
@@ -324,7 +377,7 @@ const Calculator = ({
           </div>
 
           <div className={styles.sum_item}>
-            <div>{t("New.sum_portfolio")}</div>
+            <div className={styles.sum_desc}>{t("New.sum_portfolio")}</div>
             <div style={{ color: "#008080" }}>
               <b className={styles.big_text}>
                 {getNumWithoutZeroToFixedN(getTotalSum(), 2)}
@@ -334,7 +387,7 @@ const Calculator = ({
           </div>
 
           <div className={styles.sum_item}>
-            <div>{t("New.sum_income")}</div>
+            <div className={styles.sum_desc}>{t("New.sum_income")}</div>
             <div style={{ color: "#F25822" }}>
               <b className={styles.big_text}>
                 {getNumWithoutZeroToFixedN(getIncomePerMonth(), 2)}

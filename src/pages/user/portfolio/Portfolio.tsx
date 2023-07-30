@@ -12,6 +12,10 @@ import { MarketingApi } from "../../../api/marketing/marketing";
 import { toast } from "react-toastify";
 import { DealItem } from "./dealItem/DealItem";
 import { DealItemCancel } from "./dealItem/DealItemCancel";
+import { useMediaQuery } from "@chakra-ui/react";
+import { Prog1 } from "../../../assets/icons/Prog1";
+import { Prog2 } from "../../../assets/icons/Prog2";
+import { Prog3 } from "../../../assets/icons/Prog3";
 
 type PropsType = {
   portfolioId: number;
@@ -21,6 +25,8 @@ const pageSize = 4;
 
 const Portfolio = ({ portfolioId }: PropsType) => {
   const { t } = useTranslation();
+  const [isLagerThan760] = useMediaQuery("(min-width: 760px)");
+
   const { auth } = useAppSelector((state) => state);
   const { value } = useAppSelector((state) => state.investPlans);
   const [refresh, setRefresh] = useState(false);
@@ -124,10 +130,25 @@ const Portfolio = ({ portfolioId }: PropsType) => {
     }
   };
 
+  const getLogo = () => {
+    switch (portfolioId) {
+      case 0:
+        return <Prog1 />;
+      case 1:
+        return <Prog2 />;
+      case 2:
+        return <Prog3 />;
+
+      default:
+        return <Prog1 />;
+    }
+  };
+
   return (
     <div className="page_container">
       <div className={`${styles.paper}`}>
         <div className={styles.title_flex}>
+          <div className={styles.logo_absolute}>{getLogo()}</div>
           <div className={styles.subtitle}>{t("New.portfolio")}</div>
           <div>{value[portfolioId].name}</div>
         </div>
@@ -143,7 +164,9 @@ const Portfolio = ({ portfolioId }: PropsType) => {
 
         <div className={styles.main_info}>
           <div className={styles.main_info_1}>
-            <AiOutlineWarning size={30} />
+            <div className={styles.icon_box}>
+              <AiOutlineWarning size={30} />
+            </div>
             <div className={styles.text}>
               <div style={{ marginBottom: "10px" }}>{t("New.risk_level")}</div>
               <div className={portfolioId === 2 ? styles.red : styles.green}>
@@ -152,36 +175,54 @@ const Portfolio = ({ portfolioId }: PropsType) => {
             </div>
           </div>
           <div className={styles.main_info_2}>
-            <BsBarChart size={30} />
+            <div className={styles.icon_box}>
+              <BsBarChart size={30} />{" "}
+            </div>
+
             <div className={styles.text}>
               <div style={{ marginBottom: "10px" }}>
-                {t("New.portfolio_income")}
+                {isLagerThan760
+                  ? t("New.portfolio_income")
+                  : t("New.portfolio_income_short")}
               </div>
               <div className={styles.green}>
                 {portfolioId === 0 && (
-                  <b className={styles.dop}>{t("Programs.to")} &nbsp;</b>
+                  <b className={styles.dop}>
+                    {isLagerThan760 && t("Programs.to")} &nbsp;
+                  </b>
                 )}
                 {value[portfolioId].percentPerMonth * 100}% &nbsp;
-                <b className={styles.dop}>({t("New.pers_with_speed")} &nbsp;</b>
+                {!isLagerThan760 && "-"}
+                <b className={styles.dop}>
+                  {isLagerThan760 && "("}
+                  {isLagerThan760 && t("New.pers_with_speed")} &nbsp;
+                </b>
                 {value[portfolioId].percentPerMonth * 100 +
                   value[portfolioId].speedPercent *
                     100 *
                     speedMaxEnum[portfolioId]}
-                %<b className={styles.dop}>&nbsp;)</b>
+                %<b className={styles.dop}>&nbsp;{isLagerThan760 && ")"}</b>
               </div>
             </div>
           </div>
           <div className={styles.main_info_3}>
-            <img src={GifMonets} alt="" />
+            <div className={styles.icon_box}>
+              <img src={GifMonets} alt="" />
+            </div>
+
             <div className={styles.text}>
               <div style={{ marginBottom: "10px" }}>
                 {t("New.portfolio_sum")}
               </div>
               <div className={styles.green}>
-                <b className={styles.dop}>{t("Programs.from")} &nbsp;</b>
-                {value[portfolioId].minSum.toLocaleString()} $ &nbsp;
-                <b className={styles.dop}>{t("Programs.to")} &nbsp;</b>
-                {value[portfolioId].maxSum.toLocaleString()} $
+                <b className={styles.dop}>
+                  {isLagerThan760 && t("Programs.from")} &nbsp;
+                </b>
+                {value[portfolioId].minSum.toLocaleString()}$ &nbsp;
+                <b className={styles.dop}>
+                  {isLagerThan760 ? t("Programs.to") : "-"} &nbsp;
+                </b>
+                {value[portfolioId].maxSum.toLocaleString()}$
               </div>
             </div>
           </div>
@@ -198,7 +239,9 @@ const Portfolio = ({ portfolioId }: PropsType) => {
       {/* ****************List************** */}
       <div className={`${styles.paper_2}`}>
         <div className={styles.title_flex_2}>
-          <div className="page_title">{t("New.your_portfolios")}</div>
+          <div className="page_title" style={{ color: "white" }}>
+            {t("New.your_portfolios")}
+          </div>
 
           <div>
             <select
@@ -256,7 +299,11 @@ const Portfolio = ({ portfolioId }: PropsType) => {
         </div>
         {currentPage * pageSize < totalCount && (
           <div className={styles.loadMore_row}>
-            <button onClick={loadMore} className="loadmore">
+            <button
+              onClick={loadMore}
+              className="loadmore"
+              style={{ color: "white" }}
+            >
               {t("FaqPage.show_more")}
             </button>
           </div>
