@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./Profile.module.scss";
 import { useAppSelector } from "../../../../store";
@@ -17,6 +17,7 @@ import { VerificationIcon } from "../../../../assets/icons/Verification";
 import { StarIcon } from "../../../../assets/icons/Star";
 import { ManIcon } from "../../../../assets/icons/Man";
 import { SettingsIcon } from "../../../../assets/icons/Settings";
+import { CropEasy } from "../../../../components/CropImage/CropEasy";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -85,19 +86,50 @@ const Profile = () => {
   }, [userData, allInfoUser]);
 
   const { text } = UseYears(age ?? 0);
+  const fileInputRef: any = useRef(null);
+  const [openCrop, setOpenCrop] = useState(false);
+  const [file, setFile] = useState<any>(null);
+  // Upload avatar image
+  const onUploadFile = (event: any) => {
+    const tempFile = event?.target?.files?.[0];
+    if (tempFile) {
+      // setOriginFile(tempFile);
 
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const image = reader.result;
+        setFile(image);
+        console.log("image", image);
+        setOpenCrop(true);
+      });
+
+      reader.readAsDataURL(tempFile);
+    }
+  };
   return (
     <div className={styles.page_container}>
       <div className={styles.box1}>
         <div className={styles.flex}>
-          <Avatar
-            src={
-              // userData.value.userInfo.image
-              `https://api.gk-pulse.com/assets/Img/${userData.value.userInfo.image}`
-            }
-            size="xl"
-            name={userData.value.userInfo.fullName}
-          />
+          <div style={{ cursor: "pointer" }}>
+            <Avatar
+              src={
+                // userData.value.userInfo.image
+                `https://api.gk-pulse.com/assets/Img/${userData.value.userInfo.image}`
+              }
+              size="xl"
+              name={userData.value.userInfo.fullName}
+              onClick={() => fileInputRef.current?.click()}
+            />
+            <input
+              style={{ display: "none" }}
+              id="image-input"
+              type="file"
+              accept="image/jpeg,image/png"
+              multiple={false}
+              ref={fileInputRef}
+              onChange={(e) => onUploadFile(e)}
+            />
+          </div>
 
           <div className={styles.column}>
             <div className={styles.name}>
@@ -208,6 +240,19 @@ const Profile = () => {
             <div>{t("User_layout.settings")}</div>
           </div>
         </div>
+      )}
+
+      {openCrop && (
+        <CropEasy
+          {...{
+            file,
+            setFile,
+            setOpenCrop,
+            openCrop,
+            myCropShape: "round",
+            myAspect: 1,
+          }}
+        />
       )}
     </div>
   );

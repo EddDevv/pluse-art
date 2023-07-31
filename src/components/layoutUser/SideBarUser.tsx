@@ -17,6 +17,7 @@ import { BusketIcon } from "../../assets/icons/Busket";
 import { GiftIcon } from "../../assets/icons/GiftGray";
 import { MessageIcon } from "../../assets/icons/Message";
 import { ExitIcon } from "../../assets/icons/Exit";
+import { LanguageSwitcher } from "../LangSwitcher/LangSwitcher";
 
 type Propstype = {
   onClose?: any;
@@ -62,7 +63,7 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
         />
         <div>{userData.value.userInfo?.fullName ?? "NN"}</div>
       </div>
-      <div className={styles.icons_cont} >
+      <div className={styles.icons_cont}>
         <Link to={ROUTES.shop}>
           <div className={styles.icon_block} onClick={onClose}>
             <BusketIcon />
@@ -83,7 +84,9 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
             )}
           </div>
         </Link>
-        <div className={styles.icon_block}>RU</div>
+        <div className={styles.icon_block}>
+          <LanguageSwitcher />
+        </div>
         <div className={styles.icon_block} onClick={handleLogout}>
           <ExitIcon />
         </div>

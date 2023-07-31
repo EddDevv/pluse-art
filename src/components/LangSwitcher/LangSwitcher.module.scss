@@ -1,0 +1,21 @@
+.container {
+  position: relative;
+  cursor: pointer;
+}
+.collapse {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  top: 30px;
+  left: -20px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0px 0px 50px 0px rgba(194, 225, 225, 0.61);
+}
+.button {
+  &:hover {
+    color: teal;
+    font-weight: 600;
+  }
+}

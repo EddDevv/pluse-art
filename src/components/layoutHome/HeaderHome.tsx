@@ -7,6 +7,7 @@ import { Link, NavLink } from "react-router-dom";
 import { menuItems } from "../../assets/consts/consts";
 import { useMediaQuery } from "@chakra-ui/react";
 import SideBarMobile from "./SideBarMobile";
+import { LanguageSwitcher } from "../LangSwitcher/LangSwitcher";
 
 const HeaderHome = () => {
   const [isLagerThan1050] = useMediaQuery("(min-width: 1050px)");
@@ -47,16 +48,19 @@ const HeaderHome = () => {
               </div>
             ))}
           </div>
-          <Link to="/login">
-            <div className={styles.personal_container}>
+
+          <div className={styles.personal_container}>
+            <Link to="/login">
               <div className={styles.link_to_pa}>Личный кабинет</div>
+            </Link>
+            <Link to="/login">
               <div>
                 <img src={Avatar} alt="" />
               </div>
-              <div>|</div>
-              <div>RU</div>
-            </div>
-          </Link>
+            </Link>
+            <div>|</div>
+            <LanguageSwitcher />
+          </div>
         </>
       ) : (
         <SideBarMobile />
