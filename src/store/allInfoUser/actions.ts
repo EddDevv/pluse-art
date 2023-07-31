@@ -5,6 +5,7 @@ export const USER_WALLETS = "ALL_USER_INFO::USER_WALLETS";
 export const ACCOUNTS_ENUM = "ALL_USER_INFO::ACCOUNTS_ENUM";
 export const IS_RU = "ALL_USER_INFO::IS_RU";
 export const CHANGE_BUSINESS_BALANCE = "ALL_USER_INFO::CHANGE_BUSINESS_BALANCE";
+export const SET_ROLE = "ALL_USER_INFO::SET_ROLE";
 
 // export const AllUserData = (value: AllInfoUserType) => ({
 export const AllInfoUserMain = (value: AllInfoUserType) => ({
@@ -34,3 +35,9 @@ export const ChangeBusinessBalance = (value: number) => ({
   type: CHANGE_BUSINESS_BALANCE,
   businessBalanceValue: value,
 });
+
+export const SetRoleAC = (role: string) => ({
+  type: SET_ROLE,
+  role: role,
+});
+

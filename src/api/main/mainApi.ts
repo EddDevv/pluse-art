@@ -1,6 +1,6 @@
 import { FundAction } from './../../store/fund/actions';
 import { store } from "../../store";
-import { AccountsData, AllInfoUserMain, ChangeBusinessBalance, UserAvatar, UserWallets } from "../../store/allInfoUser";
+import { AccountsData, AllInfoUserMain, ChangeBusinessBalance, SetRoleAC, UserAvatar, UserWallets } from "../../store/allInfoUser";
 import { setContestsListActive, setContestsListPast } from "../../store/contest/actions";
 import { CryptoData } from "../../store/crypto/actions";
 import { currencyRatesAction } from "../../store/currencyRates/actions";
@@ -12,6 +12,8 @@ import { Votes } from "../../store/votes/actions";
 import instance, { BASEAPPURL } from "../instance";
 import { MarketingApi } from "../marketing/marketing";
 import withoutTokenInstance from "../withoutTokenInstance";
+import jwt_decode from "jwt-decode";
+
 
 class CMainApi {
   token: any;
@@ -49,9 +51,21 @@ class CMainApi {
   }
 
   async getInitialMainReduxInfo() {
-    if (!store.getState().auth?.token) {
+
+    const token = store.getState().auth?.token;
+    if (!token) {
       return;
     }
+
+    const decoded: any = jwt_decode(token);
+    if (decoded) {
+      const key = Object.keys(decoded).find((elem) => elem.includes("role"));
+      if (key) {
+        const role = decoded[key];
+        store.dispatch(SetRoleAC(role));
+      }
+    }
+
     const resMain = await MainApi.getMainInfo();
     if (resMain?.status >= 200 && resMain.status < 300) {
       store.dispatch(UserData(resMain.data));

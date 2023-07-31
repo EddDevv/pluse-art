@@ -1,4 +1,6 @@
+import { SET_ROLE } from './actions';
 import { Reducer } from "redux";
+
 import {
   ACCOUNTS_ENUM,
   ALL_INFO_USER_MAIN,
@@ -7,6 +9,9 @@ import {
   USER_AVATAR,
   USER_WALLETS,
 } from "./actions";
+export enum RoleEnum {
+  Leader = "Leader"
+}
 
 export type CryptoWalletType = {
   id: number;
@@ -68,6 +73,7 @@ export type AllInfoUserStateType = {
   accounts: string[];
   isRu: boolean;
   businessBalance: number;
+  role: string;
 };
 
 export type AllInfoUserMainActionType = {
@@ -94,13 +100,18 @@ export type ChangeBusinessBalanceActionType = {
   type: typeof CHANGE_BUSINESS_BALANCE;
   businessBalanceValue: number;
 };
+export type SetRoleActionType = {
+  type: typeof SET_ROLE;
+  role: string;
+};
 export type ActionType =
   | AllInfoUserMainActionType
   | AvatarActionType
   | WalletsActionType
   | AccountsActionType
   | IsRuActionType
-  | ChangeBusinessBalanceActionType;
+  | ChangeBusinessBalanceActionType
+  | SetRoleActionType;
 export const initialStateAllInfoUser: AllInfoUserStateType = {
   value: {
     id: 0,
@@ -152,6 +163,7 @@ export const initialStateAllInfoUser: AllInfoUserStateType = {
   accounts: [],
   isRu: false,
   businessBalance: 0,
+  role: "",
 };
 
 export const AllInfoUserReducer: Reducer<AllInfoUserStateType, ActionType> = (
@@ -196,6 +208,13 @@ export const AllInfoUserReducer: Reducer<AllInfoUserStateType, ActionType> = (
       return {
         ...state,
         businessBalance: action.businessBalanceValue,
+      };
+    }
+
+    case SET_ROLE: {
+      return {
+        ...state,
+        role: action.role,
       };
     }
 

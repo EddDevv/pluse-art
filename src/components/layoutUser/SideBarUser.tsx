@@ -18,6 +18,7 @@ import { GiftIcon } from "../../assets/icons/GiftGray";
 import { MessageIcon } from "../../assets/icons/Message";
 import { ExitIcon } from "../../assets/icons/Exit";
 import { LanguageSwitcher } from "../LangSwitcher/LangSwitcher";
+import { RoleEnum } from "../../store/allInfoUser";
 
 type Propstype = {
   onClose?: any;
@@ -120,6 +121,22 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
       </div> */}
 
       <NavMenu onClose={onClose} />
+
+      {/* {userData?.value?.userInfo?.isManager === true && (
+        <Link to="/admin/" className="us_menu_li">
+          <div>
+            <span className="text_li">{t("User_layout.Manager")}</span>
+          </div>
+        </Link>
+      )}
+
+      {allInfoUser.role === RoleEnum.Leader && (
+        <Link to="/leader/" className="us_menu_li">
+          <div>
+            <span className="text_li">Leader</span>
+          </div>
+        </Link>
+      )} */}
 
       <div className={styles.image_for_balance}>
         <div className={styles.balance_amount}>{dopInfo.fund} &nbsp; USD</div>

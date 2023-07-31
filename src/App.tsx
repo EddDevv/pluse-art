@@ -32,6 +32,13 @@ import Promo from "./pages/user/promo/Promo";
 import Shop from "./pages/user/shop/Shop";
 import Product from "./pages/user/shop/Product";
 import Tarif from "./pages/user/tarif/Tarif";
+import LayoutAdminDashboard from "./pages/manager/LayoutDashBoard";
+import UserList from "./pages/manager/Users/UserList";
+import WithdrawalList from "./pages/manager/Withdrawals/WithdrawalList";
+import TransferHistoryList from "./pages/manager/TransfersHistory/TransferHistoryList";
+import NewsList from "./pages/manager/News/NewsList";
+import Trade from "./pages/manager/Trade/Trade";
+import Leader from "./pages/Leader/Leader";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -181,6 +188,44 @@ export const App = () => (
           <Route index element={<Shop />} />
         </Route>
       </Route>
+
+       {/* *****************АДМИНКА************* */}
+       <Route path="/admin" element={<LayoutAdminDashboard />}>
+          <Route index element={<UserList />} />
+
+          <Route path="/admin/users/:id" element={<PrivateRoute />}>
+            <Route index element={<UserList />} />
+          </Route>
+
+          <Route path="/admin/users" element={<PrivateRoute />}>
+            <Route index element={<UserList />} />
+          </Route>
+
+          <Route path="/admin/withdrawals" element={<PrivateRoute />}>
+            <Route index element={<WithdrawalList />} />
+          </Route>
+
+          <Route path="/admin/transfer-history/:id" element={<PrivateRoute />}>
+            <Route index element={<TransferHistoryList />} />
+          </Route>
+
+          <Route path="/admin/transfer-history" element={<PrivateRoute />}>
+            <Route index element={<TransferHistoryList />} />
+          </Route>
+
+          <Route path="/admin/news" element={<PrivateRoute />}>
+            <Route index element={<NewsList />} />
+          </Route>
+
+          <Route path="/admin/trade" element={<PrivateRoute />}>
+            <Route index element={<Trade />} />
+          </Route>
+        </Route>
+
+        {/* **********Leader******************* */}
+        <Route path="/leader" element={<PrivateRoute />}>
+          <Route index element={<Leader />} />
+        </Route>
     </Routes>
   </ChakraProvider>
 );

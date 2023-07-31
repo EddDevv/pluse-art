@@ -7,13 +7,15 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { menuItems } from "../../assets/consts/consts";
 import { Skeleton, useMediaQuery } from "@chakra-ui/react";
 import getRefresh from "../../api/getRefresh";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { AuthApi } from "../../api/auth/auth";
 import { MainApi } from "../../api/main/mainApi";
 import { LocalSpinnerAbsolute } from "../../UIcomponents/localSpinner/LocalSpinnerAbsolute";
 import { CryptoCurrencyType } from "../../store/crypto/reducer";
 import { CurrencyType } from "../../store/currencyRates/reducer";
 import RateCard from "./RateCard";
+import jwt_decode from "jwt-decode";
+import { SetRoleAC } from "../../store/allInfoUser";
 
 const HeaderUser = () => {
   const [isLagerThan1050] = useMediaQuery("(min-width: 1050px)");
@@ -23,6 +25,7 @@ const HeaderUser = () => {
   const { language } = useAppSelector((state) => state.allInfoUser.value);
   const [isLoading, setisLoading] = useState(false);
   const [rates, setRates] = useState<CryptoCurrencyType[]>([]);
+  const dispatch = useAppDispatch();
 
   const authRefresh = async () => {
     const isOK = await getRefresh();
@@ -66,12 +69,12 @@ const HeaderUser = () => {
   };
 
   return (
-      <div className={styles.rates_container}>
-        {isLoading && <LocalSpinnerAbsolute size="150" />}
-        {rates.map((el) => (
-          <RateCard key={el.symbol} rate={el} />
-        ))}
-      </div>
+    <div className={styles.rates_container}>
+      {isLoading && <LocalSpinnerAbsolute size="150" />}
+      {rates.map((el) => (
+        <RateCard key={el.symbol} rate={el} />
+      ))}
+    </div>
   );
 };
 

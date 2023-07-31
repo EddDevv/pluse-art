@@ -1,15 +1,19 @@
 import styles from "./LayoutUser.module.scss";
 import React, { FC } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { menuUserSubItems } from "../../assets/consts/consts";
 import NavSubMenu from "./NavSubMenu";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../../store";
+import { RoleEnum } from "../../store/allInfoUser";
 
 type Propstype = {
   onClose?: any;
 };
 const NavMenu: FC<Propstype> = ({ onClose }: Propstype) => {
   const { t } = useTranslation();
+  const { userData, allInfoUser } = useAppSelector((state) => state);
+
   return (
     <>
       <div className={styles.lk}>Личный кабинет</div>
@@ -39,6 +43,22 @@ const NavMenu: FC<Propstype> = ({ onClose }: Propstype) => {
             )}
           </div>
         ))}
+
+        {userData?.value?.userInfo?.isManager === true && (
+          <Link to="/admin/" className="us_menu_li">
+            <div>
+              <span className="text_li">{t("User_layout.Manager")}</span>
+            </div>
+          </Link>
+        )}
+
+        {allInfoUser.role === RoleEnum.Leader && (
+          <Link to="/leader/" className="us_menu_li">
+            <div>
+              <span className="text_li">Leader</span>
+            </div>
+          </Link>
+        )}
       </div>
     </>
   );
