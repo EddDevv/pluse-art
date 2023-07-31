@@ -330,15 +330,15 @@ const WithdrawalList: FC = () => {
                 //   marginLeft: "10px",
                 // }}
               >
-                <MenuItem value={" "}>Все</MenuItem>
+                <option value={" "}>Все</option>
                 {Object.keys(ProcessingStatusEnum).map(
                   (elem: string, index: number) => (
-                    <MenuItem
+                    <option
                       key={index}
                       value={Object(ProcessingStatusEnum)[elem]}
                     >
                       {Object(ProcessingStatusEnum)[elem]}
-                    </MenuItem>
+                    </option>
                   )
                 )}
               </Select>

@@ -225,9 +225,9 @@ const Leader = () => {
               onChange={(e) => setIncomeT(+e.target.value)}
             >
               {PeriodEnum.map((elem) => (
-                <MenuItem key={elem.name} value={elem.value}>
+                <option key={elem.name} value={elem.value}>
                   {elem.name}
-                </MenuItem>
+                </option>
               ))}
             </Select>
             <div className={`${styles.table}`}>
@@ -259,9 +259,9 @@ const Leader = () => {
               onChange={(e) => setWithdrawalT(+e.target.value)}
             >
               {PeriodEnum.map((elem) => (
-                <MenuItem key={elem.name} value={elem.value}>
+                <option key={elem.name} value={elem.value}>
                   {elem.name}
-                </MenuItem>
+                </option>
               ))}
             </Select>
             <div className={`${styles.column_100} `}>
@@ -283,9 +283,9 @@ const Leader = () => {
               onChange={(e) => setProfitT(+e.target.value)}
             >
               {PeriodEnum.map((elem) => (
-                <MenuItem key={elem.name} value={elem.value}>
+                <option key={elem.name} value={elem.value}>
                   {elem.name}
-                </MenuItem>
+                </option>
               ))}
             </Select>
             <div className={`${styles.table}`}>
@@ -314,9 +314,9 @@ const Leader = () => {
               onChange={(e) => setRefsumT(+e.target.value)}
             >
               {PeriodEnum.map((elem) => (
-                <MenuItem key={elem.name} value={elem.value}>
+                <option key={elem.name} value={elem.value}>
                   {elem.name}
-                </MenuItem>
+                </option>
               ))}
             </Select>
 

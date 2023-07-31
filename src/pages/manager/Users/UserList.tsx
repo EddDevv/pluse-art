@@ -237,7 +237,6 @@ const UserList: FC = () => {
         } Google аутентификации для  ${chosenItem?.login}.`}
         handleClose={handleClose}
         handleSubmit={cancelOrCompleteGAAuthHandler}
-        // isLoading={isLoading}
       />
 
       {/* ************************************************************************* VERIFICATION MODAL */}
@@ -274,7 +273,7 @@ const UserList: FC = () => {
                     setPage(1);
                   }}
                 ></Input>
-                {loginForSearch && (
+                {/* {loginForSearch && (
                   <AiFillCloseCircle
                     style={{
                       position: "absolute",
@@ -285,7 +284,7 @@ const UserList: FC = () => {
                     size={15}
                     onClick={() => setLoginForSearch("")}
                   />
-                )}
+                )} */}
               </div>
 
               <Select
@@ -300,9 +299,9 @@ const UserList: FC = () => {
                   marginLeft: "10px",
                 }}
               >
-                <MenuItem value={""}>Все</MenuItem>
-                <MenuItem value={1}>Верифицированные</MenuItem>
-                <MenuItem value={2}>Активированные</MenuItem>
+                <option value={""}>Все</option>
+                <option value={"1"}>Верифицированные</option>
+                <option value={"2"}>Активированные</option>
               </Select>
             </div>
           </div>
@@ -435,13 +434,6 @@ const UserList: FC = () => {
                       }}
                     >
                       <div
-                        // onClick={() => {
-                        //   if (sort === SortEnum.LoginAsc) {
-                        //     setSort(SortEnum.LoginDesc);
-                        //   } else {
-                        //     setSort(SortEnum.LoginAsc);
-                        //   }
-                        // }}
                         onClick={() => {
                           window.navigator.clipboard.writeText(
                             elem.login ? elem.login : "-"

@@ -188,9 +188,9 @@ const TransferItem = (props: IProps) => {
                   // })}
                 >
                   {Object.entries(AccountEnum).map((elem, i) => (
-                    <MenuItem key={i} value={elem[0]}>
+                    <option key={i} value={elem[0]}>
                       {elem[1]}
-                    </MenuItem>
+                    </option>
                   ))}
                 </Select>
               </FormControl>

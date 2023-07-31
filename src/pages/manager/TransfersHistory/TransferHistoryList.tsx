@@ -275,11 +275,11 @@ const TransferHistoryList: FC = () => {
                   marginLeft: "10px",
                 }}
               >
-                <MenuItem value={""}>Все</MenuItem>
+                <option value={""}>Все</option>
                 {Object.entries(AccountEnum).map((elem) => (
-                  <MenuItem value={elem[0]} key={elem[0]}>
+                  <option value={elem[0]} key={elem[0]}>
                     {elem[1]}
-                  </MenuItem>
+                  </option>
                 ))}
               </Select>
 
@@ -295,12 +295,12 @@ const TransferHistoryList: FC = () => {
                   marginLeft: "10px",
                 }}
               >
-                <MenuItem value={""}>Все</MenuItem>
+                <option value={""}>Все</option>
                 {articles?.length > 0 &&
                   articles.map((elem) => (
-                    <MenuItem value={elem} key={elem}>
+                    <option value={elem} key={elem}>
                       {elem}
-                    </MenuItem>
+                    </option>
                   ))}
               </Select>
 
@@ -429,9 +429,9 @@ const TransferHistoryList: FC = () => {
                   marginLeft: "10px",
                 }}
               >
-                <MenuItem value={""}>Все</MenuItem>
-                <MenuItem value={"0"}>Приход</MenuItem>
-                <MenuItem value={"1"}>Расход</MenuItem>
+                <option value={""}>Все</option>
+                <option value={0}>Приход</option>
+                <option value={1}>Расход</option>
               </Select>
             </div>
           </div>

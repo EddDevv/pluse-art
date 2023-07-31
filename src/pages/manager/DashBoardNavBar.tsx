@@ -93,7 +93,7 @@ const DashBoardNavBar = (props: Iprops) => {
         {/* </Collapse> */}
 
         <div>
-          <Link to="/lk" className="dashBoard__navLink">
+          <Link to="/user" className="dashBoard__navLink">
             <AiOutlineRollback color="white" />
           </Link>
         </div>

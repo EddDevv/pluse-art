@@ -3,7 +3,15 @@ import React from "react";
 import { UserType } from "./UserList.types";
 import { useAppSelector } from "../../../store";
 import { useNavigate } from "react-router-dom";
-import { IconButton, Menu, MenuIcon, MenuItem } from "@chakra-ui/react";
+import {
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuIcon,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 type Iprops = {
   item: UserType;
@@ -33,12 +41,11 @@ const UserMenu = (props: Iprops) => {
 
   return (
     <>
-      <IconButton
+      {/* <IconButton
         aria-label="delete"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        // onClick={handleClick}
         onClick={(e) => {
           props.setItem(props.item);
           props.setChosenItem(props.item);
@@ -46,51 +53,57 @@ const UserMenu = (props: Iprops) => {
         }}
       >
         <MenuIcon />
-      </IconButton>
-      <Menu
-        id="basic-menu"
-        // anchorEl={anchorEl}
-        // open={open}
-        isOpen={open}
-        onClose={handleClose}
-        // MenuListProps={{
-        //   "aria-labelledby": "basic-button",
-        // }}
-      >
-        <MenuItem
-          onClick={() => {
-            props.setChosenItem(props.item);
-            props.setOpenInfo(true);
-            handleClose();
-          }}
-        >
-          Информация о пользователе
-        </MenuItem>
-        {login === "manager" && (
-          <div>
-            <MenuItem
-              onClick={() => {
-                props.setChosenItem(props.item);
-                props.setIsCorrectTransfer(false);
-                props.setOpenTransfer(true);
-                handleClose();
-              }}
-            >
-              Пополнить счет
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                props.setIsCorrectTransfer(true);
-                props.setOpenTransfer(true);
-                handleClose();
-              }}
-            >
-              Списать со счета
-            </MenuItem>
-          </div>
-        )}
+      </IconButton> */}
 
-        {/* <MenuItem
+      <Menu 
+      // isOpen={open} onClose={handleClose}
+      >
+        <MenuButton
+          as={IconButton}
+          aria-label="Options"
+          icon={<HamburgerIcon />}
+          variant="outline"
+          onClick={(e) => {
+            props.setItem(props.item);
+            props.setChosenItem(props.item);
+            handleClick(e);
+          }}
+        />{" "}
+        <MenuList>
+          <MenuItem
+            onClick={() => {
+              props.setChosenItem(props.item);
+              props.setOpenInfo(true);
+              handleClose();
+            }}
+          >
+            Информация о пользователе
+          </MenuItem>
+          {login === "manager" && (
+            <div>
+              <MenuItem
+                onClick={() => {
+                  props.setChosenItem(props.item);
+                  props.setIsCorrectTransfer(false);
+                  props.setOpenTransfer(true);
+                  handleClose();
+                }}
+              >
+                Пополнить счет
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  props.setIsCorrectTransfer(true);
+                  props.setOpenTransfer(true);
+                  handleClose();
+                }}
+              >
+                Списать со счета
+              </MenuItem>
+            </div>
+          )}
+
+          {/* <MenuItem
           onClick={() => {
             props.setChosenItem(props.item);
             props.setOpenWithdrawal(true);
@@ -99,7 +112,7 @@ const UserMenu = (props: Iprops) => {
         >
           Создать заявку на вывод
         </MenuItem> */}
-        {/* <MenuItem
+          {/* <MenuItem
           onClick={() => {
             props.setIsCorrectTransfer(true);
             props.setOpenTransfer(true);
@@ -109,39 +122,40 @@ const UserMenu = (props: Iprops) => {
           Провести корректировку счета(приход/списание) 
         </MenuItem> */}
 
-        {props.item?.confirmationType && (
+          {props.item?.confirmationType && (
+            <MenuItem
+              onClick={() => {
+                // props.setChosenItem(props.item);
+                props.setOpenGA(true);
+                handleClose();
+              }}
+            >
+              Отключить Google аутентификацию
+            </MenuItem>
+          )}
+
           <MenuItem
             onClick={() => {
-              // props.setChosenItem(props.item);
-              props.setOpenGA(true);
+              props.setOpenVER(true);
               handleClose();
             }}
           >
-            Отключить Google аутентификацию
+            {props.item?.verificationDate
+              ? "Отменить верификацию"
+              : "Верифицировать"}
           </MenuItem>
-        )}
 
-        <MenuItem
-          onClick={() => {
-            props.setOpenVER(true);
-            handleClose();
-          }}
-        >
-          {props.item?.verificationDate
-            ? "Отменить верификацию"
-            : "Верифицировать"}
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            navigate(`/admin/transfer-history/${props.item.login}`);
-            handleClose();
-          }}
-        >
-          {/* <Link to={`/admin/transfer-history/${props.item.login}`}> */}
-          История операций
-          {/* </Link> */}
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate(`/admin/transfer-history/${props.item.login}`);
+              handleClose();
+            }}
+          >
+            {/* <Link to={`/admin/transfer-history/${props.item.login}`}> */}
+            История операций
+            {/* </Link> */}
+          </MenuItem>
+        </MenuList>
       </Menu>
     </>
   );

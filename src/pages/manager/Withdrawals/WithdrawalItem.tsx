@@ -172,9 +172,9 @@ const WithdrawalItem = (props: IProps) => {
                   placeholder="Счет"
                 >
                   {Object.keys(AccountEnum).map((elem, i) => (
-                    <MenuItem key={i} value={elem}>
+                    <option key={i} value={elem}>
                       {elem}
-                    </MenuItem>
+                    </option>
                   ))}
                 </Select>
               </FormControl>
