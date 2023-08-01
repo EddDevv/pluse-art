@@ -250,7 +250,7 @@ const Leader = () => {
 
       {/* *********************************** */}
       <div className={styles.main_flex}>
-        <div className={styles.left}>Расход</div>
+        <div className={styles.left}>Вывод средств</div>
         <div className={styles.right}>
           <div className={styles.paper}>
             <Select
@@ -265,7 +265,7 @@ const Leader = () => {
               ))}
             </Select>
             <div className={`${styles.column_100} `}>
-              <div className={styles.header}> Расход</div>
+              <div className={styles.header}> Вывод средств</div>
               <div>{withdrawal.toLocaleString()}</div>
             </div>
           </div>
