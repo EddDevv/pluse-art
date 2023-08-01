@@ -209,10 +209,10 @@ const StockItem = ({ stock, period }: PropsType) => {
             <div>{t("New.stock_price")}</div>
             <div className={styles.medium}>{stock.buyPrice}$</div>
           </div>
-          <div className={styles.modal_flex}>
+          {/* <div className={styles.modal_flex}>
             <div>Доходность за год</div>
             <div className={styles.medium}>-</div>
-          </div>
+          </div> */}
           <div className={styles.modal_flex}>
             <div>{t("New.input_amount")}</div>
             <div>
