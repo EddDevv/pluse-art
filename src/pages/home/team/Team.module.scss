@@ -27,7 +27,7 @@
 }
 .local_container {
   width: 100%;
-  min-height: 210vh;
+  min-height: 1800px;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -36,19 +36,19 @@
   position: relative;
   min-width: 300px;
   @media screen and (max-width: 600px) {
-    min-height: 200vh;
+    min-height: 1700px;
   }
-  @media screen and (max-width: 530px) {
-    min-height: 190vh;
+  @media screen and (max-width: 550px) {
+    min-height: 1600px;
   }
   @media screen and (max-width: 500px) {
-    min-height: 180vh;
+    min-height: 1500px;
   }
-  @media screen and (max-width: 440px) {
-    min-height: 180vh;
+  @media screen and (max-width: 450px) {
+    min-height: 1450px;
   }
   @media screen and (max-width: 400px) {
-    min-height: 170vh;
+    min-height: 1400px;
   }
 }
 .inner_container {
