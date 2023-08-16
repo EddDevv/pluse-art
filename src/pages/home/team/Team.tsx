@@ -10,6 +10,7 @@ import {
   scaleAnimation,
 } from "../../../utils/animation/animations";
 import { useState } from "react";
+import { useMediaQuery } from "@chakra-ui/react";
 
 export const changeColorAnimation = {
   hidden: {
@@ -72,8 +73,16 @@ const team = [
 
 const Team = () => {
   const [current, setCurrent] = useState(0);
+  const [isLagerThan700] = useMediaQuery("(min-width: 700px)");
+
   return (
-    <div className={styles.container}>
+    <div
+      className={
+        window.location.pathname === "/contacts" && !isLagerThan700
+          ? styles.local_container
+          : styles.container
+      }
+    >
       <motion.div
         initial="hidden"
         whileInView="visible"

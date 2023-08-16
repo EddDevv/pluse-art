@@ -25,6 +25,32 @@
     min-height: 90vh;
   }
 }
+.local_container {
+  width: 100%;
+  min-height: 210vh;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  position: relative;
+  min-width: 300px;
+  @media screen and (max-width: 600px) {
+    min-height: 200vh;
+  }
+  @media screen and (max-width: 530px) {
+    min-height: 190vh;
+  }
+  @media screen and (max-width: 500px) {
+    min-height: 180vh;
+  }
+  @media screen and (max-width: 440px) {
+    min-height: 180vh;
+  }
+  @media screen and (max-width: 400px) {
+    min-height: 170vh;
+  }
+}
 .inner_container {
   width: 100%;
   padding: 90px 1% 55px 1%;
@@ -173,7 +199,7 @@
   @media screen and (max-width: 700px) {
     width: 100%;
     // min-width: 100px;
-    img{
+    img {
       object-fit: cover;
       width: 100%;
     }
