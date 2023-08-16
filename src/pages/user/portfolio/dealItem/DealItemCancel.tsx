@@ -71,6 +71,21 @@ export const DealItemCancel = ({
     t("Programs.days3")
   );
 
+  const dayTermText = useText(
+    deal.endDate
+      ? +(
+          (+new Date(deal.endDate) - +new Date(deal.startDate)) /
+          1000 /
+          60 /
+          60 /
+          24
+        ).toFixed(0)
+      : 0,
+    t("Programs.days1"),
+    t("Programs.days2"),
+    t("Programs.days3")
+  );
+
   return (
     <div className={styles.deal_box} style={{ background: "#EDEDED" }}>
       <ModalMain
@@ -112,8 +127,18 @@ export const DealItemCancel = ({
         {deal.status === StatusDeal.Terminate && (
           <div className={styles.deal_timer}>
             <div className={styles.timer_column}>
-              <div>{+new Date(deal.endDate) - +new Date(deal.startDate)} </div>
-              <span>{t("Programs.days3")} </span>
+              <div>
+                {deal.endDate
+                  ? (
+                      (+new Date(deal.endDate) - +new Date(deal.startDate)) /
+                      1000 /
+                      60 /
+                      60 /
+                      24
+                    ).toFixed(0)
+                  : 0}{" "}
+              </div>
+              <span>{dayTermText}</span>
             </div>
             <div className={styles.timer_column}>
               <div>{0} </div>
@@ -177,6 +202,20 @@ export const DealItemCancel = ({
           </button>
         </div>
       )}
+      {/* 
+      <div>deal.sum:{deal.sum}</div>
+      <div>deal.sumIncome:{deal.sumIncome}</div>
+      <div>deal.speedPercent:{deal.speedPercent}</div>
+      <div>deal.startDate:{deal.startDate}</div>
+      <div>deal.statusChangedDate:{deal.statusChangedDate}</div>
+      <div>programName:{deal.programName}</div>
+      <div>deal.canReplenish:{deal?.canReplenish.toString()}</div>
+      <div>deal.canInsure:{deal?.canInsure.toString()}</div>
+      <div>deal.insuranceEndDate:{deal?.insuranceEndDate}</div>
+      <div>deal.speedEndDate:{deal.speedEndDate}</div>
+      <div>+new Date(deal.speedEndDate):{+new Date(deal.speedEndDate)}</div>
+      <div>+new Date():{+new Date()}</div>
+      <div>isPromo:{deal.isPromo.toString()}</div> */}
     </div>
   );
 };

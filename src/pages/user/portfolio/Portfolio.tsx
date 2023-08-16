@@ -42,13 +42,16 @@ const Portfolio = ({ portfolioId }: PropsType) => {
       getDealList();
     }
   }, [auth.token]);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [portfolioId]);
 
   useEffect(() => {
     if (currentPage === 1) {
       setDealList([]);
     }
     getDealList();
-  }, [refresh, dealStatus, currentPage, portfolioId]);
+  }, [refresh, dealStatus, currentPage]);
 
   const getDealList = async () => {
     const response = await MarketingApi.getDealList(
