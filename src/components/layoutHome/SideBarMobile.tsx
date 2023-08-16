@@ -116,6 +116,7 @@ const SideBarMobile: FC = () => {
                       className={({ isActive }) =>
                         isActive ? styles.active_item : styles.item
                       }
+                      style={{ fontSize: "16px" }}
                     >
                       {elem.name}
                     </NavLink>
@@ -125,7 +126,7 @@ const SideBarMobile: FC = () => {
 
               <Box className={styles.container_double} m={2}>
                 <div className={styles.lang}>
-                  <LanguageSwitcher />
+                | <LanguageSwitcher />
                 </div>
               </Box>
             </Box>
