@@ -21,6 +21,7 @@ import {
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Logo from "../../assets/images/Logo.png";
 import { menuItems } from "../../assets/consts/consts";
+import { LanguageSwitcher } from "../LangSwitcher/LangSwitcher";
 
 const SideBarMobile: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -65,7 +66,12 @@ const SideBarMobile: FC = () => {
               <NavLink to="/">
                 <div
                   className={styles.logo_container}
-                  style={{ fontSize: "30px", textAlign: "center", width: "100%", padding: "30px 20px 50px 20px" }}
+                  style={{
+                    fontSize: "30px",
+                    textAlign: "center",
+                    width: "100%",
+                    padding: "30px 20px 50px 20px",
+                  }}
                   onClick={onClose}
                 >
                   <div>PUSLE</div>
@@ -77,16 +83,22 @@ const SideBarMobile: FC = () => {
               </NavLink>
 
               <Box className={styles.container_double} m={2}>
-                <img src={IconUser} alt="IconUser" style={{width: "20px", height: "20px"}} />
-                <div className="orange_text" style={{fontWeight:"bold", textShadow: "2px 2px 4px black"}}>
-                  <NavLink to="/login"> Личный кабинет</NavLink>
-                </div>
-              </Box>
-              <Box className={styles.container_double} m={2}>
-                <div>
-                  <select className={styles.select}>
-                    <option className={styles.option}>Рус</option>
-                  </select>
+                <img
+                  src={IconUser}
+                  alt="IconUser"
+                  style={{ width: "20px", height: "20px" }}
+                />
+                <div
+                  className="orange_text"
+                  style={{
+                    fontWeight: "bold",
+                    textShadow: "2px 2px 2px teal",
+                  }}
+                >
+                  <NavLink to="/login" onClick={onClose}>
+                    {" "}
+                    Личный кабинет
+                  </NavLink>
                 </div>
               </Box>
 
@@ -110,6 +122,12 @@ const SideBarMobile: FC = () => {
                   </Text>
                 ))}
               </Flex>
+
+              <Box className={styles.container_double} m={2}>
+                <div className={styles.lang}>
+                  <LanguageSwitcher />
+                </div>
+              </Box>
             </Box>
           </DrawerContent>
         </Drawer>

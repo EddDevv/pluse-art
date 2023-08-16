@@ -1,3 +1,5 @@
+@import "../../AppConsts.scss";
+
 .layout_main {
   width: 100%;
   // min-width: 100%;
@@ -146,6 +148,7 @@
 }
 .birga {
   justify-self: flex-end;
+  @extend %item;
 }
 
 .container_double {
@@ -156,6 +159,12 @@
 
 %item {
   font-size: 20px;
+  @media screen and (max-width: $laptop) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: $tablet) {
+    font-size: 12px;
+  }
 }
 
 .item {
@@ -167,13 +176,19 @@
   color: #ff7f50;
 }
 
-.select{
+.select {
   background-color: transparent;
 }
-.option{
+.option {
   background-color: transparent;
 }
-.drawer_body{
+.drawer_body {
   background: rgba(128, 192, 192, 1);
 }
 
+.lang{
+  font-size: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 .container {
   width: 100%;
   min-height: 100vh;
@@ -66,11 +67,12 @@
     color: #000000;
     transition: all 1s;
   }
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: $tablet) {
     gap: 10px;
-    padding: 10px;
+    padding: 20px 10px;
     flex-direction: column;
     background-size: 100%;
+    justify-content: space-between;
   }
   @media screen and (min-width: 1400px) {
     background-size: cover;
@@ -103,14 +105,14 @@
   font-size: 32px;
   // line-height: 39px;
   text-transform: uppercase;
-  @media screen and (max-width: 1200px) {
-    font-size: 25px;
+  @media screen and (max-width: $tablet) {
+    font-size: 28px;
   }
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: $tablet) {
     width: 100%;
-    font-size: 25px;
+    font-size: 15px;
     // line-height: 30px;
-    min-height: 60px;
+    // min-height: 30px;
   }
 }
 .green_block_text {
@@ -118,7 +120,7 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: $tablet) {
     width: 100%;
     font-size: 16px;
   }
