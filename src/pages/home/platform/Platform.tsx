@@ -34,7 +34,7 @@ const Platform = () => {
         <div className={styles.inner_container}>
           <div className={styles.title_block}>
             ПЛАТФОРМА <br />
-            <Text className={styles.orange_text}>PULSE</Text>&nbsp; ART
+            <b className="orange_text">PULSE</b>&nbsp; ART
           </div>
 
           <div className={styles.white_block}>
@@ -61,7 +61,10 @@ const Platform = () => {
                 инвестиционных компаний на рынке Кыргызстана.
               </div>
               <div className={styles.info}>
-                Инвестируя с нами – <Text className={styles.orange_text}>вы инвестируете в будущее</Text>
+                Инвестируя с нами –{" "}
+                <Text className={styles.orange_text}>
+                  вы инвестируете в будущее
+                </Text>
               </div>
             </div>
           </div>

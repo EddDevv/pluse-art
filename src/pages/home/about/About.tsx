@@ -112,7 +112,7 @@ const About = () => {
         <div className={styles.inner_container}>
           <div className={styles.title_block}>
             ПОЧЕМУ <br />
-            <Text className={styles.orange_text}>ВЫБИРАЮТ</Text>&nbsp; НАС
+            <b className="orange_text">ВЫБИРАЮТ</b>&nbsp; НАС
           </div>
 
           {tegs.map((elem) => (
