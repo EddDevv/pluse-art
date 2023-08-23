@@ -292,7 +292,7 @@ const Withdrawal = () => {
                   value={realSumValue}
                   placeholder="0 USD"
                   style={{ textAlign: "end" }}
-                  onChange={(e) => handleChangeValue(e.target.value)}
+                  onChange={(e) => handleChangeValue(e)}
                 />
               </div>
             </div>

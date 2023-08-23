@@ -44,6 +44,7 @@ export type FinanceItemType = {
   id: number;
   objectName: string;
   partnerId: number;
+  paymentArticle: string;
   paymentDate: string;
   processingStatus: string;
   transferType: string;
@@ -272,9 +273,10 @@ const Operations = ({ isWithdrawal, refresh, isReplanish }: PropType) => {
 
                   <div className={`${styles.info}`}>
                     <div className={styles.in_out}>
-                      {elem.debetSum
+                      {/* {elem.debetSum
                         ? t("History.withdrawal")
-                        : t("History.refill")}
+                        : t("History.refill")} */}
+                      {elem?.paymentArticle}
                     </div>
                     <div>
                       <Moment format="DD.MM.YYYY HH:mm" locale="ru">

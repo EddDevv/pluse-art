@@ -113,6 +113,9 @@ body {
   @media screen and (max-width: $tablet) {
     padding: 5px 5px;
   }
+  @media screen and (max-width: $mobile) {
+    min-width: 50px;
+  }
 }
 .dark_green_button {
   @extend %dark_green_button;
