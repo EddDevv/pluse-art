@@ -92,7 +92,7 @@ const SideBarMobile: FC = () => {
                   className="orange_text"
                   style={{
                     fontWeight: "bold",
-                    textShadow: "2px 2px 2px teal",
+                    // textShadow: "2px 2px 2px teal",
                   }}
                 >
                   <NavLink to="/login" onClick={onClose}>
