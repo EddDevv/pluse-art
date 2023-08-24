@@ -18,6 +18,7 @@ import { StarIcon } from "../../../../assets/icons/Star";
 import { ManIcon } from "../../../../assets/icons/Man";
 import { SettingsIcon } from "../../../../assets/icons/Settings";
 import { CropEasy } from "../../../../components/CropImage/CropEasy";
+import { COLORS } from "../../../../assets/consts/consts";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -154,7 +155,7 @@ const Profile = () => {
         <div className={isLagerThan760 ? "" : styles.flex_column}>
           <div className={styles.column}>
             <div className={styles.flex} style={{ marginTop: "25px" }}>
-              <VerificationIcon color={true ? "#008080" : "#FF0000"} />
+              <VerificationIcon color={true ? COLORS.GREEN : "#FF0000"} />
               <div>
                 {allInfoUser.value.verificationDate ? (
                   <span>{t("PersonalArea.ver_true")}</span>
@@ -198,7 +199,7 @@ const Profile = () => {
         <div>
           <CircularProgress
             value={percent}
-            color="#008080"
+            color={COLORS.GREEN}
             size={isLagerThan760 ? "200px" : "130px"}
             thickness="4px"
           >

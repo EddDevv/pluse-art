@@ -1,3 +1,4 @@
+@import "../../../../../AppConsts.scss";
 .Accordion {
   user-select: none;
   display: flex;
@@ -7,13 +8,13 @@
 
 .Accordion .Top {
   padding-bottom: 12px;
-  border-bottom: 1px solid #005a5a;
+  border-bottom: 1px solid $GREEN;
   cursor: pointer;
 }
 
 .Accordion .Top .Icon {
   transition: 0.5s;
-  color: #005a5a;
+  color: $GREEN;
   min-width: 19px;
 }
 

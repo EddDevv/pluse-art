@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 .container {
   width: 100%;
   min-height: 100vh;
@@ -59,7 +60,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // background-color: #ff7f50;
+  // background-color: $ORANGE;
   @media screen and (max-width: 700px) {
     padding: 30px 20px 20px 20px;
     width: 100%;
@@ -84,7 +85,7 @@
   }
 }
 .orange_color {
-  color: #ff7f50;
+  color: $ORANGE;
 }
 .relative {
   position: relative;
@@ -260,7 +261,7 @@
   font-weight: 400;
   font-size: 14px;
   // line-height: 17px;
-  color: #008080;
+  color: $GREEN;
   margin-bottom: 20px;
 }
 .main_block_text {

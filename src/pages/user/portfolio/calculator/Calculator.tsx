@@ -6,6 +6,7 @@ import { useAppSelector } from "../../../../store";
 import {
   AccountsForRdEnum,
   AccountsFullEnum,
+  COLORS,
   speedMaxEnum,
 } from "../../../../assets/consts/consts";
 import {
@@ -378,7 +379,7 @@ const Calculator = ({
 
           <div className={styles.sum_item}>
             <div className={styles.sum_desc}>{t("New.sum_portfolio")}</div>
-            <div style={{ color: "#008080" }}>
+            <div style={{ color: COLORS.GREEN }}>
               <b className={styles.big_text}>
                 {getNumWithoutZeroToFixedN(getTotalSum(), 2)}
               </b>
@@ -418,7 +419,7 @@ const Calculator = ({
       >
         <div
           style={{
-            color: "#008080",
+            color: COLORS.GREEN,
             textAlign: "center",
             marginBottom: "30px",
           }}

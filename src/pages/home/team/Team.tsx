@@ -11,13 +11,14 @@ import {
 } from "../../../utils/animation/animations";
 import { useState } from "react";
 import { useMediaQuery } from "@chakra-ui/react";
+import { COLORS } from "../../../assets/consts/consts";
 
 export const changeColorAnimation = {
   hidden: {
     color: "#000000",
   },
   visible: {
-    color: "#FF7F50",
+    color: COLORS.ORANGE,
     transition: {
       duration: 2,
     },
@@ -25,7 +26,7 @@ export const changeColorAnimation = {
 };
 export const changeColorRevertAnimation = {
   hidden: {
-    color: "#FF7F50",
+    color: COLORS.ORANGE,
   },
   visible: {
     color: "#000000",

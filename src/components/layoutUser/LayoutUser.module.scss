@@ -279,12 +279,12 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
-  color: #008080;
+  color: $GREEN;
   align-items: center;
 }
 
 .orange_color {
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .hi {
@@ -359,7 +359,7 @@
 }
 
 .lk {
-  color: #005a5a;
+  color: $GREEN;
   font-size: 16px;
   font-family: Inter;
   font-weight: 500;
@@ -442,7 +442,7 @@
 .collapse_item {
   transition: all 0.5s;
   &:hover {
-    color: #005a5a;
+    color: $GREEN;
     font-weight: 600;
   }
 }
@@ -473,7 +473,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .container_footer {
@@ -530,7 +530,7 @@
 }
 
 .orange_text {
-  color: #ff7f50;
+  color: $ORANGE;
   font-weight: 500;
 }
 
@@ -554,7 +554,7 @@
 
 .active_item {
   @extend %item;
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .select {

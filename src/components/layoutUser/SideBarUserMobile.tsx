@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Logo from "../../assets/images/Logo.png";
-import { menuItems } from "../../assets/consts/consts";
+import { COLORS, menuItems } from "../../assets/consts/consts";
 import NavMenu from "./NavMenu";
 import SideBarUser from "./SideBarUser";
 
@@ -35,7 +35,7 @@ const SideBarUserMobile: FC = () => {
           height={12}
           width={12}
           onClick={onOpen}
-          style={{background: "#008080"}}
+          style={{background: COLORS.GREEN}}
           color="white"
           // ref={btnRef}
           as={IconButton}

@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 @keyframes fade_out_animation {
   0% {
     opacity: 0;
@@ -132,7 +133,7 @@
   font-weight: 600;
   font-size: 128px;
   line-height: 155px;
-  color: #008080;
+  color: $GREEN;
   display: flex;
   align-items: center;
 
@@ -164,7 +165,7 @@
   }
 }
 .orange_color {
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .init_subtitle {
@@ -368,7 +369,7 @@
   }
 }
 .orange_color {
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .desc {

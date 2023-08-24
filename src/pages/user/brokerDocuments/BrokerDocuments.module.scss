@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 .paper {
   background: #fff;
   margin: 22px 0;
@@ -48,7 +49,7 @@
 }
 
 .link {
-  color:#008080;
+  color:$GREEN;
   font-weight: 700;
   cursor: pointer;
 }

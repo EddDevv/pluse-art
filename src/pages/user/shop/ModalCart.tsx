@@ -15,6 +15,7 @@ import { LocalSpinnerAbsolute } from "../../../UIcomponents/localSpinner/LocalSp
 import { BusketIcon } from "../../../assets/icons/Busket";
 import ProductForCart from "./ProductForCart";
 import styles from "./Shop.module.scss";
+import { COLORS } from "../../../assets/consts/consts";
 
 type IProps = {
   isOpen: boolean;
@@ -80,7 +81,7 @@ const ModalCart: FC<IProps> = ({
             className="green_text_big"
             style={{ display: "flex", gap: "20px" }}
           >
-            <BusketIcon color="#008080" />
+            <BusketIcon color={COLORS.GREEN} />
             корзина
           </div>
         </ModalHeader>

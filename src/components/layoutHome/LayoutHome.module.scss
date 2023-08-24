@@ -68,11 +68,11 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
-  color: #008080;
+  color: $GREEN;
   align-items: center;
 }
 .orange_color {
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .nav_container {
@@ -95,7 +95,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .container_footer {
@@ -144,7 +144,7 @@
   color: #000000;
 }
 .orange_text {
-  color: #ff7f50;
+  color: $ORANGE;
   font-weight: 500;
 }
 .birga {
@@ -174,7 +174,7 @@
 
 .active_item {
   @extend %item;
-  color: #ff7f50;
+  color: $ORANGE;
 }
 
 .select {

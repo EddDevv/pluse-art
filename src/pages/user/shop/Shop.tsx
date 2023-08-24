@@ -14,6 +14,7 @@ import ProductInfo from "./ProductInfo";
 import ModalCart from "./ModalCart";
 import { BusketIcon } from "../../../assets/icons/Busket";
 import ModalSuccess from "./ModalSuccess";
+import { COLORS } from "../../../assets/consts/consts";
 
 const Shop = () => {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ const Shop = () => {
         </div>
       </div>
       <div onClick={() => setIsBusketOpen(true)}>
-        <BusketIcon color="#008080" />
+        <BusketIcon color={COLORS.GREEN} />
       </div>
 
       <ModalCart

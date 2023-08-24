@@ -57,7 +57,7 @@ body {
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: #000000;
+  color: white;
 
   @media screen and (max-width: 700px) {
     height: 70px;
@@ -143,13 +143,13 @@ body {
 }
 
 %outline_green_button {
-  color: #005a5a;
+  color: $GREEN;
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  border: 1px solid #005a5a;
+  border: 1px solid $GREEN;
   box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
   min-height: 40px;
   padding: 5px 15px;
@@ -179,7 +179,7 @@ body {
   min-height: 46px;
   padding: 5px;
   min-width: 150px;
-  color: #005a5a;
+  color: $GREEN;
 
   &:disabled {
     opacity: 0.5;
@@ -352,7 +352,7 @@ body {
 }
 
 .page_title {
-  color: #005a5a;
+  color: $GREEN;
   font-size: 20px;
   font-family: Inter;
   font-weight: 500;
@@ -364,7 +364,7 @@ body {
 }
 
 .modal_title {
-  color: #005a5a;
+  color: $GREEN;
   font-size: 20px;
   font-family: Inter;
   font-weight: 500;
@@ -372,7 +372,7 @@ body {
 }
 
 .green_text_big {
-  color: #008080;
+  color: $GREEN;
   font-family: Inter;
   font-size: 20px;
   font-style: normal;
@@ -506,7 +506,7 @@ body {
   cursor: pointer;
 
   &:hover {
-    color: #005a5a;
+    color: $GREEN;
     font-weight: 500;
   }
 }

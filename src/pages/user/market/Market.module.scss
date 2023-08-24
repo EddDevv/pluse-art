@@ -141,7 +141,7 @@
   padding: 0 10px;
   min-height: 40px;
   &:focus {
-    border: 1px solid #008080;
+    border: 1px solid $GREEN;
   }
 }
 
@@ -215,7 +215,7 @@
 }
 
 .filter_apply {
-  background: #008080;
+  background: $GREEN;
   height: 46px;
   width: 100%;
   box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);
@@ -244,7 +244,7 @@
 }
 
 .isWithdrawal {
-  color: #005a5a;
+  color: $GREEN;
   font-size: 16px;
   font-family: Inter;
   font-style: normal;

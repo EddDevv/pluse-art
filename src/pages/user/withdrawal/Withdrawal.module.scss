@@ -76,7 +76,7 @@
 }
 .main_item_active {
   @extend %main_item;
-  background: #008080;
+  background: $GREEN;
   box-shadow: 0px 0px 50px 0px rgba(194, 225, 225, 0.61);
   color: white;
 }
@@ -99,7 +99,7 @@
   width: 50%;
 }
 .filter_apply {
-  background: #008080;
+  background: $GREEN;
   height: 46px;
   width: 100%;
   box-shadow: 0px 10px 30px 0px rgba(205, 205, 205, 0.55);

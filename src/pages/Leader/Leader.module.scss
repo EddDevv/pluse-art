@@ -1,3 +1,4 @@
+@import "../../AppConsts.scss";
 .container {
   width: 100%;
   min-height: 100vh;
@@ -15,7 +16,7 @@
 .left {
   width: 10%;
   min-width: 250px;
-  background-color: #008080;
+  background-color: $GREEN;
   color: white;
   font-size: 20px;
   padding: 30px;
@@ -73,7 +74,7 @@
   @media screen and (max-width: 760px) {
     flex-direction: column;
     margin-top: 20px;
-    border-bottom: 1px solid #008080;
+    border-bottom: 1px solid $GREEN;
   }
 }
 .cell {
@@ -94,5 +95,5 @@
 .header {
   font-weight: 16px;
   font-weight: 600;
-  color: #008080;
+  color: $GREEN;
 }

@@ -15,7 +15,7 @@ import ModalCart from "./ModalCart";
 import { BusketIcon } from "../../../assets/icons/Busket";
 import ModalSuccess from "./ModalSuccess";
 import { Link } from "react-router-dom";
-import { ROUTES } from "../../../assets/consts/consts";
+import { COLORS, ROUTES } from "../../../assets/consts/consts";
 
 const Product = () => {
   const { t } = useTranslation();
@@ -73,7 +73,7 @@ const Product = () => {
         </div>
       </div>
       <div onClick={() => setIsBusketOpen(true)}>
-        <BusketIcon color="#008080" />
+        <BusketIcon color={COLORS.GREEN} />
       </div>
 
       <ModalCart

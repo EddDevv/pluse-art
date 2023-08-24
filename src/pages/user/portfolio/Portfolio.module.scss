@@ -44,7 +44,7 @@
   gap: 9px;
   margin-bottom: 50px;
   margin-left: 80px;
-  color: #008080;
+  color: $GREEN;
   font-family: Inter;
   font-size: 40px;
   font-style: normal;
@@ -151,7 +151,7 @@
 }
 
 .green {
-  color: #005a5a;
+  color: $GREEN;
   font-family: Inter;
   font-size: 20px;
   font-style: normal;
@@ -215,7 +215,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
-  // background-color: #005a5a;
+  // background-color: $GREEN;
   padding: -30px;
 }
 
@@ -458,7 +458,7 @@
 }
 
 .green_deal_info {
-  color: #008080;
+  color: $GREEN;
   font-family: Inter;
   font-size: 20px;
   font-style: normal;

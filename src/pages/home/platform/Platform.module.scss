@@ -1,3 +1,4 @@
+@import "../../../AppConsts.scss";
 .container {
   width: 100%;
   min-height: 100vh;
@@ -41,7 +42,7 @@
   }
 }
 .orange_text {
-  color: #ff7f50;
+  color: $ORANGE;
 }
 .white_block {
   width: 65%;

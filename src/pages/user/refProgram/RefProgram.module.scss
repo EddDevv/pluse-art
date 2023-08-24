@@ -26,7 +26,7 @@
   gap: 9px;
   margin-bottom: 50px;
   //   margin-left: 80px;
-  color: #008080;
+  color: $GREEN;
   font-family: Inter;
   font-size: 40px;
   font-style: normal;
@@ -116,7 +116,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: #005a5a;
+  color: $GREEN;
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
@@ -131,7 +131,7 @@
   // flex-direction: column;
   justify-content: flex-end;
   gap: 10px;
-  color: #005a5a;
+  color: $GREEN;
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
@@ -169,7 +169,7 @@
   font-weight: 500;
   line-height: normal;
   padding: 5px 0;
-  border-bottom: 1px solid #005a5a;
+  border-bottom: 1px solid $GREEN;
 }
 .points {
   display: flex;

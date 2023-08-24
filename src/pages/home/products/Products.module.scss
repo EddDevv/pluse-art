@@ -62,9 +62,9 @@
   padding-left: 54px;
   color: #ffffff;
   &:hover {
-    background-color: #ff7f50;
+    background-color: $ORANGE;
     background-image: none;
-    color: #000000;
+    // color: #000000;
     transition: all 1s;
   }
   @media screen and (max-width: $tablet) {
