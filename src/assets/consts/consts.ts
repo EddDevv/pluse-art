@@ -4,6 +4,7 @@ export enum COLORS {
 }
 
 export enum ROUTES {
+  main="/",
   about = "/about",
   products = "/products",
   reviews = "/reviews",
@@ -43,6 +44,8 @@ export enum ROUTES {
   shop = "/user/shop",
   product = "/user/shop/product/",
   busket = "/user/shop/busket",
+  
+  signup="/signup"
 }
 
 export const menuItems = [

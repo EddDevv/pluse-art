@@ -92,7 +92,7 @@
         opacity: 0;
         transform: none;
       }
-  
+
       30% {
         opacity: 0;
         transform: none;
@@ -249,7 +249,6 @@
 
   @media screen and (max-width: 700px) {
     font-size: 40px;
-
   }
 }
 
@@ -362,6 +361,7 @@
   // line-height: 73px;
   text-transform: uppercase;
   color: #000000;
+  color: $GREEN;
   padding-right: 10%;
   @media screen and (max-width: 700px) {
     font-size: 35px;
@@ -386,11 +386,19 @@
 .amount {
   font-weight: 600;
   font-size: 48px;
+  color: $GREEN;
   // line-height: 58px;
   text-transform: uppercase;
   animation: fade_out_animation 10s;
+
   @media screen and (max-width: 700px) {
     font-size: 32px;
+  }
+  div {
+    border: 4px solid $BLUE;
+    display: inline-flex;
+    padding: 0 10px;
+    // border-radius: 10px;
   }
 }
 

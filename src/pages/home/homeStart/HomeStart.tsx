@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import iconGraph from "../../../assets/images/iconGraph.png";
 import iconBuild from "../../../assets/images/iconBuild.png";
 import iconLoop from "../../../assets/images/iconLoop.png";
@@ -7,10 +7,10 @@ import LogoBig from "../../../assets/images/LogoBig.png";
 import Word from "../../../assets/images/Word.png";
 
 import styles from "./HomeStart.module.scss";
-import {
-  fadeOutAnimation,
-} from "../../../utils/animation/animations";
+import { fadeOutAnimation } from "../../../utils/animation/animations";
 import { Text } from "@chakra-ui/react";
+import { useAppSelector } from "../../../store";
+import { MainApi } from "../../../api/main/mainApi";
 
 export const scaleHeaderAnimation = {
   hidden: {
@@ -30,6 +30,15 @@ export const scaleHeaderAnimation = {
 };
 
 const HomeStart = () => {
+  const [dopInfo, setDopInfo] = useState("");
+  const getFund = async () => {
+    const etherFund = await MainApi.getEtherFund();
+    etherFund && setDopInfo(etherFund.toLocaleString("ru-RU"));
+  };
+  useEffect(() => {
+    getFund();
+  }, []);
+  // const { dopInfo } = useAppSelector((state) => state);
   return (
     <>
       <div className={styles.container}>
@@ -62,10 +71,12 @@ const HomeStart = () => {
             </div>
 
             {/* <div className={styles.init_button}> */}
-              <div className={`${styles.desc} ${styles.init_desc}`}>Зарабатывай с профессионалами</div>
-              <div className={styles.init_button}>
-                <button className="orange_button">НАЧАТЬ ИНВЕСТИРОВАТЬ</button>
-              </div>
+            <div className={`${styles.desc} ${styles.init_desc}`}>
+              Зарабатывай с профессионалами
+            </div>
+            <div className={styles.init_button}>
+              <button className="orange_button">СТАТЬ ИНВЕСТОРОМ*</button>
+            </div>
             {/* </div> */}
             {/* end*************для анимации, потом скроется */}
 
@@ -78,12 +89,17 @@ const HomeStart = () => {
                 </div>
                 <div className={styles.desc}>Зарабатывай с профессионалами</div>
                 <div>
-                  <button className="orange_button">
-                    НАЧАТЬ ИНВЕСТИРОВАТЬ
-                  </button>
+                  <button className="orange_button">СТАТЬ ИНВЕСТОРОМ*</button>
                 </div>
-                <div className={styles.small_text}>Капитал в управлении</div>
-                <div className={styles.amount}>2 000 000, 00 $</div>
+                <div className={styles.small_text}>
+                  БАЛАНС ИНВЕСТИЦИОННОГО ФОНДА
+                </div>
+                <div className={styles.amount}>
+                  <div>
+                    {/* 2 000 000, 00 $ */}
+                    {dopInfo} &nbsp; $
+                  </div>
+                </div>
               </div>
 
               <div className={styles.main_right}>

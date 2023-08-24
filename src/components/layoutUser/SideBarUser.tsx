@@ -19,6 +19,7 @@ import { MessageIcon } from "../../assets/icons/Message";
 import { ExitIcon } from "../../assets/icons/Exit";
 import { LanguageSwitcher } from "../LangSwitcher/LangSwitcher";
 import { RoleEnum } from "../../store/allInfoUser";
+import { LogoIcon } from "../../assets/icons/Logo";
 
 type Propstype = {
   onClose?: any;
@@ -50,8 +51,9 @@ const SideBarUser: FC<Propstype> = ({ onClose }: Propstype) => {
       >
         <div className={styles.logo_container}>
           <div>PUSLE</div>
-          <div>
-            <img src={Logo} alt="" />
+          <div className={styles.logo_svg}>
+            {/* <img src={Logo} alt=""  /> */}
+            <LogoIcon />
           </div>
           <div className={styles.orange_color}>ART</div>
         </div>

@@ -128,7 +128,7 @@ const About = () => {
             </motion.div>
           ))}
           <button className={`orange_button ${styles.button_invest}`}>
-            СТАТЬ ИНВЕСТОРОМ
+            СТАТЬ ИНВЕСТОРОМ*
           </button>
         </div>
       </motion.div>

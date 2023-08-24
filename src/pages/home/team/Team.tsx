@@ -15,7 +15,7 @@ import { COLORS } from "../../../assets/consts/consts";
 
 export const changeColorAnimation = {
   hidden: {
-    color: "#000000",
+    color: COLORS.GREEN,
   },
   visible: {
     color: COLORS.ORANGE,
@@ -29,7 +29,7 @@ export const changeColorRevertAnimation = {
     color: COLORS.ORANGE,
   },
   visible: {
-    color: "#000000",
+    color: COLORS.GREEN,
     transition: {
       duration: 2,
     },
@@ -58,18 +58,18 @@ const team = [
     ],
     img: photo_zam_director,
   },
-  {
-    id: 2,
-    name: "Aлeкcaндp Гepчик",
-    title:
-      "Автop уникaльнoй cиcтeмы тopгoвли, кoтopaя пoзвoляeт тopгoвaть нa любыx pынкax мaкcимaльнo эффeктивнo",
-    text: [
-      "Успешный трейдер из Нью-Йорка с опытом более 24 лет и самый безопасный трейдер по версии Mojo Wall Street Warriors.",
-      "Самое главное, чему ты должен учиться с первого дня — это учиться не терять. Когда научишься не терять — дальше начнешь учиться зарабатывать.",
-      "Человек, который смог с абсолютного нуля (нищего иммигранта) подняться до статуса управляющего партнера одной из крупнейших трейдерских компаний.",
-    ],
-    img: photo_spec,
-  },
+  // {
+  //   id: 2,
+  //   name: "Aлeкcaндp Гepчик",
+  //   title:
+  //     "Автop уникaльнoй cиcтeмы тopгoвли, кoтopaя пoзвoляeт тopгoвaть нa любыx pынкax мaкcимaльнo эффeктивнo",
+  //   text: [
+  //     "Успешный трейдер из Нью-Йорка с опытом более 24 лет и самый безопасный трейдер по версии Mojo Wall Street Warriors.",
+  //     "Самое главное, чему ты должен учиться с первого дня — это учиться не терять. Когда научишься не терять — дальше начнешь учиться зарабатывать.",
+  //     "Человек, который смог с абсолютного нуля (нищего иммигранта) подняться до статуса управляющего партнера одной из крупнейших трейдерских компаний.",
+  //   ],
+  //   img: photo_spec,
+  // },
 ];
 
 const Team = () => {
@@ -91,8 +91,8 @@ const Team = () => {
       >
         <div className={styles.inner_container}>
           <motion.div className={styles.title_block}>
-            <motion.div variants={changeColorRevertAnimation}>наша</motion.div>{" "}
-            <motion.div variants={changeColorAnimation}>команда</motion.div>
+            <motion.div variants={changeColorRevertAnimation}>наше</motion.div>{" "}
+            <motion.div variants={changeColorAnimation}>руководство</motion.div>
           </motion.div>
 
           <div className={styles.relative}>

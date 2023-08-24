@@ -4,6 +4,7 @@ import styles from "./LayoutUser.module.scss";
 import { NavLink } from "react-router-dom";
 import { Spacer, Text } from "@chakra-ui/react";
 import { menuItems } from "../../assets/consts/consts";
+import { LogoIcon } from "../../assets/icons/Logo";
 
 const FooterUser = () => {
   return (
@@ -12,8 +13,9 @@ const FooterUser = () => {
         <NavLink to="/">
           <div className={styles.logo_container}>
             <div>PUSLE</div>
-            <div>
-              <img src={Logo} alt="" />
+            <div className={styles.logo_svg}>
+              {/* <img src={Logo} alt=""  /> */}
+              <LogoIcon />
             </div>
             <div className={styles.orange_color}>ART</div>
           </div>
@@ -31,7 +33,8 @@ const FooterUser = () => {
             className={styles.footer_sub_title}
             style={{ maxWidth: "200px" }}
           >
-            Инвестируй <Text className={styles.orange_text}>{" правильно "}</Text> и
+            Инвестируй{" "}
+            <Text className={styles.orange_text}>{" правильно "}</Text> и
             безопасно
           </div>
           <Spacer />

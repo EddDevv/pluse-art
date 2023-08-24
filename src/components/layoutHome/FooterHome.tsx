@@ -4,6 +4,7 @@ import styles from "./LayoutHome.module.scss";
 import { NavLink } from "react-router-dom";
 import { Spacer, Text } from "@chakra-ui/react";
 import { menuItems } from "../../assets/consts/consts";
+import { LogoIcon } from "../../assets/icons/Logo";
 
 const FooterHome = () => {
   return (
@@ -12,8 +13,9 @@ const FooterHome = () => {
         <NavLink to="/">
           <div className={styles.logo_container}>
             <div>PUSLE</div>
-            <div>
-              <img src={Logo} alt="" />
+            <div className={styles.logo_svg}>
+              {/* <img src={Logo} alt=""  /> */}
+              <LogoIcon />
             </div>
             <div className={styles.orange_color}>ART</div>
           </div>
@@ -31,7 +33,8 @@ const FooterHome = () => {
             className={styles.footer_sub_title}
             style={{ maxWidth: "200px" }}
           >
-            Инвестируй <Text className={styles.orange_text}>{" правильно "}</Text> и
+            Инвестируй{" "}
+            <Text className={styles.orange_text}>{" правильно "}</Text> и
             безопасно
           </div>
           <Spacer />
@@ -85,6 +88,13 @@ const FooterHome = () => {
           ))}
         </div>
       </div>
+      {(window.location.pathname === "/" ||
+        window.location.pathname === "/about") && (
+        <div style={{ fontSize: "12px", marginTop: "30px" }}>
+          *Клиентами ООсО Пульс АРТ могут являться физ.лица от 18 лет и юр.лица
+          при наличии свободных денежных средств.
+        </div>
+      )}
     </div>
   );
 };

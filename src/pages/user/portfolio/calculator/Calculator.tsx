@@ -391,6 +391,7 @@ const Calculator = ({
             <div className={styles.sum_desc}>{t("New.sum_income")}</div>
             <div style={{ color: "#F25822" }}>
               <b className={styles.big_text}>
+                {t("History.to")}
                 {getNumWithoutZeroToFixedN(getIncomePerMonth(), 2)}
               </b>
               &nbsp; USD

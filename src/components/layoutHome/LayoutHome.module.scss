@@ -67,9 +67,20 @@
   display: flex;
   font-weight: 700;
   font-size: 18px;
+  font-size: 32px;
   line-height: 22px;
   color: $GREEN;
   align-items: center;
+  img {
+    min-width: 200px;
+  }
+}
+.logo_svg {
+  width: 30px;
+  min-width: 30px;
+  svg{
+    width: 30px;
+  }
 }
 .orange_color {
   color: $ORANGE;

@@ -13,7 +13,7 @@ interface ISeo {
 }
 
 const Meta: FC<ISeo> = ({ title, description, children }) => {
-  const siteName = "MTB Invest | More than just an Investment";
+  const siteName = "Pulse Art";
 
   const titleMerge = (title: string) => `${siteName} | ${title}`;
 

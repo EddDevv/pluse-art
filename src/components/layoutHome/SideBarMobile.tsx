@@ -22,6 +22,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import Logo from "../../assets/images/Logo.png";
 import { menuItems } from "../../assets/consts/consts";
 import { LanguageSwitcher } from "../LangSwitcher/LangSwitcher";
+import { LogoIcon } from "../../assets/icons/Logo";
 
 const SideBarMobile: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -75,14 +76,15 @@ const SideBarMobile: FC = () => {
                   onClick={onClose}
                 >
                   <div>PUSLE</div>
-                  <div>
-                    <img src={Logo} alt="" />
+                  <div className={styles.logo_svg}>
+                    {/* <img src={Logo} alt=""  /> */}
+                    <LogoIcon />
                   </div>
                   <div className={styles.orange_color}>ART</div>
                 </div>
               </NavLink>
 
-              <Box className={styles.container_double} m={2}>
+              {/* <Box className={styles.container_double} m={2}>
                 <img
                   src={IconUser}
                   alt="IconUser"
@@ -100,7 +102,7 @@ const SideBarMobile: FC = () => {
                     Личный кабинет
                   </NavLink>
                 </div>
-              </Box>
+              </Box> */}
 
               <Flex
                 onClick={onClose}
@@ -109,6 +111,22 @@ const SideBarMobile: FC = () => {
                 justifyContent="space-between"
                 align="flex-start"
               >
+                <Flex m={"2"} fontSize="16px" gap={2} alignItems={"center"}>
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      isActive ? styles.active_item : styles.item
+                    }
+                    style={{ fontSize: "16px" }}
+                  >
+                    Личный кабинет
+                  </NavLink>
+                  <img
+                    src={IconUser}
+                    alt="IconUser"
+                    style={{ width: "16px", height: "16px" }}
+                  />
+                </Flex>
                 {menuItems.map((elem) => (
                   <Text m={"2"} fontSize="16px" key={elem.id}>
                     <NavLink
@@ -126,7 +144,7 @@ const SideBarMobile: FC = () => {
 
               <Box className={styles.container_double} m={2}>
                 <div className={styles.lang}>
-                | <LanguageSwitcher />
+                  | <LanguageSwitcher />
                 </div>
               </Box>
             </Box>
