@@ -39,6 +39,7 @@ import TransferHistoryList from "./pages/manager/TransfersHistory/TransferHistor
 import NewsList from "./pages/manager/News/NewsList";
 import Trade from "./pages/manager/Trade/Trade";
 import Leader from "./pages/Leader/Leader";
+import FAQ from "./pages/home/FAQ/FAQ";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -74,7 +75,7 @@ export const App = () => (
         <Route index element={<Team />} />
       </Route>
       <Route path={ROUTES.faq} element={<LayoutHome />}>
-        <Route index element={<Platform />} />
+        <Route index element={<FAQ />} />
       </Route>
       <Route path={ROUTES.products} element={<LayoutHome />}>
         <Route index element={<Products />} />

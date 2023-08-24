@@ -1,0 +1,92 @@
+@import "../../../AppConsts.scss";
+.container {
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+  background-image: url("../../../assets/images/BGFAQ.png");
+
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.inner_container {
+  width: 100%;
+  padding: 125px 8% 100px 8%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  gap: 26px;
+  // background-color: aqua;
+  @media screen and (max-width: 700px) {
+    padding: 30px 20px 30px 20px;
+  }
+}
+
+.title_block {
+  font-weight: 500;
+  font-size: 40px;
+  // line-height: 48px;
+  text-transform: uppercase;
+  // color: #000000;
+  color: $GREEN;
+  width: 351px;
+  margin-bottom: 46px;
+  @media screen and (max-width: 700px) {
+    font-size: 33px;
+    margin-bottom: 10px;
+  }
+}
+.orange_text {
+  color: $ORANGE;
+}
+.white_block {
+  width: 100%;
+  min-height: 100px;
+  background: #fff;
+  box-shadow: 0px 10px 30px 10px rgba(1, 165, 165, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 30px;
+}
+.item {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--gray-1, #333);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-bottom: 2px solid $GREEN;
+  // text-transform: uppercase;
+}
+.rotate {
+  & svg {
+    transform: rotate(90deg);
+  }
+}
+.collapse {
+  width: 100%;
+  padding: 16px;
+  font-size: 14px;
+}
+.loadMore_row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
