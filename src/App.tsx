@@ -41,6 +41,7 @@ import Trade from "./pages/manager/Trade/Trade";
 import Leader from "./pages/Leader/Leader";
 import FAQ from "./pages/home/FAQ/FAQ";
 import Review from "./pages/home/Review/Review";
+import Contacts from "./pages/home/Contacts/Contacts";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -73,7 +74,7 @@ export const App = () => (
         <Route index element={<About />} />
       </Route>
       <Route path={ROUTES.contacts} element={<LayoutHome />}>
-        <Route index element={<Team />} />
+        <Route index element={<Contacts />} />
       </Route>
       <Route path={ROUTES.faq} element={<LayoutHome />}>
         <Route index element={<FAQ />} />
