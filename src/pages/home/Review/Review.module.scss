@@ -127,3 +127,20 @@
   line-height: normal;
   margin-top: 20px;
 }
+.wrap{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.wrap_item{
+  margin: 0px;
+  @media screen and (max-width: $tablet) {
+    width: 100%;
+    min-width: 100%;
+  }
+  @media screen and (max-width: $mobile) {
+    width: 100%;
+  }
+  
+}

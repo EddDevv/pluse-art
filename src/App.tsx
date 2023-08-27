@@ -42,6 +42,7 @@ import Leader from "./pages/Leader/Leader";
 import FAQ from "./pages/home/FAQ/FAQ";
 import Review from "./pages/home/Review/Review";
 import Contacts from "./pages/home/Contacts/Contacts";
+import ReviewMain from "./pages/home/Review/ReviewMain";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -93,7 +94,7 @@ export const App = () => (
       </Route>
 
       <Route path={ROUTES.reviews} element={<LayoutHome />}>
-        <Route index element={<Review />} />
+        <Route index element={<ReviewMain />} />
       </Route>
 
       {/* **************КАБИНЕТ************************* */}

@@ -4,6 +4,7 @@ import styles from "./Contacts.module.scss";
 import { useTranslation } from "react-i18next";
 import { instanceWithoutAuth } from "../../../api/instance";
 import { useMediaQuery } from "@chakra-ui/react";
+import Feedback from "./Feedback";
 
 const pageSize = 20;
 const mapsUrl = "42.876260, 74.613088";
@@ -77,14 +78,18 @@ const Contacts = () => {
                 />
               </div>
             </div>
+
+
             <div className={styles.right}>
               <div className={styles.ask}>
-                у вас остались вопросы? Напишите нам и мы оперативно вам ответим
+                у вас <b className="orange_text">остались вопросы</b>? Напишите нам и мы оперативно вам ответим
               </div>
               <div className={styles.contact}>
                 Техподдержка : tech@gk-pulse.com <br />
                 (Время работы операторов с 10 - 18 по бишкекскому времени)
               </div>
+
+              <Feedback/>
             </div>
           </div>
         </div>

@@ -15,11 +15,16 @@ export type ReviewType = {
   partnerImage: string;
 };
 
-const ReviewItem = ({ item }: { item: ReviewType }) => {
+type PropsType = {
+  item: ReviewType;
+  classMy?: string;
+};
+
+const ReviewItem = ({ item, classMy }: PropsType) => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.item}>
+    <div className={`${styles.item} ${classMy ? styles.wrap_item : ""}`}>
       <div className={styles.item_flex}>
         <div className={styles.item_img}>
           <img src={`${BASEAPPURL}assets/Img/${item.partnerImage}`} alt="" />

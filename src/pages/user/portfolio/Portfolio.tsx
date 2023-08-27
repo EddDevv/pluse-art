@@ -183,7 +183,7 @@ const Portfolio = ({ portfolioId }: PropsType) => {
             </div>
 
             <div className={styles.text}>
-              <div style={{ marginBottom: "10px" }}>
+              <div style={{ marginBottom: "10px", whiteSpace: "nowrap" }}>
                 {isLagerThan760
                   ? t("New.portfolio_income")
                   : t("New.portfolio_income_short")}
